@@ -1,0 +1,725 @@
+<div class="section-c chapter-intro" data-section-id="module-3-intro">
+  <div class="ci-question">آستانه‌گذاری، مورفولوژی و کانتورها چه ربطی به هم دارند؟</div>
+  <p class="ci-intro">این ماژول درباره‌ی تبدیل یک تصویر خاکستری/رنگی به یک نقشه‌ی باینری (سیاه/سفید) مفید، و بعد استخراج «اشکال» از آن نقشه است. اول با <strong>آستانه‌گذاری</strong> (ساده، Otsu، تطبیقی) تصویر را باینری می‌کنیم، بعد با <strong>عملیات مورفولوژی</strong> (Erosion، Dilation، Opening، Closing، Hit-or-Miss) نویز آن را تمیز می‌کنیم و اشکال را شکل می‌دهیم، بعد با <strong>Connected Components</strong> و <strong>Contours</strong> اشیاء مجزا را پیدا می‌کنیم، با ویژگی‌های کانتور (مساحت، مرکز جرم، bounding box) آن‌ها را اندازه‌گیری می‌کنیم، و در نهایت با <strong>Blob Detection</strong> یک راه جایگزین برای پیداکردن نواحی قابل‌توجه بر اساس ویژگی‌هایشان می‌بینیم. این زنجیره دقیقاً پایه‌ی بسیاری از سیستم‌های واقعی تشخیص شیء کلاسیک (قبل از یادگیری عمیق) است.</p>
+  <div class="metrics">
+    <span class="metric success">8 موضوع اصلی</span>
+    <span class="metric">14 نوت‌بوک</span>
+  </div>
+</div>
+
+<div class="section-c" data-section-id="module-3-checklist">
+  <div class="section-h"><h2>فهرست نوت‌بوک‌های این ماژول</h2></div>
+  <p style="margin-bottom:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://github.com/Alireza-Akhavan/class.vision" class="ref-link">github.com/Alireza-Akhavan/class.vision</a></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:8%">#</th><th style="width:44%">فایل</th><th style="width:34%">موضوع</th><th style="width:14%">وضعیت</th></tr></thead>
+      <tbody>
+        <tr><td class="code">19</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/19-Thresholding-and-binarization.ipynb" class="ref-link">Thresholding-and-binarization.ipynb</a></td><td>آستانه‌گذاری و باینری‌سازی</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">20</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/20-Otsu-binarization.ipynb" class="ref-link">Otsu-binarization.ipynb</a></td><td>آستانه‌گذاری خودکار Otsu</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">21</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/21-Adaptive-thresholding.ipynb" class="ref-link">Adaptive-thresholding.ipynb</a></td><td>آستانه‌گذاری تطبیقی</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">22</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/22-Dilation-erosion-opening-and-closing.ipynb" class="ref-link">Dilation-erosion-opening-and-closing.ipynb</a></td><td>عملیات مورفولوژی پایه</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">23</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/23-Hit-or-miss.ipynb" class="ref-link">Hit-or-miss.ipynb</a></td><td>عملیات Hit-or-Miss</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">24</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/24-remove-horizental-line.ipynb" class="ref-link">remove-horizental-line.ipynb</a></td><td>حذف خطوط با مورفولوژی</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">25</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/25-Connected_components.ipynb" class="ref-link">Connected_components.ipynb</a></td><td>برچسب‌زنی اجزای متصل</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">26</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/26-Finding_contours.ipynb" class="ref-link">Finding_contours.ipynb</a></td><td>یافتن و رسم Contour</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">27</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/27-Convex-hull.ipynb" class="ref-link">Convex-hull.ipynb</a></td><td>پوش محدب</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">28</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/28-Contour-boundingbox-and-enclosing-circle.ipynb" class="ref-link">Contour-boundingbox-and-enclosing-circle.ipynb</a></td><td>Bounding Box و دایره‌ی محاط‌کننده</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">29</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/29-contour-moments-and-area.ipynb" class="ref-link">contour-moments-and-area.ipynb</a></td><td>Moments، مساحت و سورت کانتور</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">30</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/30-ApproxPolyDP.ipynb" class="ref-link">ApproxPolyDP.ipynb</a></td><td>تخمین شکل کانتور</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">31</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/31-Simple-word-detection-in-text.ipynb" class="ref-link">Simple-word-detection-in-text.ipynb</a></td><td>تشخیص نواحی کلمه در متن</td><td><span class="badge success">تکمیل</span></td></tr>
+        <tr><td class="code">32</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/32-Simple-coint-counter.ipynb" class="ref-link">Simple-coint-counter.ipynb</a></td><td>شمارش سکه</td><td><span class="badge success">تکمیل</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- ===== 1. Thresholding ===== -->
+<div class="section-c" data-section-id="module-3-thresholding">
+  <div class="section-h"><h2>1. آستانه‌گذاری و باینری‌سازی (19)</h2></div>
+  <p>باینری‌کردن یعنی هر پیکسل تصویر را بر اساس یک آستانه (threshold) به یکی از دو مقدار ۰ (سیاه) یا ۲۵۵ (سفید) تبدیل کنیم. ساده‌ترین راه، دستکاری مستقیم با NumPy است:</p>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'./images/gradient.jpg'</span>)
+
+new_image = np.<span class="fn">copy</span>(image)
+new_image[new_image <  <span class="num">127</span>] = <span class="num">0</span>
+new_image[new_image >= <span class="num">127</span>] = <span class="num">255</span>
+
+plt.<span class="fn">subplot</span>(<span class="num">121</span>); plt.<span class="fn">imshow</span>(image, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">122</span>); plt.<span class="fn">imshow</span>(new_image, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Output"</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">راه استاندارد و سریع‌تر، تابع <code class="code">cv2.threshold</code> است:</p>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/gradient.jpg'</span>, <span class="num">0</span>)
+
+<span class="cm"># مقادیر کمتر از 127 صفر (سیاه)، بقیه 255 (سفید) می‌شوند</span>
+ret, new_image = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY)
+print(ret)   <span class="cm"># مقدار آستانه‌ی استفاده‌شده (اینجا همون 127)</span></div>
+
+  <p style="margin-top:var(--sp-4-5)">تابع <code class="code">threshold</code> چند حالت مختلف دارد که رفتار متفاوتی روی پیکسل‌های بالا/پایین آستانه دارند:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:30%">نوع</th><th>رفتار</th></tr></thead>
+      <tbody>
+        <tr><td class="code">THRESH_BINARY</td><td>زیر آستانه → ۰، بالای آستانه → ۲۵۵</td></tr>
+        <tr><td class="code">THRESH_BINARY_INV</td><td>برعکس بالا: زیر آستانه → ۲۵۵، بالای آستانه → ۰</td></tr>
+        <tr><td class="code">THRESH_TRUNC</td><td>بالای آستانه در همان مقدار آستانه «بریده» می‌شود؛ زیر آستانه دست‌نخورده</td></tr>
+        <tr><td class="code">THRESH_TOZERO</td><td>زیر آستانه → ۰؛ بالای آستانه دست‌نخورده</td></tr>
+        <tr><td class="code">THRESH_TOZERO_INV</td><td>برعکس بالا: بالای آستانه → ۰؛ زیر آستانه دست‌نخورده</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="code-block">ret1, thresh1 = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY)
+ret2, thresh2 = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY_INV)
+ret3, thresh3 = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_TRUNC)
+ret4, thresh4 = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_TOZERO)
+ret5, thresh5 = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_TOZERO_INV)</div>
+
+  <p style="margin-top:var(--sp-4-5)">و همین ۵ حالت روی یک تصویر واقعی (پلاک ماشین) — می‌بینیم <code class="code">THRESH_BINARY</code> معمولاً برای جداکردن متن/پس‌زمینه مفیدترین است:</p>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/plate.jpg'</span>, <span class="num">0</span>)
+cv2.<span class="fn">imshow</span>(<span class="str">'Original'</span>, image)
+<span class="cm"># ... همون 5 نوع threshold روی این عکس ...</span></div>
+
+  <p style="margin-top:var(--sp-4-5)">و در نهایت، اعمال آستانه‌گذاری با یک <strong>رابط کاربری زنده</strong> (Trackbar برای نوع و مقدار آستانه) — دقیقاً ترکیب چیزی که در ماژول ۲ یاد گرفتیم با این ماژول:</p>
+  <div class="code-block">max_value = <span class="num">255</span>
+max_type = <span class="num">4</span>
+trackbar_type = <span class="str">'Type: 0:Binary 1:BinaryInv 2:Trunc 3:ToZero 4:ToZeroInv'</span>
+trackbar_value = <span class="str">'Value'</span>
+window_name = <span class="str">'Threshold Demo'</span>
+
+<span class="kw">def</span> <span class="fn">Threshold_Demo</span>(val):
+    <span class="kw">global</span> dst, threshold_value, threshold_type
+    threshold_type = cv2.<span class="fn">getTrackbarPos</span>(trackbar_type, window_name)
+    threshold_value = cv2.<span class="fn">getTrackbarPos</span>(trackbar_value, window_name)
+    _, dst = cv2.<span class="fn">threshold</span>(src_gray, threshold_value, max_value, threshold_type)
+    cv2.<span class="fn">imshow</span>(window_name, dst)
+
+src = cv2.<span class="fn">imread</span>(<span class="str">"images/plate.jpg"</span>)
+src_gray = cv2.<span class="fn">cvtColor</span>(src, cv2.COLOR_BGR2GRAY)
+cv2.<span class="fn">namedWindow</span>(window_name, cv2.WINDOW_NORMAL)
+cv2.<span class="fn">resizeWindow</span>(window_name, <span class="num">400</span>, <span class="num">300</span>)
+cv2.<span class="fn">createTrackbar</span>(trackbar_type, window_name, <span class="num">3</span>, max_type, Threshold_Demo)
+cv2.<span class="fn">createTrackbar</span>(trackbar_value, window_name, <span class="num">0</span>, max_value, Threshold_Demo)
+Threshold_Demo(<span class="num">0</span>)
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+  <p style="margin-top:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.x/db/d8e/tutorial_threshold.html" class="ref-link">docs.opencv.org – Threshold Tutorial</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">آستانه‌گذاری خودکار با Otsu (20)</h3></div>
+  <p>مشکل آستانه‌ی ثابت (مثل ۱۲۷): برای هر تصویر بهترین مقدار نیست. روش <strong>Otsu</strong> با تحلیل هیستوگرام تصویر، بهترین آستانه را خودش پیدا می‌کند — کافی است <code class="code">cv2.THRESH_OTSU</code> را به <code class="code">THRESH_BINARY</code> اضافه کنیم و مقدار آستانه‌ی ورودی را نادیده بگیریم (معمولاً ۰ می‌گذاریم):</p>
+  <div class="code-block">img = cv.<span class="fn">imread</span>(<span class="str">'images/noisy.jpg'</span>, <span class="num">0</span>)
+
+<span class="cm"># آستانه‌گذاری ساده (سراسری)</span>
+ret1, th1 = cv.<span class="fn">threshold</span>(img, <span class="num">127</span>, <span class="num">255</span>, cv.THRESH_BINARY)
+
+<span class="cm"># آستانه‌گذاری خودکار Otsu</span>
+ret2, th2 = cv.<span class="fn">threshold</span>(img, <span class="num">0</span>, <span class="num">255</span>, cv.THRESH_BINARY + cv.THRESH_OTSU)
+
+<span class="cm"># Otsu بعد از حذف نویز با Gaussian Blur — نتیجه‌ی معمولاً تمیزتر</span>
+blur = cv.<span class="fn">GaussianBlur</span>(img, (<span class="num">5</span>,<span class="num">5</span>), <span class="num">0</span>)
+ret3, th3 = cv.<span class="fn">threshold</span>(blur, <span class="num">0</span>, <span class="num">255</span>, cv.THRESH_BINARY + cv.THRESH_OTSU)</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا Otsu بعد از Blur بهتر کار می‌کند</div>
+      <p>Otsu فرض می‌کند هیستوگرام تصویر دو قله (پیش‌زمینه/پس‌زمینه) دارد. نویز تصادفی این هیستوگرام را ناهموار می‌کند و آستانه‌ی پیداشده را خراب می‌کند؛ یک Blur ملایم قبل از Otsu، هیستوگرام را صاف‌تر و آستانه‌ی نهایی را دقیق‌تر می‌کند.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5)">همین سه حالت را روی چند تصویر واقعی (پلاک روشن، پلاک تاریک، سودوکو با نور نامتوازن) امتحان می‌کنیم — نتیجه نشان می‌دهد Otsu معمولاً بهتر از آستانه‌ی ثابت است، ولی وقتی نور در نقاط مختلف تصویر خیلی متفاوت باشد (مثل عکس سودوکو)، حتی Otsu هم کافی نیست:</p>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">محدودیت Otsu</div>
+      <p>Otsu یک آستانه‌ی <strong>سراسری (global)</strong> برای کل تصویر پیدا می‌کند. اگر روشنایی در قسمت‌های مختلف تصویر خیلی فرق داشته باشد (مثلاً نیمی از عکس سایه باشد)، یک آستانه‌ی سراسری برای کل تصویر خوب کار نمی‌کند — اینجاست که به آستانه‌گذاری تطبیقی نیاز داریم.</p>
+    </div>
+  </div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/3.4.0/d7/d4d/tutorial_py_thresholding.html" class="ref-link">docs.opencv.org – Thresholding Tutorial</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">آستانه‌گذاری تطبیقی — Adaptive Thresholding (21)</h3></div>
+  <p>به‌جای یک آستانه‌ی ثابت برای کل تصویر، الگوریتم آستانه را برای هر پیکسل بر اساس یک <strong>ناحیه‌ی محلی کوچک</strong> اطرافش حساب می‌کند — برای همین با نور نامتوازن هم خوب کار می‌کند.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:34%">روش</th><th>نحوه‌ی محاسبه‌ی آستانه‌ی محلی</th></tr></thead>
+      <tbody>
+        <tr><td class="code">ADAPTIVE_THRESH_MEAN_C</td><td>میانگین ناحیه‌ی اطراف پیکسل، منهای C</td></tr>
+        <tr><td class="code">ADAPTIVE_THRESH_GAUSSIAN_C</td><td>مجموع وزن‌دار گاوسی ناحیه‌ی اطراف، منهای C</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code class="code">blockSize</code> اندازه‌ی ناحیه‌ی محلی (باید فرد باشد) و <code class="code">C</code> یک عدد ثابت است که از میانگین/جمع‌وزن‌دار کم می‌شود.</p>
+  <div class="code-block">original_image = cv2.<span class="fn">imread</span>(<span class="str">'images/sudoku.jpg'</span>, <span class="num">0</span>)
+noise_removed_image = cv2.<span class="fn">medianBlur</span>(original_image, <span class="num">5</span>)   <span class="cm"># حذف نویز قبل از آستانه‌گذاری</span>
+
+_, output1 = cv2.<span class="fn">threshold</span>(original_image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY)
+output2 = cv2.<span class="fn">adaptiveThreshold</span>(original_image, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>)
+output3 = cv2.<span class="fn">adaptiveThreshold</span>(original_image, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>)</div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">جمع‌بندی سه روش آستانه‌گذاری</div>
+      <p><strong>ثابت (Simple):</strong> سریع، فقط برای تصاویر با نور یکنواخت. <strong>Otsu:</strong> آستانه‌ی سراسری را خودکار پیدا می‌کند، برای نور نسبتاً یکنواخت با کنتراست واضح خوب است. <strong>تطبیقی (Adaptive):</strong> برای نور نامتوازن (سایه، گرادیان نور) بهترین انتخاب است، چون آستانه محلی‌ست.</p>
+    </div>
+  </div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/3.4.0/d7/d4d/tutorial_py_thresholding.html" class="ref-link">docs.opencv.org – Thresholding Tutorial</a></p>
+</div>
+<!-- ===== 2. Morphology ===== -->
+<div class="section-c" data-section-id="module-3-morphology">
+  <div class="section-h"><h2>2. عملیات مورفولوژی — Erosion، Dilation، Opening، Closing (22)</h2></div>
+  <p>عملیات مورفولوژیکی، تصویر باینری را بر اساس شکل یک «عنصر ساختاری» (structuring element / kernel) پردازش می‌کنند. کاربردهای اصلی: حذف نویز، جداکردن یا اتصال اجزاء، و پیداکردن برجستگی‌ها. دو عملیات پایه:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:20%">عملیات</th><th>اثر</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.erode</td><td>لاغرکردن نواحی سفید (فرسایش) — نویز سفید کوچک را حذف می‌کند</td></tr>
+        <tr><td class="code">cv2.dilate</td><td>چاق‌کردن نواحی سفید (اتساع) — سوراخ‌های کوچک را پر می‌کند</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:var(--sp-3)">یک تصویر ذهنی ساده برای این دو: <strong>Dilation</strong> مثل این است که با قلم‌مو 🖌️ روی قسمت‌های سفید رنگ بزنی و ضخیم‌ترشان کنی؛ <strong>Erosion</strong> برعکس، مثل این است که با قیچی ✂️ از اطراف اشیاء سفید ببری.</p>
+  <p>ترکیب پشت‌سرهم این دو، دو عملیات مرکب دیگر می‌سازد:</p>
+  <p style="font-family:var(--mono)">Opening = dilate(erode(src)) — مفید برای حذف اشیاء سفید کوچک (نویز)</p>
+  <p style="font-family:var(--mono)">Closing = erode(dilate(src)) — مفید برای پرکردن سوراخ‌های کوچک تیره</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:16%">عملیات</th><th style="width:30%">ترتیب</th><th>کاربرد اصلی</th></tr></thead>
+      <tbody>
+        <tr><td class="code">Opening</td><td>Erosion → Dilation</td><td>حذف اشیاء کوچک، با حفظ شکل اشیاء بزرگ</td></tr>
+        <tr><td class="code">Closing</td><td>Dilation → Erosion</td><td>پر کردن سوراخ‌ها و شکاف‌های کوچک داخل اشیاء</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/opencv_inv.png'</span>, <span class="num">0</span>)
+kernel = np.<span class="fn">ones</span>((<span class="num">5</span>,<span class="num">5</span>), np.uint8)
+
+erosion = cv2.<span class="fn">erode</span>(image, kernel, iterations=<span class="num">1</span>)
+dilation = cv2.<span class="fn">dilate</span>(image, kernel, iterations=<span class="num">1</span>)
+opening = cv2.<span class="fn">morphologyEx</span>(image, cv2.MORPH_OPEN, kernel)
+closing = cv2.<span class="fn">morphologyEx</span>(image, cv2.MORPH_CLOSE, kernel)</div>
+
+  <p style="margin-top:var(--sp-4-5)">تفریق dilation از erosion، یک «گرادیان مورفولوژیک» می‌دهد — تقریباً معادل استخراج لبه:</p>
+  <div class="code-block"><span class="cm"># Morphological Gradient</span>
+subtracted = cv2.<span class="fn">subtract</span>(dilation, erosion)
+plt.<span class="fn">imshow</span>(subtracted, cmap=<span class="str">'gray'</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">به‌جای کرنل مربعی ساده (<code class="code">np.ones</code>)، می‌توان از <code class="code">cv2.getStructuringElement</code> برای شکل‌های خاص (بیضی، صلیب، مستطیل) استفاده کرد:</p>
+  <div class="code-block">kernel = cv2.<span class="fn">getStructuringElement</span>(cv2.MORPH_CROSS, (<span class="num">5</span>, <span class="num">5</span>))
+<span class="cm"># همون erode/dilate/opening/closing با این کرنل صلیبی</span></div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">مثال کاربردی Opening و Closing</div>
+      <p><strong>Opening</strong> نقطه‌های سفید تصادفی پراکنده (نویز salt) را از پس‌زمینه‌ی تیره حذف می‌کند بدون این‌که شکل اصلی شیء را عوض کند. <strong>Closing</strong> برعکس، سوراخ‌های کوچک تیره داخل یک شیء سفید را پر می‌کند. هر دو معمولاً به‌عنوان یک قدم پیش‌پردازش قبل از پیداکردن Contour استفاده می‌شوند.</p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);margin-top:var(--sp-3)">Erosion → کوچک‌شدن &nbsp;·&nbsp; Dilation → بزرگ‌شدن &nbsp;·&nbsp; Opening = Erosion → Dilation &nbsp;·&nbsp; Closing = Dilation → Erosion</p>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">برای عملیات مورفولوژیکی کمتر رایج دیگر (مثل Top Hat، Black Hat): <a href="https://docs.opencv.org/4.x/d3/dbe/tutorial_opening_closing_hats.html" class="ref-link">docs.opencv.org – Opening/Closing/Hats</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">عملیات Hit-or-Miss (23)</h3></div>
+  <p>تا اینجا می‌خواستیم تصویر را <strong>تغییر</strong> بدهیم (بزرگ‌تر/کوچک‌تر کنیم، نویز حذف کنیم، سوراخ پر کنیم). اما Hit-or-Miss سؤال متفاوتی می‌پرسد: «آیا این شکل خاص در این قسمت تصویر وجود دارد؟» — یعنی بیشتر برای <strong>Pattern Detection</strong> است تا تغییر شکل کلی تصویر.</p>
+  <p>Hit-or-Miss یک عملیات مورفولوژیک دقیق‌تر است که می‌تواند یک <strong>الگوی دقیق</strong> (نه فقط شکل کلی) را در تصویر باینری پیدا کند — کرنل هم می‌تواند مقدار ۱ (باید سفید باشد)، ۰ (باید سیاه باشد)، و -۱ (اهمیتی ندارد) داشته باشد.</p>
+  <p>اسمش هم دقیقاً از همین دو شرط می‌آید: <strong>Hit</strong> یعنی قسمت‌هایی که باید وجود داشته باشند، <strong>Miss</strong> یعنی قسمت‌هایی که نباید وجود داشته باشند؛ اگر هر دو شرط همزمان برقرار باشند، یعنی الگو پیدا شده است.</p>
+  <div class="code-block">input_image = np.array((
+    [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>],
+    [<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>],
+    [<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>],
+    <span class="cm"># ... بقیه‌ی سطرها</span>
+), dtype=<span class="str">"uint8"</span>)
+
+<span class="cm"># کرنل: 1=باید سفید باشد, -1=باید سیاه باشد, 0=فرقی نمی‌کند</span>
+kernel = np.array((
+    [<span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>],
+    [<span class="num">1</span>, -<span class="num">1</span>, <span class="num">1</span>],
+    [<span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>]
+), dtype=<span class="str">"int"</span>)
+
+output_image = cv2.<span class="fn">morphologyEx</span>(input_image, cv2.MORPH_HITMISS, kernel)</div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.x/db/d06/tutorial_hitOrMiss.html" class="ref-link">docs.opencv.org – Hit-or-Miss Tutorial</a></p>
+</div>
+
+<!-- ===== 3. Practical morphology application ===== -->
+<div class="section-c" data-section-id="module-3-lines">
+  <div class="section-h"><h2>3. کاربرد عملی: حذف/استخراج خطوط با مورفولوژی (24)</h2></div>
+  <p>یک مثال کامل و کاربردی: از روی عکس یک برگه‌ی نت موسیقی، خطوط افقی حامل را با مورفولوژی استخراج می‌کنیم. اول تصویر را negative و باینری می‌کنیم (چون Contour/مورفولوژی روی «شیء سفید در پس‌زمینه‌ی سیاه» بهتر کار می‌کند):</p>
+  <div class="code-block">gray_image = cv2.<span class="fn">imread</span>(<span class="str">"images/notes.png"</span>, <span class="num">0</span>)
+negative_image = cv2.<span class="fn">bitwise_not</span>(gray_image)
+binary_image = cv2.<span class="fn">adaptiveThreshold</span>(negative_image, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">15</span>, -<span class="num">2</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">نکته‌ی کلیدی: یک <strong>Structuring Element کشیده و باریک</strong> (مثلاً ۱ پیکسل ارتفاع، عرض زیاد) دقیقاً شکل چیزی‌ست که می‌خواهیم استخراج کنیم (خط افقی). با اعمال Opening با این کرنل، فقط چیزهایی که به این شکل کشیده‌ی افقی «جا می‌شوند» باقی می‌مانند:</p>
+  <div class="code-block">cols = binary_image.shape[<span class="num">1</span>]
+horizontal_size = cols // <span class="num">30</span>
+
+<span class="cm"># کرنلی به عرض زیاد و ارتفاع 1 — دقیقاً شکل یک خط افقی</span>
+horizontalStructure = cv2.<span class="fn">getStructuringElement</span>(cv2.MORPH_RECT, (horizontal_size, <span class="num">1</span>))
+horizontal = cv2.<span class="fn">morphologyEx</span>(binary_image, cv2.MORPH_OPEN, horizontalStructure)</div>
+
+  <p style="margin-top:var(--sp-4-5)">همان تکنیک، فقط با کرنل عمودی (ارتفاع زیاد، عرض ۱)، خطوط عمودی را استخراج می‌کند:</p>
+  <div class="code-block">rows = gray_image.shape[<span class="num">0</span>]
+verticalsize = rows // <span class="num">30</span>
+verticalStructure = cv2.<span class="fn">getStructuringElement</span>(cv2.MORPH_RECT, (<span class="num">1</span>, verticalsize))
+vertical = cv2.<span class="fn">morphologyEx</span>(binary_image, cv2.MORPH_OPEN, verticalStructure)</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">اصل کلی: شکل کرنل = شکلی که می‌خواهی پیدا/حذف کنی</div>
+      <p>این تکنیک (Opening با یک Structuring Element کشیده در جهت خاص) یک الگوی خیلی رایج است — مثلاً در پردازش اسناد اسکن‌شده برای حذف خطوط جدول قبل از OCR، یا پیداکردن خطوط راهنما در تصاویر فرم.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5)">برای نتیجه‌ی نهایی تمیزتر (لبه‌های نرم‌تر به‌جای دندانه‌دندانه)، می‌توان لبه‌های نتیجه را با نسخه‌ی smooth-شده جایگزین کرد:</p>
+  <div class="code-block">edges = cv2.<span class="fn">adaptiveThreshold</span>(raw_result, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">3</span>, -<span class="num">2</span>)
+kernel = np.<span class="fn">ones</span>((<span class="num">2</span>,<span class="num">2</span>), np.uint8)
+edges = cv2.<span class="fn">dilate</span>(edges, kernel)
+
+smooth = cv2.<span class="fn">blur</span>(raw_result, (<span class="num">2</span>,<span class="num">2</span>))
+
+<span class="cm"># فقط پیکسل‌های روی لبه رو با نسخه‌ی smooth جایگزین می‌کنیم</span>
+(rows, cols) = np.<span class="fn">where</span>(edges != <span class="num">0</span>)
+final_result = np.<span class="fn">copy</span>(raw_result)
+final_result[rows, cols] = smooth[rows, cols]</div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.x/dd/dd7/tutorial_morph_lines_detection.html" class="ref-link">docs.opencv.org – Morphological Line Detection</a></p>
+</div>
+<!-- ===== 4. Connected Components ===== -->
+<div class="section-c" data-section-id="module-3-connected">
+  <div class="section-h"><h2>4. برچسب‌زنی اجزای متصل — Connected Components (25)</h2></div>
+  <p><code class="code">cv2.connectedComponents</code> هر ناحیه‌ی سفید متصل در یک تصویر باینری را با یک عدد (label) مجزا مشخص می‌کند — قدم اول برای شمردن یا جداکردن اشیاء مجزا در تصویر.</p>
+  <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">"images/shapes.png"</span>, <span class="num">0</span>)
+_, img = cv2.<span class="fn">threshold</span>(img, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY)
+num_labels, labels = cv2.<span class="fn">connectedComponents</span>(img)
+
+<span class="cm"># فقط برای نمایش رنگی: هر label رو به یه Hue متفاوت map می‌کنیم</span>
+label_hue = np.uint8(<span class="num">179</span>*labels/np.<span class="fn">max</span>(labels))
+blank = np.<span class="fn">ones_like</span>(img) * <span class="num">255</span>
+labeled_img = cv2.<span class="fn">merge</span>([label_hue, blank, blank])
+labeled_img = cv2.<span class="fn">cvtColor</span>(labeled_img, cv2.COLOR_HSV2BGR)
+labeled_img[label_hue==<span class="num">0</span>] = <span class="num">0</span>   <span class="cm"># پس‌زمینه (label صفر) رو سیاه نگه می‌داریم</span></div>
+
+  <p style="margin-top:var(--sp-4-5)">پارامتر <code class="code">connectivity</code> تعیین می‌کند دو پیکسل کی «همسایه» حساب می‌شوند — این انتخاب می‌تواند نتیجه را کاملاً عوض کند:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:20%">connectivity</th><th>تعریف همسایگی</th></tr></thead>
+      <tbody>
+        <tr><td class="code">4</td><td>فقط بالا/پایین/چپ/راست هم‌رنگ (قطری حساب نمی‌شود)</td></tr>
+        <tr><td class="code">8</td><td>۸ همسایه شامل قطری‌ها هم حساب می‌شوند</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="code-block">_, labels4 = cv2.<span class="fn">connectedComponents</span>(img, connectivity=<span class="num">4</span>)
+_, labels8 = cv2.<span class="fn">connectedComponents</span>(img, connectivity=<span class="num">8</span>)</div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا connectivity مهم است</div>
+      <p>دو شیء که فقط از گوشه (قطری) به هم چسبیده‌اند، با <code>connectivity=8</code> یک جزء واحد حساب می‌شوند ولی با <code>connectivity=4</code> دو جزء جدا. اگر شمارش/تحلیل شما نتیجه‌ی غیرمنتظره داد، این پارامتر اولین جای چک‌کردنه.</p>
+    </div>
+  </div>
+  <p style="margin-top:var(--sp-3)">یه یادآوری ساده: <strong>4 = چهار جهت اصلی</strong> (بالا، پایین، چپ، راست)، <strong>8 = چهار جهت اصلی + چهار جهت قطری</strong>.</p>
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">⭐ جمله‌ی طلایی</div>
+      <p>Connectivity مشخص می‌کند «چه چیزی به چه چیزی وصل است»، و Connected Component Labeling به هر مجموعه‌ی متصل یک شماره می‌دهد.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 5. Contours ===== -->
+<div class="section-c" data-section-id="module-3-contours">
+  <div class="section-h"><h2>5. یافتن و رسم Contour (26)</h2></div>
+  <p>Contour یعنی مرز یک شیء در تصویر. <strong>Connected Components بیشتر درباره‌ی «ناحیه‌های متصل» صحبت می‌کند، ولی Contour بیشتر درباره‌ی «مرز و شکل» صحبت می‌کند</strong> — این تفاوت خیلی مهم است: هر دو اجزای مجزا را پیدا می‌کنند، ولی Contour علاوه‌بر آن اطلاعات هندسی (محیط، شکل، تقریب چندضلعی) هم می‌دهد.</p>
+  <p>در OpenCV، پیداکردن Contour یعنی پیداکردن مرز اشیاء <strong>سفید</strong> روی پس‌زمینه‌ی <strong>سیاه</strong> — پس همیشه اول تصویر را باینری می‌کنیم. Contourها ابزار پایه‌ای برای تحلیل شکل، تشخیص و شناسایی اشیاء هستند.</p>
+  <p><code class="code">contours, hierarchy = cv2.findContours(image, mode, method)</code> — آرگومان‌ها به‌ترتیب: تصویر باینری منبع، حالت بازیابی کانتور (mode)، و روش تقریب کانتور (method).</p>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/shapes.png'</span>, <span class="num">0</span>)
+ret, thresh = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, <span class="num">0</span>)
+contours, hierarchy = cv2.<span class="fn">findContours</span>(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+<span class="cm"># هر contour یک آرایه از نقاط مرزی شیء است</span>
+<span class="kw">for</span> contour <span class="kw">in</span> contours:
+    print(contour.shape)</div>
+
+  <p style="margin-top:var(--sp-4-5)">دو راه برای رسم: با <code class="code">cv2.polylines</code> (همان تابعی که در ماژول ۱ یاد گرفتیم) یا با تابع اختصاصی <code class="code">cv2.drawContours</code>:</p>
+  <div class="code-block">bgr_image = cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_GRAY2BGR)
+
+<span class="cm"># روش 1: با polylines (فقط یک کانتور خاص)</span>
+cv2.<span class="fn">polylines</span>(bgr_image, [contours[<span class="num">0</span>]], <span class="kw">True</span>, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">5</span>)
+
+<span class="cm"># روش 2: با drawContours — می‌تواند همه یا فقط یکی رو رسم کنه</span>
+all_contours = cv2.<span class="fn">drawContours</span>(bgr_image, contours, -<span class="num">1</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)   <span class="cm"># -1 یعنی همه</span>
+one_contour = cv2.<span class="fn">drawContours</span>(bgr_image, contours, <span class="num">3</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)   <span class="cm"># فقط اندیس 3</span>
+same_thing = cv2.<span class="fn">drawContours</span>(bgr_image, [contours[<span class="num">3</span>]], -<span class="num">1</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)   <span class="cm"># همون با لیست تک‌عضوی</span></div>
+
+  <p style="margin-top:var(--sp-4-5)">پارامتر <code class="code">method</code> تعیین می‌کند کانتور با <strong>چند نقطه</strong> ذخیره شود:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:30%">method</th><th>تعداد نقاط</th></tr></thead>
+      <tbody>
+        <tr><td class="code">CHAIN_APPROX_NONE</td><td>همه‌ی نقاط مرزی، حتی روی یک خط راست</td></tr>
+        <tr><td class="code">CHAIN_APPROX_SIMPLE</td><td>فقط نقاط ضروری (مثلاً فقط ۴ گوشه برای یک مستطیل) — حافظه‌ی کمتر</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/rectangle.png'</span>, <span class="num">0</span>)
+ret, thresh = cv2.<span class="fn">threshold</span>(image, <span class="num">127</span>, <span class="num">255</span>, <span class="num">0</span>)
+
+contours, _ = cv2.<span class="fn">findContours</span>(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+print(<span class="fn">len</span>(contours[<span class="num">0</span>]))   <span class="cm"># تعداد زیاد — همه‌ی نقاط مرزی</span>
+
+contours, _ = cv2.<span class="fn">findContours</span>(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+print(<span class="fn">len</span>(contours[<span class="num">0</span>]))   <span class="cm"># برای یه مستطیل ساده، فقط 4</span></div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">CHAIN_APPROX_SIMPLE تقریباً همیشه انتخاب پیش‌فرض خوبیه</div>
+      <p>برای اکثر کاربردها (bounding box، مساحت، مرکز جرم) نیازی به هر نقطه‌ی مرزی نیست؛ <code>CHAIN_APPROX_SIMPLE</code> حافظه و زمان پردازش را بدون از دست‌دادن اطلاعات مهم کاهش می‌دهد.</p>
+    </div>
+  </div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.x/d4/d73/tutorial_py_contours_begin.html" class="ref-link">docs.opencv.org – Contours Tutorial</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">پوش محدب — Convex Hull (27)</h3></div>
+  <p>پوش محدب (Convex Hull) کوچک‌ترین چندضلعی <strong>محدب</strong> است که همه‌ی یک مجموعه نقطه (یا یک کانتور) را در بر می‌گیرد — مثل کش‌کردن یک کش‌لاستیک دور همه‌ی نقاط. وقتی کش رها شود، دور بیرونی‌ترین نقاط قرار می‌گیرد و همان مرز بیرونی، پوش محدب است.</p>
+  <div class="code-block">random_points = np.random.<span class="fn">randint</span>(<span class="num">100</span>, <span class="num">400</span>, <span class="num">20</span>).reshape(<span class="num">10</span>, <span class="num">2</span>)
+image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+<span class="kw">for</span> point <span class="kw">in</span> random_points:
+    cv2.<span class="fn">circle</span>(image, (point[<span class="num">0</span>],point[<span class="num">1</span>]), <span class="num">8</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), -<span class="num">1</span>)
+
+hull = cv2.<span class="fn">convexHull</span>(random_points)
+cv2.<span class="fn">drawContours</span>(image, [hull], -<span class="num">1</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>), <span class="num">4</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">کاربرد رایج‌تر: محاسبه‌ی پوش محدب برای <strong>هر کانتور</strong> پیداشده در یک تصویر واقعی — پوش محدب معمولاً نویز/دندانه‌دانه‌بودن مرز شیء را صاف می‌کند:</p>
+  <div class="code-block">contours, _ = cv2.<span class="fn">findContours</span>(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+hull_list = []
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(contours)):
+    hull = cv2.<span class="fn">convexHull</span>(contours[i])
+    hull_list.<span class="fn">append</span>(hull)
+
+<span class="cm"># کانتور اصلی (سبز) در برابر پوش محدب (قرمز) کنار هم</span>
+cv2.<span class="fn">drawContours</span>(bgr_image, contours, -<span class="num">1</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">1</span>)
+cv2.<span class="fn">drawContours</span>(bgr_image, hull_list, -<span class="num">1</span>, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">1</span>)</div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">Convexity Defects — یک قدم جلوتر از Convex Hull</div>
+      <p>اختلاف بین Contour واقعی و Convex Hull آن، اطلاعاتی درباره‌ی فرورفتگی‌های شکل می‌دهد — به این اختلاف <strong>Convexity Defects</strong> می‌گویند. مثلاً بین انگشت‌های یک دست فرورفتگی وجود دارد؛ Hull این فرورفتگی‌ها را پر می‌کند و با بررسی Convexity Defects می‌شود همان فرورفتگی‌ها (و مثلاً تعداد انگشت‌ها) را پیدا کرد.</p>
+    </div>
+  </div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منابع: <a href="https://fa.wikipedia.org/wiki/%D9%BE%D9%88%D8%B4_%D9%85%D8%AD%D8%AF%D8%A8" class="ref-link">پوش محدب — ویکی‌پدیا</a> · <a href="https://docs.opencv.org/3.4/d7/d1d/tutorial_hull.html" class="ref-link">docs.opencv.org – Convex Hull Tutorial</a></p>
+</div>
+<!-- ===== 6. Contour features ===== -->
+<div class="section-c" data-section-id="module-3-contour-features">
+  <div class="section-h"><h2>6. ویژگی‌های کانتور — Bounding Box، مساحت، تخمین شکل (28, 29, 30)</h2></div>
+  <p>وقتی یک کانتور پیدا کردیم، معمولاً می‌خواهیم چیزهایی درباره‌اش اندازه بگیریم: کوچک‌ترین مستطیل/دایره‌ای که آن را در بر می‌گیرد، مساحتش، مرکز جرمش، و شکل تقریبی‌اش.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">مفهوم</th><th>تعریف</th></tr></thead>
+      <tbody>
+        <tr><td class="code">Contour</td><td>شکل واقعی مرز شیء</td></tr>
+        <tr><td class="code">Bounding Rectangle</td><td>کوچک‌ترین مستطیل محور-محور (بدون چرخش) که کل Contour را در بر می‌گیرد</td></tr>
+        <tr><td class="code">Minimum Enclosing Circle</td><td>کوچک‌ترین دایره‌ای که کل Contour را در بر می‌گیرد</td></tr>
+        <tr><td class="code">Convex Hull</td><td>کوچک‌ترین پوسته‌ی محدب که تمام نقاط Contour را در بر می‌گیرد</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">این چهارتا معمولاً مستقیماً از خود Contour قابل‌محاسبه‌اند و لزوماً به‌ترتیب به هم وابسته نیستند.</p>
+
+  <div class="section-h"><h3 style="font-size:var(--fs-lg)">Bounding Box و دایره‌ی محاط‌کننده (28)</h3></div>
+  <div class="code-block">input_image = cv2.<span class="fn">imread</span>(<span class="str">"images/balloon.png"</span>)
+gray_image = cv2.<span class="fn">cvtColor</span>(input_image, cv2.COLOR_BGR2GRAY)
+_, binary_image = cv2.<span class="fn">threshold</span>(gray_image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY_INV)
+
+<span class="cm"># یک Closing قبل از findContours، سوراخ‌های کوچک رو پر می‌کنه</span>
+kernel = cv2.<span class="fn">getStructuringElement</span>(cv2.MORPH_ELLIPSE, (<span class="num">5</span>, <span class="num">5</span>))
+closing = cv2.<span class="fn">morphologyEx</span>(binary_image, cv2.MORPH_CLOSE, kernel)
+
+contours, _ = cv2.<span class="fn">findContours</span>(closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)</div>
+
+  <p style="margin-top:var(--sp-4-5)"><code class="code">cv2.boundingRect</code> کوچک‌ترین مستطیل <strong>راست‌گوشه</strong> (بدون چرخش) را می‌دهد؛ <code class="code">cv2.minEnclosingCircle</code> کوچک‌ترین دایره‌ای که کانتور را کاملاً می‌پوشاند:</p>
+  <div class="code-block">boundRect = cv2.<span class="fn">boundingRect</span>(contours[<span class="num">2</span>])   <span class="cm"># (x, y, width, height)</span>
+centers, radius = cv2.<span class="fn">minEnclosingCircle</span>(contours[<span class="num">2</span>])   <span class="cm"># (cx,cy), r</span>
+
+cv2.<span class="fn">rectangle</span>(drawing, (<span class="fn">int</span>(boundRect[<span class="num">0</span>]), <span class="fn">int</span>(boundRect[<span class="num">1</span>])),
+              (<span class="fn">int</span>(boundRect[<span class="num">0</span>]+boundRect[<span class="num">2</span>]), <span class="fn">int</span>(boundRect[<span class="num">1</span>]+boundRect[<span class="num">3</span>])), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>), <span class="num">2</span>)
+cv2.<span class="fn">circle</span>(drawing, (<span class="fn">int</span>(centers[<span class="num">0</span>]), <span class="fn">int</span>(centers[<span class="num">1</span>])), <span class="fn">int</span>(radius), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">و برای رسم روی <strong>همه‌ی</strong> کانتورها، یک حلقه‌ی ساده:</p>
+  <div class="code-block"><span class="kw">for</span> c <span class="kw">in</span> contours:
+    boundRect = cv2.<span class="fn">boundingRect</span>(c)
+    cv2.<span class="fn">rectangle</span>(drawing, (<span class="fn">int</span>(boundRect[<span class="num">0</span>]), <span class="fn">int</span>(boundRect[<span class="num">1</span>])),
+                  (<span class="fn">int</span>(boundRect[<span class="num">0</span>]+boundRect[<span class="num">2</span>]), <span class="fn">int</span>(boundRect[<span class="num">1</span>]+boundRect[<span class="num">3</span>])), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>), <span class="num">2</span>)</div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.6.0/da/d0c/tutorial_bounding_rects_circles.html" class="ref-link">docs.opencv.org – Bounding Rects/Circles</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">Moments، مساحت و سورت‌کردن کانتورها (29)</h3></div>
+  <p><code class="code">cv2.moments</code> مجموعه‌ای از گشتاورهای آماری شکل را می‌دهد؛ رایج‌ترین کاربردش پیداکردن <strong>مرکز جرم (centroid)</strong> است:</p>
+  <div class="code-block">contours, hierarchy = cv2.<span class="fn">findContours</span>(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+<span class="kw">for</span> c <span class="kw">in</span> contours:
+    M = cv2.<span class="fn">moments</span>(c)
+    cx = <span class="fn">int</span>(M[<span class="str">'m10'</span>] / M[<span class="str">'m00'</span>])   <span class="cm"># مرکز جرم روی محور x</span>
+    cy = <span class="fn">int</span>(M[<span class="str">'m01'</span>] / M[<span class="str">'m00'</span>])   <span class="cm"># مرکز جرم روی محور y</span>
+    cv2.<span class="fn">circle</span>(image, (cx, cy), <span class="num">5</span>, (<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>), -<span class="num">1</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)"><code class="code">cv2.contourArea</code> مساحت هر کانتور را می‌دهد — با آن می‌توان کانتورها را از بزرگ به کوچک (یا برعکس) سورت کرد، مثلاً برای پیداکردن بزرگ‌ترین شیء تصویر:</p>
+  <div class="code-block"><span class="kw">def</span> <span class="fn">get_contour_areas</span>(contours):
+    <span class="kw">return</span> [cv2.<span class="fn">contourArea</span>(cnt) <span class="kw">for</span> cnt <span class="kw">in</span> contours]
+
+sorted_contours = <span class="fn">sorted</span>(contours, key=cv2.contourArea, reverse=<span class="kw">True</span>)
+
+<span class="cm"># شماره‌گذاری کانتورها از بزرگ به کوچک، روی مرکز جرم هرکدوم</span>
+<span class="kw">for</span> (i, c) <span class="kw">in</span> <span class="fn">enumerate</span>(sorted_contours):
+    M = cv2.<span class="fn">moments</span>(c)
+    cx = <span class="fn">int</span>(M[<span class="str">'m10'</span>] / M[<span class="str">'m00'</span>])
+    cy = <span class="fn">int</span>(M[<span class="str">'m01'</span>] / M[<span class="str">'m00'</span>])
+    cv2.<span class="fn">putText</span>(image, <span class="fn">str</span>(i+<span class="num">1</span>), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, <span class="num">2</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)
+    cv2.<span class="fn">drawContours</span>(image, [c], -<span class="num">1</span>, (<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>), <span class="num">3</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">می‌توان به‌جای مساحت، بر اساس <strong>موقعیت</strong> هم سورت کرد — مثلاً از چپ به راست، با یک تابع key سفارشی:</p>
+  <div class="code-block"><span class="kw">def</span> <span class="fn">x_cord_contour</span>(contours):
+    <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(contours) > <span class="num">10</span>:   <span class="cm"># فیلتر نویزهای خیلی کوچک</span>
+        M = cv2.<span class="fn">moments</span>(contours)
+        <span class="kw">return</span> <span class="fn">int</span>(M[<span class="str">'m10'</span>]/M[<span class="str">'m00'</span>])
+
+contours_left_to_right = <span class="fn">sorted</span>(contours, key=x_cord_contour, reverse=<span class="kw">False</span>)</div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">مراقب تقسیم بر صفر باش</div>
+      <p>اگر یک کانتور به‌قدری کوچک باشد که <code>M['m00']</code> صفر شود (مساحت صفر)، محاسبه‌ی <code>cx</code>/<code>cy</code> با خطای تقسیم‌بر‌صفر متوقف می‌شود. همیشه قبل از این محاسبه یک فیلتر حداقل مساحت (مثل تابع <code>x_cord_contour</code> بالا) بگذار.</p>
+    </div>
+  </div>
+  <p style="margin-top:var(--sp-3)">یه نکته برای حفظ کردن: اگه سؤال گفت «مرکز شیء را پیدا کن» → <code class="code">cv2.moments</code>. اگه گفت «مساحت را حساب کن» → <code class="code">cv2.contourArea</code>. اگه گفت «کانتورها را بر اساس مساحت مرتب کن» → <code class="code">sorted(contours, key=cv2.contourArea, reverse=True)</code>.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تخمین شکل کانتور — ApproxPolyDP (30)</h3></div>
+  <p><code class="code">cv2.approxPolyDP</code> (پیاده‌سازی الگوریتم <a href="https://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm" class="ref-link">Douglas-Peucker</a>) یک کانتور را با تعداد نقطه‌ی کمتر تقریب می‌زند — یعنی شکل نامنظم را به نزدیک‌ترین چندضلعی «تمیز» تبدیل می‌کند.</p>
+  <p><code class="code">cv2.approxPolyDP(contour, epsilon, closed)</code> — <code class="code">epsilon</code> دقت تقریب است (هرچه کوچک‌تر، دقیق‌تر؛ قاعده‌ی سرانگشتی: کمتر از ۵٪ محیط کانتور)، معمولاً بر اساس محیط کانتور (<code class="code">cv2.arcLength</code>) محاسبه می‌شود:</p>
+  <div class="code-block">cnt = contours[<span class="num">0</span>]
+perimeter = cv2.<span class="fn">arcLength</span>(cnt, <span class="kw">True</span>)
+
+epsilon = <span class="num">0.01</span> * perimeter   <span class="cm"># 1 درصد محیط — تقریب نسبتاً دقیق</span>
+approx = cv2.<span class="fn">approxPolyDP</span>(cnt, epsilon, <span class="kw">True</span>)
+cv2.<span class="fn">drawContours</span>(output, [approx], <span class="num">0</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">کاربرد کلاسیک: تشخیص نوع شکل هندسی</div>
+      <p>چون <code>approxPolyDP</code> تعداد رئوس نهایی را می‌دهد، می‌توان از همان تعداد رأس برای حدس‌زدن نوع شکل استفاده کرد — بدون هیچ یادگیری ماشین:</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="kw">for</span> c <span class="kw">in</span> imagecontours:
+    epsilon = <span class="num">0.01</span> * cv2.<span class="fn">arcLength</span>(c, <span class="kw">True</span>)
+    approx = cv2.<span class="fn">approxPolyDP</span>(c, epsilon, <span class="kw">True</span>)
+    cv2.<span class="fn">drawContours</span>(image, [approx], <span class="num">0</span>, <span class="num">0</span>, <span class="num">3</span>)
+
+    i, j = approx[<span class="num">0</span>][<span class="num">0</span>]
+    <span class="kw">if</span> <span class="fn">len</span>(approx) == <span class="num">3</span>:
+        cv2.<span class="fn">putText</span>(image, <span class="str">"Triangle"</span>, (i, j), cv2.FONT_HERSHEY_COMPLEX, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>)
+    <span class="kw">elif</span> <span class="fn">len</span>(approx) == <span class="num">4</span>:
+        cv2.<span class="fn">putText</span>(image, <span class="str">"Rectangle"</span>, (i, j), cv2.FONT_HERSHEY_COMPLEX, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>)
+    <span class="kw">elif</span> <span class="fn">len</span>(approx) == <span class="num">5</span>:
+        cv2.<span class="fn">putText</span>(image, <span class="str">"Pentagon"</span>, (i, j), cv2.FONT_HERSHEY_COMPLEX, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>)
+    <span class="kw">elif</span> <span class="num">6</span> < <span class="fn">len</span>(approx) < <span class="num">15</span>:
+        cv2.<span class="fn">putText</span>(image, <span class="str">"Ellipse"</span>, (i, j), cv2.FONT_HERSHEY_COMPLEX, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>)
+    <span class="kw">else</span>:
+        cv2.<span class="fn">putText</span>(image, <span class="str">"Circle"</span>, (i, j), cv2.FONT_HERSHEY_COMPLEX, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)">و روی یک طرح دست‌کشیده (sketch) با <code class="code">epsilon</code> کمی بزرگ‌تر (۳٪) برای صاف‌کردن خطوط ناصاف:</p>
+  <div class="code-block">contours, hierarchy = cv2.<span class="fn">findContours</span>(thresh.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+
+<span class="kw">for</span> c <span class="kw">in</span> contours:
+    accuracy = <span class="num">0.03</span> * cv2.<span class="fn">arcLength</span>(c, <span class="kw">True</span>)
+    approx = cv2.<span class="fn">approxPolyDP</span>(c, accuracy, <span class="kw">True</span>)
+    cv2.<span class="fn">drawContours</span>(copy, [approx], <span class="num">0</span>, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/3.4/dd/d49/tutorial_py_contour_features.html" class="ref-link">docs.opencv.org – Contour Features</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">جمع‌بندی: از یک Contour چه اطلاعاتی می‌شود استخراج کرد؟</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:34%">اطلاعات</th><th>تابع</th></tr></thead>
+      <tbody>
+        <tr><td>مرز شیء</td><td class="code">findContours</td></tr>
+        <tr><td>مرکز شیء</td><td class="code">moments</td></tr>
+        <tr><td>مساحت</td><td class="code">contourArea</td></tr>
+        <tr><td>محیط</td><td class="code">arcLength</td></tr>
+        <tr><td>ساده‌سازی شکل / تعداد رأس</td><td class="code">approxPolyDP</td></tr>
+        <tr><td>پوسته محدب</td><td class="code">convexHull</td></tr>
+        <tr><td>مستطیل دور شیء</td><td class="code">boundingRect</td></tr>
+        <tr><td>دایره دور شیء</td><td class="code">minEnclosingCircle</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>این دقیقاً دلیل اهمیت Contour است: <strong>یک بار مرز شیء را پیدا می‌کنی و بعد می‌توانی ویژگی‌های مختلف آن را استخراج کنی.</strong></p>
+</div>
+<!-- ===== 7. Applied examples ===== -->
+<div class="section-c" data-section-id="module-3-applied">
+  <div class="section-h"><h2>7. دو مثال کاربردی کامل: تشخیص کلمه در متن و شمارش سکه (31, 32)</h2></div>
+  <p>این دو نوت‌بوک، همه‌ی تکنیک‌های بالای این ماژول (باینری‌کردن، مورفولوژی، Contour) را در دو مسئله‌ی واقعی کنار هم می‌گذارند.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-5)"><h3 style="font-size:var(--fs-lg)">تشخیص نواحی کلمه در یک متن (31)</h3></div>
+  <p>ایده: حروف تک‌تک از هم فاصله دارند، ولی حروف داخل یک کلمه به هم نزدیک‌اند. اگر تصویر را <strong>افقی</strong> با یک کرنل عریض <code class="code">dilate</code> کنیم، حروف نزدیک به هم در هم ادغام می‌شوند و هر کلمه یک ناحیه‌ی سفید یکپارچه می‌شود:</p>
+  <div class="code-block">input_image = cv2.<span class="fn">imread</span>(<span class="str">"images/matn.png"</span>)
+gray_image = cv2.<span class="fn">cvtColor</span>(input_image, cv2.COLOR_BGR2GRAY)
+_, binary_image = cv2.<span class="fn">threshold</span>(gray_image, <span class="num">127</span>, <span class="num">255</span>, cv2.THRESH_BINARY_INV)
+
+<span class="cm"># کرنل عریض‌تر از بلند — حروف رو افقی به هم می‌چسبونه، خطوط رو نه</span>
+kernel = cv2.<span class="fn">getStructuringElement</span>(cv2.MORPH_RECT, (<span class="num">15</span>, <span class="num">10</span>))
+dilation = cv2.<span class="fn">dilate</span>(binary_image, kernel, iterations=<span class="num">2</span>)
+
+contours, hierarchy = cv2.<span class="fn">findContours</span>(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)</div>
+
+  <p style="margin-top:var(--sp-4-5)">حالا هر Contour تقریباً معادل یک کلمه است — با یک فیلتر مساحت کمینه، نویزهای خیلی کوچک را کنار می‌گذاریم:</p>
+  <div class="code-block">MIN_CONTOUR_AREA = <span class="num">5</span>
+
+<span class="kw">for</span> contour <span class="kw">in</span> contours:
+    <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(contour) > MIN_CONTOUR_AREA:
+        [x, y, w, h] = cv2.<span class="fn">boundingRect</span>(contour)
+        cv2.<span class="fn">rectangle</span>(outputImage, (x, y), (x+w, y+h), (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">2</span>)</div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">این تکنیک محدودیت دارد — و این طبیعی است</div>
+      <p>در نوت‌بوک اصلی، تلاش برای پیداکردن Contour <strong>داخل</strong> هر کلمه (برای جداکردن حروف) دقیقاً طبق انتظار کار نمی‌کند — این یک محدودیت واقعی روش‌های کلاسیک (غیر یادگیری‌عمیق) است: فاصله‌ی بین حروف و بین کلمات گاهی خیلی به هم نزدیک است و یک عدد ثابت برای اندازه‌ی کرنل روی همه‌ی فونت‌ها/اندازه‌ها جواب نمی‌دهد. برای OCR واقعی، این پیش‌پردازش معمولاً فقط قدم اول (ناحیه‌یابی خشن) است، نه راه‌حل نهایی.</p>
+    </div>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">شمارش سکه — یک مسئله‌ی واقعی، قدم‌به‌قدم (32)</h3></div>
+  <p>این نوت‌بوک به‌جای یک راه‌حل تمیز، مسیر واقعی حل‌کردن یک مسئله را نشان می‌دهد: هر تلاش یک مشکل را برطرف می‌کند و مشکل بعدی را آشکار می‌کند.</p>
+
+  <p><strong>تلاش اول</strong> — آستانه‌گذاری تطبیقی + Closing + پیداکردن Contour + تناسب یک بیضی (<code class="code">cv2.fitEllipse</code>) روی هر کانتور:</p>
+  <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">"images/old-iranian-coins.jpg"</span>)
+gray = cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_BGR2GRAY)
+thresh = cv2.<span class="fn">adaptiveThreshold</span>(gray, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, <span class="num">11</span>, <span class="num">1</span>)
+
+kernel = np.<span class="fn">ones</span>((<span class="num">5</span>,<span class="num">5</span>), np.uint8)
+closing = cv2.<span class="fn">morphologyEx</span>(thresh, cv2.MORPH_CLOSE, kernel)
+
+contours, hierarchy = cv2.<span class="fn">findContours</span>(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+<span class="kw">for</span> cnt <span class="kw">in</span> contours:
+    <span class="kw">if</span> <span class="fn">len</span>(cnt) < <span class="num">5</span>:   <span class="cm"># fitEllipse حداقل 5 نقطه لازم داره</span>
+        <span class="kw">continue</span>
+    ellipse = cv2.<span class="fn">fitEllipse</span>(cnt)
+    cv2.<span class="fn">ellipse</span>(drawing_image, ellipse, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+  <p>نتیجه: خیلی زیاد بیضی کشیده می‌شود — نویز پس‌زمینه (بافت میز، سایه) هم به‌اشتباه Contour حساب شده‌اند.</p>
+
+  <p style="margin-top:var(--sp-4-5)"><strong>قدم ۲ — حذف نویز پس‌زمینه</strong> با یک Blur قوی‌تر قبل از آستانه‌گذاری:</p>
+  <div class="code-block">gray_blur = cv2.<span class="fn">GaussianBlur</span>(gray, (<span class="num">31</span>,<span class="num">31</span>), <span class="num">0</span>)   <span class="cm"># Blur نسبتاً بزرگ برای صاف‌کردن بافت ریز</span>
+thresh = cv2.<span class="fn">adaptiveThreshold</span>(gray_blur, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, <span class="num">11</span>, <span class="num">1</span>)</div>
+  <p>بهتر شد، ولی هنوز چند Contour نویزی کوچک باقی می‌مانند.</p>
+
+  <p style="margin-top:var(--sp-4-5)"><strong>قدم ۳ — فیلتر بر اساس تعداد نقاط کانتور</strong> (سکه‌های واقعی معمولاً کانتور با نقاط بیشتری دارند، چون گردتر و بزرگ‌ترند):</p>
+  <div class="code-block"><span class="kw">for</span> cnt <span class="kw">in</span> contours:
+    <span class="kw">if</span> <span class="fn">len</span>(cnt) < <span class="num">100</span>:   <span class="cm"># 100 نقطه، احتمال دایره‌بودن رو بیشتر می‌کنه</span>
+        <span class="kw">continue</span>
+    ellipse = cv2.<span class="fn">fitEllipse</span>(cnt)
+    cv2.<span class="fn">ellipse</span>(drawing_image, ellipse, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+
+  <p style="margin-top:var(--sp-4-5)"><strong>قدم ۴ — یا فیلتر بر اساس مساحت</strong> (معیار شهودی‌تر و قابل‌تنظیم‌تر از تعداد نقاط):</p>
+  <div class="code-block"><span class="kw">for</span> cnt <span class="kw">in</span> contours:
+    area = cv2.<span class="fn">contourArea</span>(cnt)
+    <span class="kw">if</span> area < <span class="num">5000</span> <span class="kw">or</span> area > <span class="num">50000</span>:   <span class="cm"># بازه‌ی مساحت منطقی برای یک سکه</span>
+        <span class="kw">continue</span>
+    <span class="kw">if</span> <span class="fn">len</span>(cnt) < <span class="num">5</span>:
+        <span class="kw">continue</span>
+    ellipse = cv2.<span class="fn">fitEllipse</span>(cnt)
+    cv2.<span class="fn">ellipse</span>(drawing_image, ellipse, (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)</div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">این روش روی هر عکسی جواب نمی‌دهد — سوال باز نوت‌بوک اصلی</div>
+      <p>وقتی همین کد دقیقاً روی یک عکس دیگر (تصویر پول با سکه‌های خیلی نزدیک به هم، یا فقط یک سکه‌ی تکی با مقیاس متفاوت) اجرا می‌شود، بازه‌ی مساحت ثابت (۵۰۰۰ تا ۵۰۰۰۰) دیگر درست کار نمی‌کند — چون اندازه‌ی سکه در پیکسل به فاصله‌ی دوربین و رزولوشن عکس بستگی دارد، نه فقط به اندازه‌ی واقعی سکه. نوت‌بوک اصلی دقیقاً با همین سوال باز تمام می‌شود: <em>«به نظرتون مشکل روی تصویر بالا چیست؟ می‌تونید مشکلو رفع کنید؟»</em></p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">درسی که این تمرین می‌دهد</div>
+      <p>پردازش تصویر کلاسیک (بدون یادگیری ماشین) معمولاً یعنی <strong>تنظیم پارامتر بر اساس فرضیات مشخص</strong> درباره‌ی تصویر ورودی (فاصله‌ی دوربین، اندازه‌ی نسبی اشیاء، نور). این پارامترها بین تصاویر مختلف تعمیم نمی‌یابند — دقیقاً همان محدودیتی که یادگیری عمیق (مثل YOLO) سعی می‌کند با یادگرفتن از مثال‌های زیاد، به‌جای پارامترهای دستی، حلش کند.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 8. Blob Detection ===== -->
+<div class="section-c" data-section-id="module-3-blob">
+  <div class="section-h"><h2>8. تشخیص Blob — SimpleBlobDetector</h2></div>
+  <p><strong>Blob</strong> یعنی یک ناحیه یا گروهی از پیکسل‌های متصل که از نظر یک ویژگی — مثلاً شدت روشنایی — شبیه هم هستند. هدف Blob Detection این است که ناحیه‌های قابل‌توجه تصویر را پیدا کنیم و ویژگی‌هایی مثل مرکز و اندازه‌ی آن‌ها را به‌دست بیاوریم.</p>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">تفاوت Blob با Contour</div>
+      <p>این دو خیلی به هم نزدیک‌اند ولی دقیقاً یکی نیستند. <strong>Blob Detection</strong> بیشتر به خود ناحیه نگاه می‌کند (مرکز، اندازه، شعاع تقریبی)، در حالی که <strong>Contour Detection</strong> بیشتر روی مرز آن ناحیه تمرکز دارد (محیط، مساحت، شکل، Bounding Box، Convex Hull).</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5)">در OpenCV این کار با <code class="code">cv2.SimpleBlobDetector</code> انجام می‌شود. پارامترهای آن با <code class="code">SimpleBlobDetector_Params</code> تنظیم می‌شوند — یعنی به OpenCV می‌گوییم فقط Blobهایی را قبول کن که ویژگی‌های خاصی داشته باشند (مثلاً مساحت مناسب یا دایره‌ای‌بودن زیاد):</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">دسته‌ی پارامتر</th><th>کاربرد</th></tr></thead>
+      <tbody>
+        <tr><td class="code">minThreshold / maxThreshold / thresholdStep</td><td>تصویر را در چند سطح Threshold مختلف بررسی می‌کند</td></tr>
+        <tr><td class="code">minArea / maxArea</td><td>فیلتر بر اساس مساحت Blob</td></tr>
+        <tr><td class="code">Circularity</td><td>فیلتر بر اساس دایره‌ای‌بودن شکل</td></tr>
+        <tr><td class="code">Convexity</td><td>فیلتر بر اساس محدب‌بودن شکل</td></tr>
+        <tr><td class="code">Inertia</td><td>فیلتر بر اساس کشیدگی شکل</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="code-block">params = cv2.SimpleBlobDetector_Params()
+params.filterByArea = <span class="kw">True</span>
+params.minArea = <span class="num">100</span>
+params.filterByCircularity = <span class="kw">True</span>
+params.minCircularity = <span class="num">0.8</span>
+
+detector = cv2.<span class="fn">SimpleBlobDetector_create</span>(params)
+keypoints = detector.<span class="fn">detect</span>(image)
+
+<span class="cm"># هر keypoint یک Blob است؛ مرکز و اندازه‌ش رو داره</span>
+output = cv2.<span class="fn">drawKeypoints</span>(image, keypoints, np.array([]), (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>),
+                            cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)</div>
+
+  <p style="margin-top:var(--sp-4-5)">این بخش در واقع ادامه‌ی منطقی چهار مبحث قبلی همین ماژول است — هرکدام یک سؤال مشخص را جواب می‌دهند:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:34%">مبحث</th><th>سؤالی که جواب می‌دهد</th></tr></thead>
+      <tbody>
+        <tr><td class="code">Connected Components</td><td>چه نواحی متصلی داریم؟</td></tr>
+        <tr><td class="code">Contour</td><td>مرز این ناحیه کجاست؟</td></tr>
+        <tr><td class="code">Moments</td><td>مرکز این ناحیه کجاست؟</td></tr>
+        <tr><td class="code">Blob Detection</td><td>کدام نواحی را بر اساس ویژگی‌هایشان به‌عنوان Blob قبول کنیم؟</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-family:var(--mono)">Threshold → Connected Components → Contour → Moments → Blob Detection</p>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">جمله‌ی طلایی</div>
+      <p>Blob Detection یعنی پیداکردن نواحی قابل‌توجه تصویر، معمولاً با Thresholdهای مختلف، گروه‌بندی پیکسل‌های متصل، و سپس فیلتر و ادغام Blobها بر اساس ویژگی‌هایی مثل فاصله، مساحت، و دایره‌ای‌بودن.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-c" data-section-id="module-3-summary">
+  <div class="section-h"><h2>جمع‌بندی ماژول 3</h2></div>
+  <ul>
+    <li>پایه‌ی همه‌چیز در این ماژول: تبدیل تصویر به باینری (<strong>سفید = شیء، سیاه = پس‌زمینه</strong>) — با آستانه‌ی ثابت، Otsu (خودکار سراسری)، یا تطبیقی (خودکار محلی، برای نور نامتوازن).</li>
+    <li>عملیات مورفولوژی (<code class="code">erode</code>/<code class="code">dilate</code>/<code class="code">open</code>/<code class="code">close</code>) برای تمیزکردن نویز یا شکل‌دادن به نواحی سفید قبل از هر تحلیل دیگری استفاده می‌شوند؛ شکل کرنل باید شبیه چیزی باشد که دنبالش هستی (مثلاً کرنل کشیده برای خط).</li>
+    <li><code class="code">cv2.connectedComponents</code> و <code class="code">cv2.findContours</code> هر دو اجزای مجزا را پیدا می‌کنند، ولی Contour اطلاعات هندسی بیشتری (مساحت، محیط، شکل) می‌دهد.</li>
+    <li>ویژگی‌های کانتور (<code class="code">boundingRect</code>, <code class="code">minEnclosingCircle</code>, <code class="code">moments</code>, <code class="code">contourArea</code>, <code class="code">approxPolyDP</code>) ابزارهایی هستند که یک کانتور خام را به اطلاعات قابل‌استفاده (اندازه، مرکز، نوع شکل) تبدیل می‌کنند.</li>
+    <li>مثال‌های کاربردی این ماژول (تشخیص کلمه، شمارش سکه) نشان دادند: روش‌های کلاسیک قدرتمندند ولی معمولاً به تنظیم دستی پارامتر بر اساس فرضیات خاص هر تصویر نیاز دارند — محدودیتی که در ماژول‌های بعدی (تشخیص شیء مبتنی بر یادگیری عمیق) مرتفع می‌شود.</li>
+    <li><code class="code">cv2.SimpleBlobDetector</code> یک میان‌بر روی همین زنجیره است: Threshold در چند سطح + فیلتر بر اساس اندازه/دایره‌ای‌بودن/محدب‌بودن، همه در یک تابع — برای پیداکردن سریع نواحی گرد یا روشن/تاریک مشخص، بدون نوشتن دستی Contour و فیلتر.</li>
+  </ul>
+</div>

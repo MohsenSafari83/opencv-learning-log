@@ -1,0 +1,50 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Practical Notes (یادداشت‌های عملی)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/practical.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'practical', file: 'content/module-N/practical.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-practical» داشته باشد (لنگر نوار سکشن‌ها).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c" data-section-id="module-N-practical">
+  <div class="section-h">
+    <div class="label">Practical Notes</div>
+    <h2 id="practical-intro">یادداشت‌های عملی — <موضوع ماژول></h2>
+    <p>نکاتی که در آموزش معمولی پیدا نمی‌شوند: به‌دردبخورها، تله‌ها و تجربه‌های میدانی.</p>
+  </div>
+
+  <div class="callout callout-takeaway">
+    <div class="callout-icon">★</div>
+    <div class="callout-body">
+      <div class="callout-title">مهم‌ترین یادگرفتنی</div>
+      <p>یک‌خطی که اگر فقط یک چیز یادت بماند، همین باشد.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر</div>
+      <p>اشتباهی که وقت زیادی می‌گیرد و چطور زودتر دورش بزنی.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ خیلی به‌دردبخور</div>
+      <p>کاری که پروژه‌های واقعی خیلی بهتر می‌کنند تا مثال‌های ساده.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="cm"># قطعه‌ی آماده‌ی کپی‌پیست</span>
+<span class="kw">import</span> cv2
+<span class="cm"># ...</span></div>
+</div>

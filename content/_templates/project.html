@@ -1,0 +1,47 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Project (پروژه)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/project.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'project', file: 'content/module-N/project.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-project» داشته باشد (لنگر نوار سکشن‌ها).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c" data-section-id="module-N-project">
+  <div class="section-h">
+    <div class="label">Project</div>
+    <h2 id="project-goals">پروژه‌ی <موضوع ماژول></h2>
+    <p>پروژه‌ی واقعی برای تثبیت مبحث: هدف، گام‌ها و خروجی مورد انتظار.</p>
+  </div>
+
+  <div class="metrics">
+    <span class="metric accent">هدف: <توضیح کوتاه></span>
+    <span class="metric success">خروجی: <اسم فایل/نوت‌بوک></span>
+  </div>
+
+  <div class="section-h">
+    <h2 id="project-steps">گام‌ها</h2>
+  </div>
+  <div class="code-block"><span class="cm"># ۱. ورودی</span>
+<span class="kw">import</span> cv2
+<span class="cm"># ۲. پردازش</span>
+<span class="cm"># ۳. خروجی</span></div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">معیار قبولی</div>
+      <p>چه چیزی یعنی پروژه تمام شده است؛ تست دقیق و قابل تکرار.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">
+    نوت‌بوک و کدها: <a href="#" class="ref-link">projects/…</a> یا <a href="#" class="ref-link">exercises/…</a>
+  </p>
+</div>

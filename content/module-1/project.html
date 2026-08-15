@@ -1,0 +1,56 @@
+<div class="section-c" data-section-id="module-1-project">
+  <div class="section-h">
+    <div class="label">Project</div>
+    <h2 id="project-goals">پروژه‌ی ماژول ۱ — بهبود تصویر کم‌نور (Low-Light Image Enhancement)</h2>
+    <p>یک ابزار خط‌فرمانی/اسکریپت پایتون بساز که یک تصویر تاریک بگیرد، آن را با دو روش مختلف روشن‌تر کند، و نتیجه را برای مقایسه کنار هم نشان بدهد و ذخیره کند.</p>
+  </div>
+
+  <div class="metrics">
+    <span class="metric accent">هدف: روشن‌کردن یک تصویر واقعی تاریک با دو روش مستقل</span>
+    <span class="metric success">خروجی: یک اسکریپت/نوت‌بوک + ۳ فایل تصویر خروجی</span>
+  </div>
+
+  <div class="section-h"><h2 id="project-problem">صورت‌مسئله</h2></div>
+  <p>یک تصویر واقعی کم‌نور (مثلاً یک عکس گرفته‌شده در شب یا محیط کم‌نور با گوشی خودت) پیدا کن. هدف این است که این تصویر را قابل‌دیدن و قابل‌استفاده کنی — دقیقاً کاری که پیش‌پردازش تصویر در دوربین‌های CCTV یا مرحله‌ی اول خیلی از پایپ‌لاین‌های بینایی ماشین انجام می‌دهد.</p>
+
+  <div class="section-h"><h2 id="project-requirements">الزامات (Requirements)</h2></div>
+  <ul>
+    <li>✓ تصویر ورودی را بارگذاری کن و مطمئن شو واقعاً خوانده شده (<code class="code">assert</code>).</li>
+    <li>✓ روشنایی متوسط تصویر را قبل از هر پردازشی محاسبه و چاپ کن (مثلاً میانگین کانال V در HSV، یا میانگین گری‌اسکیل).</li>
+    <li>✓ نسخه‌ی روشن‌شده با <strong>روش خطی</strong> (<code class="code">cv2.convertScaleAbs</code>) بساز.</li>
+    <li>✓ نسخه‌ی روشن‌شده با <strong>تصحیح گاما</strong> (<code class="code">cv2.LUT</code>) بساز.</li>
+    <li>✓ هر سه تصویر (اصلی، خطی، گاما) را کنار هم در یک شکل (<code class="code">subplot</code>) نمایش بده.</li>
+    <li>✓ هر سه خروجی را با <code class="code">imwrite</code> ذخیره کن.</li>
+    <li>✓ در یکی-دو خط توضیح بده کدام روش نتیجه‌ی طبیعی‌تری داد و چرا (به نظر خودت).</li>
+  </ul>
+
+  <div class="section-h"><h2 id="project-constraints">قیدها (Constraints)</h2></div>
+  <ul>
+    <li>✗ از هیچ کتابخانه‌ی آماده‌ی «bright/enhance» (مثل PIL <code class="code">ImageEnhance</code> یا فیلترهای خودکار) استفاده نکن — خودت با OpenCV/NumPy بساز.</li>
+    <li>✗ مقدار alpha/beta و gamma را ثابت و کورکورانه نگذار — بر اساس روشنایی محاسبه‌شده‌ی خود تصویر انتخابشان کن (مثلاً هرچه تصویر تاریک‌تر، gamma کوچک‌تر).</li>
+  </ul>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">راهنمایی (بدون جواب کامل)</div>
+      <ul>
+        <li>برای محاسبه‌ی روشنایی متوسط: <code>cv2.cvtColor(img, cv2.COLOR_BGR2HSV)[:,:,2].mean()</code> یک نقطه‌ی شروع خوب است.</li>
+        <li>یک قانون سرانگشتی: اگر میانگین روشنایی زیر ۸۰ (از ۲۵۵) بود، <code>gamma</code> را جایی بین ۰.۳ تا ۰.۵ انتخاب کن؛ برای تصاویر نه‌چندان‌تاریک، عددی نزدیک‌تر به ۱.</li>
+        <li>نوت‌بوک ۱۰ (تصحیح گاما) از همین ماژول دقیقاً همین الگوی LUT را دارد — می‌توانی مستقیم ازش شروع کنی.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">معیار قبولی (Definition of Done)</div>
+      <p>پروژه وقتی تمام است که: (۱) اسکریپت روی هر تصویر تاریک دلخواه (نه فقط یک نمونه‌ی خاص) بدون خطا اجرا شود، (۲) سه فایل خروجی واقعاً روی دیسک ذخیره شده باشند، (۳) نمودار مقایسه‌ای خوانا باشد و عنوان هر subplot مشخص کند کدام روش با چه پارامتری اجرا شده.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">
+    وقتی حلش کردی: نوت‌بوک/اسکریپت را در <code class="code">projects/module-1-low-light/</code> در همین ریپو push کن (مطابق همان ساختار <code class="code">solution.ipynb</code> + <code class="code">solution.py</code> که برای exercises در نظر گرفته بودی).
+  </p>
+</div>

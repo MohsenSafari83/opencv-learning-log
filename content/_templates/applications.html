@@ -1,0 +1,57 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Applications (کاربردها)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/applications.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'applications', file: 'content/module-N/applications.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-applications» داشته باشد (لنگر نوار سکشن‌ها).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c" data-section-id="module-N-applications">
+  <div class="section-h">
+    <div class="label">Applications</div>
+    <h2 id="applications-intro">جایگاه <موضوع ماژول> در دنیای واقعی</h2>
+    <p>کجاها واقعاً استفاده می‌شود و چه محصول/پروژه‌هایی روی همین مبحث ساخته شده‌اند.</p>
+  </div>
+
+  <div class="rich-card accent">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">کاربرد ۱</div>
+        <div class="path">domain / حوزه</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>چرا اینجا به این مبحث نیاز است و چه مشکلی را حل می‌کند.</p>
+      <ul>
+        <li>سناریوی استفاده</li>
+        <li>نمونه‌ی واقعی</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span class="tag">مثال: نام پروژه</span>
+    </div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">کاربرد ۲</div>
+        <div class="path">domain / حوزه</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>توضیح کاربرد دوم.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">منابع: <a href="#" class="ref-link">لینک ۱</a> · <a href="#" class="ref-link">لینک ۲</a></p>
+</div>

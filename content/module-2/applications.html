@@ -1,0 +1,83 @@
+<div class="section-c" data-section-id="module-2-applications">
+  <div class="section-h">
+    <div class="label">Applications</div>
+    <h2 id="applications-intro">جایگاه highgui و ویدیو در دنیای واقعی</h2>
+    <p>رویدادهای ماوس، Trackbar، و I/O ویدیو شاید ابزارهای «رابط کاربری» به نظر برسند، ولی زیرساخت خیلی از ابزارهای واقعی بینایی ماشین همین‌ها هستند.</p>
+  </div>
+
+  <div class="rich-card accent">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">ابزارهای برچسب‌گذاری دیتاست (Data Labeling)</div>
+        <div class="path">Dataset annotation / ML tooling</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>ابزارهایی مثل LabelImg یا CVAT که برای آموزش مدل‌های تشخیص شیء دیتاست می‌سازند، دقیقاً با همین ترکیب کار می‌کنند: <code>setMouseCallback</code> برای کشیدن bounding box با درگ ماوس، و Trackbar/دکمه برای انتخاب کلاس شیء.</p>
+      <ul>
+        <li>رسم bounding box با کلیک و درگ (نوت‌بوک ۱۱)</li>
+        <li>ذخیره‌ی مختصات در فرمت YOLO/COCO برای آموزش مدل</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="tag">مثال: LabelImg, CVAT, Labelbox</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">سیستم‌های نظارت تصویری و CCTV هوشمند</div>
+        <div class="path">Video surveillance</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>اتصال به چند دوربین مداربسته با RTSP (نوت‌بوک ۱۶)، پردازش زنده‌ی فریم‌ها، و ذخیره‌ی خودکار ویدیو هنگام رخداد (با <code>VideoWriter</code>) پایه‌ی هر نرم‌افزار نظارتی مدرن است — از دوربین‌های خانگی گرفته تا سیستم‌های امنیتی صنعتی.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: نرم‌افزارهای NVR/VMS</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">رباتیک و کنترل زنده با پارامتر</div>
+        <div class="path">Robotics / Live parameter tuning</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>موقع توسعه‌ی الگوریتم بینایی برای یک ربات (مثلاً تشخیص رنگ یک شیء)، مهندسان معمولاً یک پنجره‌ی debug با چند Trackbar می‌سازند تا بازه‌ی HSV یا آستانه‌ها را زنده تنظیم کنند، بدون این‌که مجبور باشند هر بار کد را دوباره اجرا کنند — دقیقاً الگوی نوت‌بوک ۱۲.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: تیون‌کردن زنده‌ی پارامترهای بینایی ربات</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">ضبط صفحه برای آموزش و اتوماسیون</div>
+        <div class="path">Screen recording / RPA / QA testing</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>ابزارهای آموزش نرم‌افزار، تولید محتوای آموزشی، و حتی تست خودکار رابط کاربری (RPA/UI testing) از تکنیک‌های <code>ImageGrab</code>/<code>mss</code> برای ضبط یا تحلیل زنده‌ی صفحه استفاده می‌کنند — همان چیزی که در نوت‌بوک ۱۷ ساختیم، فقط با هدف متفاوت (تحلیل به‌جای فقط ضبط).</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: ابزارهای RPA، تست خودکار UI</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">تحلیل محتوای ویدیویی آنلاین</div>
+        <div class="path">Content moderation / Sports analytics</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>پلتفرم‌هایی که محتوای ویدیویی یوتیوب/شبکه‌های اجتماعی را تحلیل می‌کنند (تشخیص محتوای نامناسب، آنالیز حرکات بازیکنان در تحلیل ورزشی) از همان الگوی دریافت استریم ویدیو (نوت‌بوک ۱۸) به‌عنوان اولین قدم پایپ‌لاینشان استفاده می‌کنند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: تحلیل ویدیوی ورزشی، ابزارهای Content Moderation</span></div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">نکته: این ماژول عمداً «کم‌هیجان» به نظر می‌رسد چون بیشتر درباره‌ی I/O و رابط کاربریه، نه الگوریتم پیچیده — ولی همین لایه‌ی I/O است که تعیین می‌کند یک پروژه‌ی بینایی ماشین واقعاً قابل‌استفاده باشد یا فقط یک نوت‌بوک تمرینی بماند.</p>
+</div>

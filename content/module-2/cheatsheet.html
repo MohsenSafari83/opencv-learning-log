@@ -1,0 +1,95 @@
+<div class="section-c" data-section-id="module-2-cheatsheet">
+  <div class="section-h">
+    <div class="label">Cheat Sheet</div>
+    <h2 id="cheatsheet-intro">برگه‌ی تقلب — highgui (ماوس، Trackbar، ویدیو)</h2>
+    <p>خلاصه‌ی فشرده‌ی توابع، سینتکس‌ها و الگوهای پرکاربرد ماژول ۲؛ برای رجوع سریع، نه یادگیری از صفر.</p>
+  </div>
+
+  <div class="section-h"><h3 style="font-size:var(--fs-lg)">رویدادهای ماوس و Trackbar</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.setMouseCallback(win, fn)</td><td>اتصال تابع callback به پنجره</td><td class="code">setMouseCallback('w', draw)</td></tr>
+        <tr><td class="code">def fn(event,x,y,flags,param)</td><td>امضای ثابت تابع callback ماوس</td><td class="code">def draw(e,x,y,f,p): ...</td></tr>
+        <tr><td class="code">cv2.EVENT_LBUTTONDOWN/UP/MOUSEMOVE</td><td>پرکاربردترین رویدادها</td><td class="code">if event==EVENT_LBUTTONDOWN</td></tr>
+        <tr><td class="code">cv2.createTrackbar(name,win,val,max,fn)</td><td>ساخت اسلایدر؛ fn هربار مقدار تغییر کرد اجرا می‌شود</td><td class="code">createTrackbar('R','w',0,255,cb)</td></tr>
+        <tr><td class="code">cv2.getTrackbarPos(name, win)</td><td>خواندن مقدار فعلی Trackbar (برای الگوی nothing-callback)</td><td class="code">r = getTrackbarPos('R','w')</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">منابع ویدیویی (Capture)</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / منبع</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.VideoCapture(0)</td><td>وب‌کم پیش‌فرض سیستم</td><td class="code">cap = VideoCapture(0)</td></tr>
+        <tr><td class="code">cv2.VideoCapture(path)</td><td>فایل ویدیویی محلی</td><td class="code">VideoCapture('a.mp4')</td></tr>
+        <tr><td class="code">cv2.VideoCapture(rtsp_url)</td><td>استریم دوربین مداربسته/IP</td><td class="code">VideoCapture('rtsp://...')</td></tr>
+        <tr><td class="code">ret, frame = cap.read()</td><td>الگوی یکسان برای همه‌ی منابع بالا</td><td class="code">ret, frame = cap.read()</td></tr>
+        <tr><td class="code">cap.get(cv2.CAP_PROP_*)</td><td>خواندن خاصیت (FPS، عرض، ارتفاع، ...)</td><td class="code">cap.get(CAP_PROP_FPS)</td></tr>
+        <tr><td class="code">cap.release()</td><td>آزادسازی دوربین/فایل — فراموش‌نشدنی</td><td class="code">cap.release()</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">ذخیره‌ی ویدیو</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.VideoWriter_fourcc(*'XVID')</td><td>کد کدک؛ XVID/MJPG/X264 رایج‌ترین‌ها</td><td class="code">fourcc(*'XVID')</td></tr>
+        <tr><td class="code">cv2.VideoWriter(path,fourcc,fps,size,isColor)</td><td>ساخت writer؛ <code>isColor</code> باید با نوع فریم هم‌خوانی داشته باشد</td><td class="code">VideoWriter('o.avi',fc,20,(w,h))</td></tr>
+        <tr><td class="code">out.write(frame)</td><td>نوشتن یک فریم</td><td class="code">out.write(frame)</td></tr>
+        <tr><td class="code">out.release()</td><td>بستن و finalize فایل خروجی</td><td class="code">out.release()</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">صفحه‌نمایش و منابع دیگر</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / کتابخانه</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">PIL.ImageGrab.grab()</td><td>اسکرین‌شات کل صفحه یا یک bbox</td><td class="code">grab(bbox=(0,0,400,300))</td></tr>
+        <tr><td class="code">mss().grab(box)</td><td>ضبط صفحه‌ی سریع‌تر برای FPS بالا</td><td class="code">mss().grab(box)</td></tr>
+        <tr><td class="code">pafy.new(url).getbest()</td><td>گرفتن آدرس استریم مستقیم ویدیوی یوتیوب</td><td class="code">pafy.new(url)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباهات رایج</div>
+      <ul>
+        <li><strong>فراموش‌کردن cap.release():</strong> دوربین قفل می‌ماند و برنامه‌ی بعدی نمی‌تواند بازش کند — باید سیستم را ری‌استارت کنی.</li>
+        <li><strong>ret چک نشده روی فایل:</strong> بعد از تمام‌شدن ویدیو، <code>frame</code> می‌شود <code>None</code>؛ بدون <code>if not ret: break</code> کرش می‌کنی.</li>
+        <li><strong>isColor اشتباه در VideoWriter:</strong> اگر فریم گری‌اسکیل بدهی ولی <code>isColor=True</code> (پیش‌فرض) بماند، خروجی خراب یا خطا می‌شود.</li>
+        <li><strong>مختصات (x,y) در callback ماوس در برابر [y,x] در slicing:</strong> همان تله‌ی ماژول ۱، اینجا هم صادق است.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">الگوی امن باز و بسته‌کردن منبع ویدیویی</div>
+      <p>مستقل از این‌که منبع وب‌کم، فایل، یا RTSP باشد، همیشه این اسکلت را رعایت کن:</p>
+    </div>
+  </div>
+  <div class="code-block">cap = cv2.<span class="fn">VideoCapture</span>(source)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    <span class="cm"># ... پردازش فریم ...</span>
+    cv2.<span class="fn">imshow</span>(<span class="str">'win'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+</div>

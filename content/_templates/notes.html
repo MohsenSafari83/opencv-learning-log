@@ -1,0 +1,65 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Notes (نوت‌های آموزشی)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/notes.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'notes', file: 'content/module-N/notes.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-intro» داشته باشد (لنگر نوار سکشن‌ها؛ بعد از آن بقیه‌ی سکشن‌ها
+       با پسوند کوتاه انگلیسی، مثلاً module-N-<topic>).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+
+  قانون محتوا: notes فقط مطالب آموزشی/آموزشی است — تمرین، پروژه، چیت‌شیت،
+  کاربرد و یادداشت عملی هرکدام سکشن/فایل خودشان را دارند (به فاز ۹ MIGRATION مراجعه کن).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c chapter-intro" data-section-id="module-N-intro">
+  <div class="ci-question">سوال اصلی این ماژول چیست؟</div>
+  <p class="ci-intro">یک پاراگراف معرفی: این ماژول چه چیزی را یاد می‌دهد و کجای مسیر یادگیری قرار دارد.</p>
+  <div class="metrics">
+    <span class="metric success">N مبحث</span>
+    <span class="metric">~M دقیقه مطالعه</span>
+  </div>
+</div>
+
+<div class="section-c" data-section-id="module-N-checklist">
+  <div class="section-h"><h2>فهرست نوت‌بوک‌های این ماژول</h2></div>
+  <ul>
+    <li>عنوان نوت‌بوک ۱ — خلاصه‌ی یک‌خطی</li>
+    <li>عنوان نوت‌بوک ۲ — خلاصه‌ی یک‌خطی</li>
+  </ul>
+</div>
+
+<div class="section-c" data-section-id="module-N-topic">
+  <div class="section-h"><h2 id="topic-intro">1. عنوان مبحث</h2></div>
+  <p>توضیح آموزشی مبحث — چرا، کجا استفاده می‌شود و سازوکار اصلی.</p>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">نکته</div>
+      <p>نکته‌ی آموزشی مهم.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباه رایج</div>
+      <p>تله‌ای که معمولاً افت می‌شود.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="cm"># قطعه‌ی مثال — با spanهای .kw/.fn/.str/.num/.cm رنگ‌آمیزی می‌شود</span>
+img = cv2.<span class="fn">imread</span>(<span class="str">'example.jpg'</span>)</div>
+</div>
+
+<div class="section-c" data-section-id="module-N-summary">
+  <div class="section-h"><h2 id="summary">جمع‌بندی ماژول N</h2></div>
+  <p>جمع‌بندی — فقط در همین فایل؛ سکشن دیگری محتوای آموزشی تکراری نمی‌نویسد.</p>
+</div>

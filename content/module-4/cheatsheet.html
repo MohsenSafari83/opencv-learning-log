@@ -1,0 +1,108 @@
+<div class="section-c" data-section-id="module-4-cheatsheet">
+  <div class="section-h">
+    <div class="label">Cheat Sheet</div>
+    <h2 id="cheatsheet-intro">برگه‌ی تقلب — رنگ، هیستوگرام، فیلتر و لبه‌یابی</h2>
+    <p>خلاصه‌ی فشرده‌ی توابع، سینتکس‌ها و الگوهای پرکاربرد ماژول ۴؛ برای رجوع سریع، نه یادگیری از صفر.</p>
+  </div>
+
+  <div class="section-h"><h3 style="font-size:var(--fs-lg)">فضاهای رنگی و فیلتر رنگ</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.cvtColor(img, cv2.COLOR_BGR2HSV)</td><td>تبدیل به HSV؛ H در [0,179]، S و V در [0,255]</td><td class="code">hsv = cvtColor(img, BGR2HSV)</td></tr>
+        <tr><td class="code">cv2.cvtColor(img, cv2.COLOR_BGR2LAB)</td><td>L روشنایی، a سبز↔مجنتا، b آبی↔زرد</td><td class="code">lab = cvtColor(img, BGR2LAB)</td></tr>
+        <tr><td class="code">cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)</td><td>Y روشنایی، Cr/Cb رنگ؛ پرکاربرد در فشرده‌سازی</td><td class="code">ycc = cvtColor(img, BGR2YCrCb)</td></tr>
+        <tr><td class="code">cv2.inRange(hsv, lower, upper)</td><td>ماسک باینری؛ سفید=داخل بازه، سیاه=بیرون بازه</td><td class="code">mask = inRange(hsv, lo, hi)</td></tr>
+        <tr><td class="code">cv2.bitwise_and(img, img, mask=mask)</td><td>نگه‌داشتن فقط پیکسل‌های داخل ماسک</td><td class="code">res = bitwise_and(img,img,mask=m)</td></tr>
+        <tr><td class="code">cv2.bitwise_not(mask)</td><td>معکوس‌کردن ماسک (داخل↔بیرون)</td><td class="code">inv = bitwise_not(mask)</td></tr>
+        <tr><td class="code">cv2.dilate(mask, kernel)</td><td>بزرگ‌کردن ناحیه‌ی ماسک؛ خوب برای حذف هاله‌ی لبه</td><td class="code">dilate(mask, kernel)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">خوشه‌بندی و رنگ غالب</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">KMeans(n_clusters=k).fit(pixels)</td><td>خوشه‌بندی پیکسل‌های reshape‌شده به (-1,3)</td><td class="code">KMeans(5).fit(flat_img)</td></tr>
+        <tr><td class="code">kmeans.cluster_centers_</td><td>رنگ‌های غالب (مراکز خوشه)</td><td class="code">colors = kmeans.cluster_centers_</td></tr>
+        <tr><td class="code">kmeans.labels_</td><td>برچسب خوشه‌ی هر پیکسل</td><td class="code">labels = kmeans.labels_</td></tr>
+        <tr><td class="code">np.bincount(labels)/len(pixels)</td><td>درصد سهم هر خوشه از کل پیکسل‌ها</td><td class="code">pct = bincount(labels)/n</td></tr>
+        <tr><td class="code">cv2.calcHist([hsv],[0],None,[180],[0,180])</td><td>هیستوگرام کانال Hue؛ روش سبک‌تر برای رنگ غالب</td><td class="code">calcHist([hsv],[0],None,[180],[0,180])</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">هیستوگرام، مقایسه و یکنواخت‌سازی</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.calcHist(images, channels, mask, bins, ranges)</td><td>محاسبه‌ی هیستوگرام؛ images و channels به‌صورت لیست</td><td class="code">calcHist([img],[0],None,[256],[0,256])</td></tr>
+        <tr><td class="code">cv2.normalize(h, h, 0, 1, cv2.NORM_MINMAX)</td><td>مستقل‌کردن هیستوگرام از سایز تصویر</td><td class="code">normalize(h,h,0,1,NORM_MINMAX)</td></tr>
+        <tr><td class="code">cv2.compareHist(h1, h2, method)</td><td>مقایسه‌ی دو هیستوگرام؛ متد تعیین‌کننده‌ی مقیاس نتیجه</td><td class="code">compareHist(h1,h2,BHATTACHARYYA)</td></tr>
+        <tr><td class="code">cv2.equalizeHist(gray_img)</td><td>یکنواخت‌سازی سراسری کنتراست؛ فقط تک‌کاناله</td><td class="code">eq = equalizeHist(gray)</td></tr>
+        <tr><td class="code">cv2.createCLAHE(clipLimit, tileGridSize)</td><td>ساخت شیء CLAHE (یکنواخت‌سازی تطبیقی)</td><td class="code">clahe = createCLAHE(2.0,(8,8))</td></tr>
+        <tr><td class="code">clahe.apply(gray_img)</td><td>اجرای CLAHE روی یک کانال تک‌کاناله</td><td class="code">result = clahe.apply(gray)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">فیلترهای denoising / blurring / sharpening</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.filter2D(img, ddepth, kernel)</td><td>کانوالو (در واقع correlation) با کرنل دلخواه</td><td class="code">filter2D(img,-1,kernel)</td></tr>
+        <tr><td class="code">cv2.blur(img, ksize)</td><td>میانگین‌گیری با کرنل جعبه‌ای یکنواخت</td><td class="code">blur(img, (7,7))</td></tr>
+        <tr><td class="code">cv2.GaussianBlur(img, ksize, sigma)</td><td>وزن‌دهی گاوسی؛ موثر روی نویز گاوسی</td><td class="code">GaussianBlur(img,(7,7),0)</td></tr>
+        <tr><td class="code">cv2.medianBlur(img, ksize)</td><td>میانه به‌جای میانگین؛ خوب برای نویز salt-and-pepper</td><td class="code">medianBlur(img, 5)</td></tr>
+        <tr><td class="code">cv2.bilateralFilter(img, d, sc, ss)</td><td>حذف نویز با حفظ لبه</td><td class="code">bilateralFilter(img,9,75,75)</td></tr>
+        <tr><td class="code">cv2.fastNlMeansDenoisingColored(...)</td><td>حذف نویز پیشرفته Non-Local Means (رنگی)</td><td class="code">fastNlMeansDenoisingColored(img,None,6,6,7,21)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">لبه‌یابی</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.Sobel(img, ddepth, dx, dy, ksize)</td><td>مشتق مرتبه‌ی اول در جهت x یا y</td><td class="code">Sobel(img,CV_64F,1,0,ksize=5)</td></tr>
+        <tr><td class="code">cv2.Laplacian(img, ddepth, ksize)</td><td>مشتق مرتبه‌ی دوم؛ لبه = zero-crossing</td><td class="code">Laplacian(img,CV_16S,ksize=3)</td></tr>
+        <tr><td class="code">cv2.Canny(img, th1, th2)</td><td>لبه‌یاب چندمرحله‌ای با آستانه‌ی دوگانه (Hysteresis)</td><td class="code">Canny(img, 100, 200)</td></tr>
+        <tr><td class="code">cv2.convertScaleAbs(x)</td><td>قدرمطلق + تبدیل امن به uint8</td><td class="code">abs_x = convertScaleAbs(grad_x)</td></tr>
+        <tr><td class="code">cv2.addWeighted(a, wa, b, wb, gamma)</td><td>ترکیب وزن‌دار دو تصویر/گرادیان</td><td class="code">addWeighted(gx,0.5,gy,0.5,0)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباهات رایج</div>
+      <ul>
+        <li><strong>فراموش‌کردن دو ماسک برای قرمز:</strong> رنگ قرمز هم ابتدا (۰-۱۰) و هم انتهای (۱۶۰-۱۷۹) طیف Hue را می‌گیرد؛ یک بازه‌ی <code>inRange</code> به‌تنهایی کافی نیست.</li>
+        <li><strong>ddepth پیش‌فرض روی گرادیان:</strong> اگر ddepth تابع <code>filter2D</code>/<code>Sobel</code> برابر <code>-1</code> (یعنی همان uint8 ورودی) بماند، مقادیر منفی گرادیان با Clip شدن از بین می‌روند و نیمی از لبه‌ها گم می‌شوند.</li>
+        <li><strong>جمع مستقیم دو گرادیان بدون قدرمطلق:</strong> جمع <code>sobel_x + sobel_y</code> وقتی مقادیر منفی دارند می‌تواند لبه‌های مثبت و منفی را خنثی کند؛ قبل از جمع باید <code>np.abs</code> یا <code>convertScaleAbs</code> گرفت.</li>
+        <li><strong>equalizeHist مستقیم روی تصویر رنگی:</strong> این تابع فقط تک‌کاناله می‌پذیرد؛ Equalize کردن جدا هر کانال BGR می‌تواند تعادل رنگ تصویر را به‌هم بزند.</li>
+        <li><strong>مقایسه‌ی هیستوگرام دو تصویر با سایز متفاوت بدون نرمال‌سازی:</strong> هیستوگرام تصویر بزرگ‌تر ارتفاع بیشتری دارد؛ باید قبل از <code>compareHist</code> هر دو را <code>normalize</code> کرد.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">الگوی کامل فیلتر یک رنگ خاص</div>
+      <p>اسکلت پایه‌ای که پشت اکثر نوت‌بوک‌های این ماژول (فیلتر رنگ، ردیابی، حذف پرده‌ی سبز، Color Pop) تکرار می‌شود:</p>
+    </div>
+  </div>
+  <div class="code-block">hsv = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2HSV)
+mask = cv2.<span class="fn">inRange</span>(hsv, lower, upper)
+result = cv2.<span class="fn">bitwise_and</span>(img, img, mask=mask)
+<span class="cm"># برای رنگ‌هایی مثل قرمز که دو سر طیف است:</span>
+mask = cv2.<span class="fn">inRange</span>(hsv, lower1, upper1) + cv2.<span class="fn">inRange</span>(hsv, lower2, upper2)</div>
+</div>

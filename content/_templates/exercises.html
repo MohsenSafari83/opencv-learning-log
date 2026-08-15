@@ -1,0 +1,42 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Exercises (تمرین‌ها)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/exercises.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'exercises', file: 'content/module-N/exercises.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-exercises» داشته باشد (لنگر نوار سکشن‌ها).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+
+  قانون محتوا: این فایل فقط تمرین است — شرح تمرین، هدف، قیدها، راهنمایی و راه‌حل.
+  محتوای آموزشی داخل تمرین‌ها نمی‌آید (فایل notes مخصوص آن است).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c" data-section-id="module-N-exercises">
+  <div class="metrics">
+    <span class="metric success">N تمرین</span>
+  </div>
+  <div class="section-h"><h2 id="exercises-intro">تمرین‌های ماژول N</h2></div>
+  <p>معرفی یک‌پاراگرافه: این تمرین‌ها روی کدام مباحث ماژول تمرکز دارند.</p>
+
+  <!-- Exercise 1 -->
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تمرین 1 — عنوان</h3></div>
+  <p>شرح تمرین: چه ورودی، چه خروجی، چه قیدی (مثلاً مسیر نسبی، بررسی خالی‌نبودن، ذخیره‌ی نتیجه).</p>
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">راهنمایی</div>
+      <p>نکته‌ای که مسیر را کوتاه می‌کند اما جواب را نمی‌دهد.</p>
+    </div>
+  </div>
+  <div class="code-head"><span class="ch-label">qN.ipynb</span><span class="ch-path">عنوان کوتاه</span><span class="ch-lang">PY</span></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="cm"># راه‌حل — با spanهای .kw/.fn/.str/.num/.cm رنگ‌آمیزی می‌شود</span></div>
+  <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="#" class="ref-link">لینک منبع/نوت‌بوک</a></p>
+
+  <!-- Exercise 2 (همین الگو را تکرار کن) -->
+</div>

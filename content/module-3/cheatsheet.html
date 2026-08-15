@@ -1,0 +1,80 @@
+<div class="section-c" data-section-id="module-3-cheatsheet">
+  <div class="section-h">
+    <div class="label">Cheat Sheet</div>
+    <h2 id="cheatsheet-intro">برگه‌ی تقلب — آستانه‌گذاری، مورفولوژی و Contour</h2>
+    <p>خلاصه‌ی فشرده‌ی توابع، سینتکس‌ها و الگوهای پرکاربرد ماژول ۳؛ برای رجوع سریع، نه یادگیری از صفر.</p>
+  </div>
+
+  <div class="section-h"><h3 style="font-size:var(--fs-lg)">آستانه‌گذاری</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.threshold(img,thresh,max,type)</td><td>آستانه‌ی ثابت؛ خروجی <code>(ret, dst)</code></td><td class="code">threshold(img,127,255,BINARY)</td></tr>
+        <tr><td class="code">... + cv2.THRESH_OTSU</td><td>آستانه‌ی خودکار سراسری؛ آرگومان thresh نادیده گرفته می‌شود</td><td class="code">threshold(img,0,255,BINARY+OTSU)</td></tr>
+        <tr><td class="code">cv2.adaptiveThreshold(...)</td><td>آستانه‌ی محلی؛ برای نور نامتوازن</td><td class="code">adaptiveThreshold(img,255,GAUSSIAN_C,BINARY,11,2)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مورفولوژی</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.erode(img,kernel)</td><td>لاغرکردن نواحی سفید</td><td class="code">erode(img,k,iterations=1)</td></tr>
+        <tr><td class="code">cv2.dilate(img,kernel)</td><td>چاق‌کردن نواحی سفید</td><td class="code">dilate(img,k,iterations=1)</td></tr>
+        <tr><td class="code">MORPH_OPEN</td><td>erode سپس dilate — حذف نویز سفید کوچک</td><td class="code">morphologyEx(img,MORPH_OPEN,k)</td></tr>
+        <tr><td class="code">MORPH_CLOSE</td><td>dilate سپس erode — پرکردن سوراخ‌های کوچک</td><td class="code">morphologyEx(img,MORPH_CLOSE,k)</td></tr>
+        <tr><td class="code">MORPH_HITMISS</td><td>یافتن یک الگوی دقیق (کرنل با 1/0/-1)</td><td class="code">morphologyEx(img,MORPH_HITMISS,k)</td></tr>
+        <tr><td class="code">cv2.getStructuringElement(shape,size)</td><td>کرنل با شکل خاص (RECT/ELLIPSE/CROSS)</td><td class="code">getStructuringElement(MORPH_RECT,(w,1))</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">اجزای متصل و Contour</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.connectedComponents(img)</td><td>برچسب‌زنی نواحی سفید متصل → <code>(num, labels)</code></td><td class="code">connectedComponents(bin_img)</td></tr>
+        <tr><td class="code">connectedComponentsWithStats(img)</td><td>مثل بالا + مساحت/bbox/مرکز هر جزء آماده</td><td class="code">→ num,labels,stats,centroids</td></tr>
+        <tr><td class="code">cv2.findContours(img,mode,method)</td><td>مرز نواحی سفید؛ روی پس‌زمینه‌ی سیاه</td><td class="code">findContours(bin,RETR_TREE,APPROX_SIMPLE)</td></tr>
+        <tr><td class="code">cv2.drawContours(img,cnts,idx,color,t)</td><td><code>idx=-1</code> یعنی همه‌ی کانتورها</td><td class="code">drawContours(img,cnts,-1,c,2)</td></tr>
+        <tr><td class="code">cv2.contourArea(cnt)</td><td>مساحت کانتور — برای فیلتر نویز و سورت</td><td class="code">sorted(cnts,key=cv2.contourArea)</td></tr>
+        <tr><td class="code">cv2.moments(cnt)</td><td>گشتاورها؛ مرکز جرم = <code>m10/m00, m01/m00</code></td><td class="code">M['m10']/M['m00']</td></tr>
+        <tr><td class="code">cv2.boundingRect(cnt)</td><td>کوچک‌ترین مستطیل راست‌گوشه → <code>(x,y,w,h)</code></td><td class="code">x,y,w,h = boundingRect(cnt)</td></tr>
+        <tr><td class="code">cv2.minEnclosingCircle(cnt)</td><td>کوچک‌ترین دایره‌ی محاط‌کننده</td><td class="code">(cx,cy), r = minEnclosingCircle(cnt)</td></tr>
+        <tr><td class="code">cv2.convexHull(cnt)</td><td>پوش محدب (صاف‌کردن مرز نامنظم)</td><td class="code">hull = convexHull(cnt)</td></tr>
+        <tr><td class="code">cv2.approxPolyDP(cnt,eps,closed)</td><td>تقریب چندضلعی؛ <code>eps</code> از <code>arcLength</code> می‌آید</td><td class="code">approxPolyDP(cnt,0.01*peri,True)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباهات رایج</div>
+      <ul>
+        <li><strong>Contour روی پس‌زمینه‌ی اشتباه:</strong> <code>findContours</code> دنبال شیء <strong>سفید</strong> روی پس‌زمینه‌ی <strong>سیاه</strong> می‌گردد. اگر بعد از threshold متن/شیء سیاه شده، حتماً <code>cv2.bitwise_not</code> بزن.</li>
+        <li><strong>تقسیم بر صفر در moments:</strong> اگر کانتور خیلی کوچک باشد (<code>m00=0</code>)، محاسبه‌ی مرکز جرم کرش می‌کند — همیشه اول با <code>contourArea &gt; threshold</code> فیلتر کن.</li>
+        <li><strong>connectivity اشتباه:</strong> دو شیء که فقط از گوشه به هم چسبیده‌اند، با <code>connectivity=8</code> یکی و با <code>connectivity=4</code> دو تا حساب می‌شوند.</li>
+        <li><strong>Otsu روی نور نامتوازن:</strong> Otsu یک آستانه‌ی سراسری می‌دهد؛ روی تصویر با سایه/نور ناهموار، Adaptive Thresholding را امتحان کن.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">الگوی استاندارد پیش‌پردازش قبل از Contour</div>
+      <p>این زنجیره تقریباً همیشه تکرار می‌شود:</p>
+    </div>
+  </div>
+  <div class="code-block">gray = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2GRAY)
+blur = cv2.<span class="fn">medianBlur</span>(gray, <span class="num">5</span>)          <span class="cm"># حذف نویز قبل از آستانه‌گذاری</span>
+binary = cv2.<span class="fn">adaptiveThreshold</span>(blur, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>)
+binary = cv2.<span class="fn">bitwise_not</span>(binary)   <span class="cm"># شیء باید سفید باشد</span>
+contours, _ = cv2.<span class="fn">findContours</span>(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+contours = [c <span class="kw">for</span> c <span class="kw">in</span> contours <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(c) > <span class="num">100</span>]   <span class="cm"># فیلتر نویز</span></div>
+</div>

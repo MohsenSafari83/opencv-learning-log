@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+
+:root {
+  --cv-bg: #030812;
+  --cv-deep: #071225;
+  --cv-blue: #2477FF;
+  --cv-cyan: #20D9FF;
+  --cv-green: #38E89A;
+  --cv-white: #F5F8FF;
+  --cv-muted: #8C9AAF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Vazirmatn', system-ui, sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html.dark body {
+  background: var(--cv-bg);
+  color: var(--cv-white);
+}
+
+/* Persian text */
+[lang="fa"],
+.font-vazir {
+  font-family: 'Vazirmatn', 'Inter', system-ui, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: var(--cv-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(32, 217, 255, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(32, 217, 255, 0.4);
+}
+
+/* Glass card base */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  border-radius: 14px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html.dark .glass-card {
+  background: rgba(15, 23, 42, 0.65);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 0 30px rgba(0, 242, 254, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark .glass-card:hover {
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(0, 242, 254, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #2477FF, #20D9FF, #38E89A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Neon glow button */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s;
+}
+
+.btn-glow:hover::before {
+  left: 100%;
+}
+
+/* Traffic lights */
+.traffic-light {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.traffic-light.red { background: #ff5f57; }
+.traffic-light.yellow { background: #febc2e; }
+.traffic-light.green { background: #28c840; }
+
+/* Keyframe animations */
+@keyframes boxPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(56,232,154,0.3), inset 0 0 20px rgba(56,232,154,0.1); }
+  50% { box-shadow: 0 0 30px rgba(56,232,154,0.4), inset 0 0 25px rgba(56,232,154,0.15); }
+}
+
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(56,232,154,0.4); }
+  50% { box-shadow: 0 0 20px rgba(56,232,154,0.4), 0 0 30px rgba(56,232,154,0.2); }
+}
+
+@keyframes keypointPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes wave {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

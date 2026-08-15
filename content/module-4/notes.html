@@ -1,0 +1,1654 @@
+<div class="section-c chapter-intro" data-section-id="module-4-intro">
+  <div class="ci-question">چطور می‌توان رنگ، بافت و لبه‌های یک تصویر را به‌شکلی که خود سیستم بینایی ماشین قابل استفاده باشد، تحلیل و پردازش کرد؟</div>
+  <p class="ci-intro">در این ماژول از پردازش رنگ در فضاهای مختلف (HSV، LAB، YCrCb) شروع می‌کنیم، با فیلتر کردن رنگ کاربردهایی مثل دنبال کردن یک شیء رنگی، حذف پرده‌ی سبز و ایجاد افکت Color Pop می‌سازیم، سپس با خوشه‌بندی و هیستوگرام به رنگ‌های غالب یک تصویر می‌رسیم. در ادامه هیستوگرام را برای تحلیل و بهبود کنتراست تصویر (Equalization و CLAHE) و مقایسه‌ی دو تصویر به‌کار می‌بریم. در پایان با فیلترهای denoising/blurring/sharpening و چند روش تشخیص لبه (گرادیان تصویر، Sobel، Laplacian و Canny) آشنا می‌شویم.</p>
+  <div class="metrics">
+    <span class="metric success">۸ موضوع اصلی</span>
+    <span class="metric">۱۸ نوت‌بوک</span>
+  </div>
+</div>
+
+<div class="section-c" data-section-id="module-4-checklist">
+  <div class="section-h"><h2>فهرست نوت‌بوک‌های این ماژول</h2></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>نوت‌بوک</th><th>موضوع</th><th>لینک</th></tr></thead>
+    <tbody>
+    <tr><td>34-Simlple-color-filtering.ipynb</td><td>فیلتر کردن تصویر بر اساس رنگ (HSV و inRange)</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/34-Simlple-color-filtering.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>35-Color-tracker.ipynb</td><td>دنبال کردن یک شیء رنگی در ویدیو</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/35-Color-tracker.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>36-Other-color-spaces.ipynb</td><td>بررسی فضاهای رنگی BGR، HSV، LAB و YCrCb</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/36-Other-color-spaces.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>37-Green-screen-removal.ipynb</td><td>حذف پرده‌ی سبز (Chroma Keying)</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/37-Green-screen-removal.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>38-color-pop-effect.ipynb</td><td>افکت Color Pop</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/38-color-pop-effect.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>39-what-is-clustering.ipynb</td><td>خوشه‌بندی چیست (K-Means)</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/39-what-is-clustering.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>40-Dominant-colors-by-clustering.ipynb</td><td>پیدا کردن رنگ‌های غالب با خوشه‌بندی</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/40-Dominant-colors-by-clustering.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>41-histogram.ipynb</td><td>هیستوگرام تصویر</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/41-histogram.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>42-dominant-color-by-histogram.ipynb</td><td>رنگ‌های غالب با هیستوگرام کانال Hue</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/42-dominant-color-by-histogram.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>43-histogram-equalization.ipynb</td><td>یکنواخت‌سازی هیستوگرام</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/43-histogram-equalization.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>44-Advanced-histogram-equalization-CLAHE.ipynb</td><td>یکنواخت‌سازی تطبیقی هیستوگرام (CLAHE)</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/44-Advanced-histogram-equalization-CLAHE.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>45-Histogram-comparison.ipynb</td><td>مقایسه‌ی دو هیستوگرام</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/45-Histogram-comparison.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>46-Filters-denoising-and-blurring.ipynb</td><td>فیلترهای denoising و blurring</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/46-Filters-denoising-and-blurring.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>47-Sharpening.ipynb</td><td>فیلتر Sharpening</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/47-Sharpening.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>48-Simple-edge-detection-with-image-gradients.ipynb</td><td>تشخیص لبه با گرادیان تصویر</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/48-Simple-edge-detection-with-image-gradients.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>49-sobel-edge-detector.ipynb</td><td>لبه‌یابی با Sobel</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/49-sobel-edge-detector.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>50-Laplacian-edge-detector.ipynb</td><td>لبه‌یابی با Laplacian</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/50-Laplacian-edge-detector.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+<tr><td>51-Canny-edge-detector.ipynb</td><td>لبه‌یابی با Canny</td><td><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/51-Canny-edge-detector.ipynb" class="ref-link" target="_blank">nbviewer</a></td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="section-c" data-section-id="module-4-color-filtering">
+  <div class="section-h"><h2>1. فیلتر کردن تصویر بر اساس رنگ در فضای HSV (34, 35)</h2></div>
+  <p>در فضای رنگی HSV، رنگ اصلی هر پیکسل در کانال Hue کد می‌شود و کانال‌های Saturation و Value کاری با «چه رنگی» ندارند. همین ویژگی HSV را برای فیلتر کردن یک رنگ خاص خیلی مناسب‌تر از BGR می‌کند: کافی است بازه‌ای از Hue را انتخاب کنیم.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">طیف Hue در HSV</h3></div>
+  <p>برای یادآوری اینکه هر عدد Hue به چه رنگی مربوط است، یک تصویر از کل طیف Hue (با Saturation و Value ثابت و برابر ۲۵۵) می‌سازیم:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+hue_spectrum = <span class="fn">np.linspace</span>(<span class="num">0</span>, <span class="num">179</span>, dtype=<span class="str">'uint8'</span>, num=<span class="num">180</span>)
+img = <span class="fn">np.array</span>([hue_spectrum]*<span class="num">30</span>)
+saturation_channel = <span class="fn">np.ones_like</span>(img, dtype=<span class="str">'uint8'</span>)*<span class="num">255</span>
+value_channel = <span class="fn">np.ones_like</span>(img, dtype=<span class="str">'uint8'</span>)*<span class="num">255</span>
+
+hsv = <span class="fn">cv2.merge</span>([img, saturation_channel, value_channel])
+final_bgr_spectrum = <span class="fn">cv2.cvtColor</span>(hsv, cv2.COLOR_HSV2BGR)
+
+<span class="fn">plt.imshow</span>(final_bgr_spectrum[...,::-<span class="num">1</span>])</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">Hue یک رنگ دلخواه را چطور پیدا کنیم؟</div>
+      <p>کافی است رنگ مورد نظر را به‌صورت یک پیکسل BGR بسازیم و با <code>cv2.cvtColor</code> به HSV تبدیل کنیم؛ مثلاً آبی خالص <code>[255,0,0]</code> در BGR برابر <code>[120,255,255]</code> در HSV است.</p>
+    </div>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">فیلتر یک رنگ با inRange (34)</h3></div>
+  <p>تابع <code>cv2.inRange</code> یک ماسک باینری می‌سازد: هر پیکسلی که مقدارش بین بازه‌ی lower و upper باشد سفید (۲۵۵) و بقیه سیاه (۰) می‌شوند. برای فیلتر رنگ زرد:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/felfel-dolme.jpg'</span>)
+
+<span class="cm"># define range of BLUE color in HSV</span>
+lower = <span class="fn">np.array</span>([<span class="num">20</span>,<span class="num">50</span>,<span class="num">50</span>])
+upper = <span class="fn">np.array</span>([<span class="num">35</span>,<span class="num">255</span>,<span class="num">255</span>])
+
+<span class="cm"># Convert image from RBG/BGR to HSV so we easily filter</span>
+hsv_img = <span class="fn">cv2.cvtColor</span>(image, cv2.COLOR_BGR2HSV)
+
+<span class="cm"># Use inRange to capture only the values between lower &amp; upper </span>
+mask = <span class="fn">cv2.inRange</span>(hsv_img, lower, upper)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">6</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(mask,cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"mask"</span>);</div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">رنگ قرمز دو سر طیف است</div>
+      <p>در HSV بازه‌ی Hue بین ۰ تا ۱۷۹ است و رنگ قرمز هم در ابتدای طیف (۰ تا ۱۰) و هم در انتهای آن (۱۶۰ تا ۱۷۹) قرار می‌گیرد. برای فیلتر قرمز باید دو ماسک جدا بسازیم و آن‌ها را جمع کنیم.</p>
+    </div>
+  </div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/felfel-dolme.jpg'</span>)
+<span class="cm"># Convert image from RBG/BGR to HSV so we easily filter</span>
+hsv_img = <span class="fn">cv2.cvtColor</span>(image, cv2.COLOR_BGR2HSV)
+
+<span class="cm"># lower mask (0-10)</span>
+lower_red = <span class="fn">np.array</span>([<span class="num">0</span>,<span class="num">50</span>,<span class="num">50</span>])
+upper_red = <span class="fn">np.array</span>([<span class="num">10</span>,<span class="num">255</span>,<span class="num">255</span>])
+mask0 = <span class="fn">cv2.inRange</span>(hsv_img, lower_red, upper_red)
+
+<span class="cm"># upper mask (170-180)</span>
+lower_red = <span class="fn">np.array</span>([<span class="num">160</span>,<span class="num">50</span>,<span class="num">50</span>])
+upper_red = <span class="fn">np.array</span>([<span class="num">179</span>,<span class="num">255</span>,<span class="num">255</span>])
+mask1 = <span class="fn">cv2.inRange</span>(hsv_img, lower_red, upper_red)
+
+<span class="cm"># join masks</span>
+mask = mask0+mask1
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">17</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">232</span>);<span class="fn">plt.imshow</span>(mask0,cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"lower mask"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">233</span>);<span class="fn">plt.imshow</span>(mask1,cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"upper mask"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(mask,cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"finel mask"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">استخراج ناحیه‌ی رنگی از تصویر اصلی</h3></div>
+  <p>پس از ساخت ماسک، با یک AND بیتی می‌توان فقط همان ناحیه را از تصویر اصلی جدا کرد. برای این کار دو راه معادل وجود دارد:</p>
+<div class="code-block"><span class="cm">#روش اول: تکرار ماسک در سه کانال</span>
+mask_3channel = <span class="fn">cv2.merge</span>([mask]*<span class="num">3</span>)
+result = <span class="fn">cv2.bitwise_and</span>(image, mask_3channel)
+
+<span class="cm">#روش دوم: دادن مستقیم ماسک به آرگومان mask</span>
+result = <span class="fn">cv2.bitwise_and</span>(image, image, mask=mask)</div>
+  <p>همین ایده برای تشخیص نواحی پوست هم قابل استفاده است؛ چون رنگ پوست هم عمدتاً در بازه‌ی قرمز/نارنجی قرار می‌گیرد:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/akhavan.jpg'</span>)
+<span class="cm"># Convert image from RBG/BGR to HSV so we easily filter</span>
+hsv_img = <span class="fn">cv2.cvtColor</span>(image, cv2.COLOR_BGR2HSV)
+
+<span class="cm"># lower mask (0-10)</span>
+lower_red = <span class="fn">np.array</span>([<span class="num">0</span>,<span class="num">50</span>,<span class="num">50</span>])
+upper_red = <span class="fn">np.array</span>([<span class="num">10</span>,<span class="num">255</span>,<span class="num">255</span>])
+mask0 = <span class="fn">cv2.inRange</span>(hsv_img, lower_red, upper_red)
+
+<span class="cm"># upper mask (170-180)</span>
+lower_red = <span class="fn">np.array</span>([<span class="num">160</span>,<span class="num">50</span>,<span class="num">50</span>])
+upper_red = <span class="fn">np.array</span>([<span class="num">179</span>,<span class="num">255</span>,<span class="num">255</span>])
+mask1 = <span class="fn">cv2.inRange</span>(hsv_img, lower_red, upper_red)
+
+<span class="cm"># join masks</span>
+mask = mask0+mask1
+
+<span class="cm">#result</span>
+result = <span class="fn">cv2.bitwise_and</span>(image,image, mask=mask)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">17</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">131</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">132</span>);<span class="fn">plt.imshow</span>(mask, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"mask"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">133</span>);<span class="fn">plt.imshow</span>(result[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"result"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">دنبال کردن یک شیء رنگی در ویدیو (35)</h3></div>
+  <p>همان منطق inRange را می‌توان روی هر فریم یک ویدیو یا وبکم اجرا کرد تا یک رنگ خاص (مثلاً آبی) به‌صورت زنده فیلتر و دنبال شود:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cap = <span class="fn">cv2.VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = <span class="fn">cap.read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    hsv = <span class="fn">cv2.cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+    
+    lower_blue = <span class="fn">np.array</span>([<span class="num">100</span>,<span class="num">50</span>,<span class="num">50</span>])
+    upper_blue = <span class="fn">np.array</span>([<span class="num">130</span>,<span class="num">255</span>,<span class="num">255</span>])
+    
+    mask = <span class="fn">cv2.inRange</span>(hsv, lower_blue, upper_blue)
+    res = <span class="fn">cv2.bitwise_and</span>(frame,frame, mask= mask)
+
+    <span class="fn">cv2.imshow</span>(<span class="str">'frame'</span>,frame)
+    <span class="fn">cv2.imshow</span>(<span class="str">'mask'</span>,mask)
+    <span class="fn">cv2.imshow</span>(<span class="str">'res'</span>,res)
+    
+    k = <span class="fn">cv2.waitKey</span>(<span class="num">5</span>) &amp; 0xFF
+    <span class="kw">if</span> k == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+<span class="fn">cv2.destroyAllWindows</span>()
+<span class="fn">cap.release</span>()</div>
+  <p>برای مشخص کردن دقیق‌تر محل شیء، می‌توان با <code>cv2.findContours</code> کانتور ناحیه‌ی رنگی را پیدا کرد و با <code>cv2.minEnclosingCircle</code> کوچک‌ترین دایره‌ی محیطی آن را رسم کرد:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cap = <span class="fn">cv2.VideoCapture</span>(<span class="str">"videos/blue-track.mp4"</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = <span class="fn">cap.read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    hsv = <span class="fn">cv2.cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+    
+    lower_blue = <span class="fn">np.array</span>([<span class="num">100</span>,<span class="num">50</span>,<span class="num">50</span>])
+    upper_blue = <span class="fn">np.array</span>([<span class="num">130</span>,<span class="num">255</span>,<span class="num">255</span>])
+    
+    mask = <span class="fn">cv2.inRange</span>(hsv, lower_blue, upper_blue)
+    contours, _ = <span class="fn">cv2.findContours</span>(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    centers, radius = <span class="fn">cv2.minEnclosingCircle</span>(contours[<span class="num">0</span>])
+    centers = <span class="fn">int</span>(centers[<span class="num">0</span>]), <span class="fn">int</span>(centers[<span class="num">1</span>])
+    radius = <span class="fn">int</span>(radius)
+    <span class="fn">cv2.circle</span>(frame, centers, radius, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">2</span>)
+    <span class="fn">cv2.imshow</span>(<span class="str">'image'</span>,frame)
+    
+    k = <span class="fn">cv2.waitKey</span>(<span class="num">5</span>) &amp; 0xFF
+    <span class="kw">if</span> k == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+<span class="fn">cv2.destroyAllWindows</span>()
+<span class="fn">cap.release</span>()</div>
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">contours[0] در یک اجرای واقعی امن نیست</div>
+      <p>اگر در فریمی هیچ ناحیه‌ای با رنگ مورد نظر پیدا نشود، <code>contours</code> لیست خالی است و <code>contours[0]</code> با خطا متوقف می‌شود. در کد واقعی باید قبل از این خط طول <code>contours</code> را چک کرد یا کانتور با بیشترین مساحت را با <code>cv2.contourArea</code> انتخاب کرد.</p>
+    </div>
+  </div>
+</div>
+<div class="section-c" data-section-id="module-4-color-spaces">
+  <div class="section-h"><h2>2. بررسی فضاهای رنگی دیگر: BGR، HSV، LAB و YCrCb (36)</h2></div>
+  <p>برای درک بهتر تفاوت فضاهای رنگی، یک تصویر مکعب را در دو حالت روشن (bright) و تاریک (dark) در چهار فضای رنگی مختلف کانال‌به‌کانال نمایش می‌دهیم.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">BGR</h3></div>
+  <p>در BGR هر سه کانال به شدت نور وابسته‌اند؛ با تاریک شدن تصویر مقدار هر سه کانال به‌طور هم‌زمان کم می‌شود و از روی یک کانال به‌تنهایی نمی‌توان «رنگ» را جدا از «روشنایی» تشخیص داد.</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+bright = <span class="fn">cv2.imread</span>(<span class="str">'images/cube-bright.png'</span>)
+dark = <span class="fn">cv2.imread</span>(<span class="str">'images/cube-dark.png'</span>)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">11</span>,<span class="num">11</span>])
+<span class="fn">plt.subplot</span>(<span class="num">331</span>);<span class="fn">plt.imshow</span>(bright[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"bright"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">332</span>);<span class="fn">plt.imshow</span>(dark[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"dark"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">334</span>);<span class="fn">plt.imshow</span>(bright[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-blue"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">335</span>);<span class="fn">plt.imshow</span>(bright[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-green"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">336</span>);<span class="fn">plt.imshow</span>(bright[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-red"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">337</span>);<span class="fn">plt.imshow</span>(dark[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-blue"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">338</span>);<span class="fn">plt.imshow</span>(dark[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-green"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">339</span>);<span class="fn">plt.imshow</span>(dark[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-red"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">HSV</h3></div>
+  <p>در HSV کانال Hue مستقل از روشنایی است و در هر دو تصویر (روشن/تاریک) تقریباً یکسان می‌ماند؛ تغییرات نور عمدتاً در کانال Value دیده می‌شود. به همین دلیل HSV برای فیلتر رنگ گزینه‌ی مناسب‌تری نسبت به BGR است.</p>
+<div class="code-block"><span class="cm"># HSV</span>
+brightHSV = <span class="fn">cv2.cvtColor</span>(bright, cv2.COLOR_BGR2HSV)
+darkHSV = <span class="fn">cv2.cvtColor</span>(dark, cv2.COLOR_BGR2HSV)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">11</span>,<span class="num">11</span>])
+<span class="fn">plt.subplot</span>(<span class="num">331</span>);<span class="fn">plt.imshow</span>(bright[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"bright"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">332</span>);<span class="fn">plt.imshow</span>(dark[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"dark"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">334</span>);<span class="fn">plt.imshow</span>(brightHSV[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-hue"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">335</span>);<span class="fn">plt.imshow</span>(brightHSV[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-saturation"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">336</span>);<span class="fn">plt.imshow</span>(brightHSV[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-value"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">337</span>);<span class="fn">plt.imshow</span>(darkHSV[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-hue"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">338</span>);<span class="fn">plt.imshow</span>(darkHSV[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-saturation"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">339</span>);<span class="fn">plt.imshow</span>(darkHSV[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-value"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">LAB</h3></div>
+  <p>در فضای LAB، کانال L روشنایی (Lightness/Intensity) را نگه می‌دارد و دو کانال a و b مستقل از روشنایی، اطلاعات رنگ را حمل می‌کنند:</p>
+  <ul>
+    <li>L – روشنایی (Intensity)</li>
+    <li>a – طیف رنگی از سبز تا مجنتا (Magenta)</li>
+    <li>b – طیف رنگی از آبی تا زرد</li>
+  </ul>
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">بازه‌ی مقادیر LAB در OpenCV</div>
+      <p>محدوده‌ی استاندارد L بین ۰ تا ۱۰۰ و a و b بین ۱۲۷- تا ۱۲۷ است، اما چون OpenCV همه‌چیز را در بازه‌ی ۸ بیتی (۰ تا ۲۵۵) ذخیره می‌کند، این مقادیر با فرمول‌های <code>L*255/100</code> و <code>a+128</code> / <code>b+128</code> به بازه‌ی ۰ تا ۲۵۵ نگاشت می‌شوند.</p>
+    </div>
+  </div>
+<div class="code-block"><span class="cm"># LAB</span>
+brightLAB = <span class="fn">cv2.cvtColor</span>(bright, cv2.COLOR_BGR2LAB)
+darkLAB = <span class="fn">cv2.cvtColor</span>(dark, cv2.COLOR_BGR2LAB)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">11</span>,<span class="num">11</span>])
+<span class="fn">plt.subplot</span>(<span class="num">331</span>);<span class="fn">plt.imshow</span>(bright[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"bright"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">332</span>);<span class="fn">plt.imshow</span>(dark[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"dark"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">334</span>);<span class="fn">plt.imshow</span>(brightLAB[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-l"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">335</span>);<span class="fn">plt.imshow</span>(brightLAB[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-a"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">336</span>);<span class="fn">plt.imshow</span>(brightLAB[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-b"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">337</span>);<span class="fn">plt.imshow</span>(darkLAB[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-l"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">338</span>);<span class="fn">plt.imshow</span>(darkLAB[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-a"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">339</span>);<span class="fn">plt.imshow</span>(darkLAB[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-b"</span>);</div>
+  <p>نکته‌ی جالب این است که رنگ‌های سبز/نارنجی/قرمز که در کانال a کد می‌شوند در کانال b تقریباً بدون تغییرند، و برعکس رنگ‌های آبی/زرد که در b کد می‌شوند در a ثابت می‌مانند — یعنی دو کانال رنگی واقعاً مستقل از هم عمل می‌کنند.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">YCrCb</h3></div>
+  <ul>
+    <li>Y – روشنایی یا Luma، برگرفته از RGB پس از تصحیح گاما</li>
+    <li>Cr = R − Y (فاصله‌ی مؤلفه‌ی قرمز از روشنایی)</li>
+    <li>Cb = B − Y (فاصله‌ی مؤلفه‌ی آبی از روشنایی)</li>
+  </ul>
+<div class="code-block"><span class="cm"># YCrCb</span>
+brightYCrCb = <span class="fn">cv2.cvtColor</span>(bright, cv2.COLOR_BGR2YCrCb)
+darkYCrCb = <span class="fn">cv2.cvtColor</span>(dark, cv2.COLOR_BGR2YCrCb)
+
+<span class="cm">#show</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">11</span>,<span class="num">11</span>])
+<span class="fn">plt.subplot</span>(<span class="num">331</span>);<span class="fn">plt.imshow</span>(bright[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"bright"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">332</span>);<span class="fn">plt.imshow</span>(dark[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"dark"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">334</span>);<span class="fn">plt.imshow</span>(brightYCrCb[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-Y"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">335</span>);<span class="fn">plt.imshow</span>(brightYCrCb[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-Cr"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">336</span>);<span class="fn">plt.imshow</span>(brightYCrCb[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"brigh-Cb"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">337</span>);<span class="fn">plt.imshow</span>(darkYCrCb[...,<span class="num">0</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-Y"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">338</span>);<span class="fn">plt.imshow</span>(darkYCrCb[...,<span class="num">1</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-Cr"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">339</span>);<span class="fn">plt.imshow</span>(darkYCrCb[...,<span class="num">2</span>], cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark-Cb"</span>);</div>
+  <p>YCrCb هم مثل LAB روشنایی را از رنگ جدا می‌کند و به همین دلیل در فشرده‌سازی ویدیو (مثل JPEG و کدک‌های ویدیویی) و تشخیص رنگ پوست کاربرد زیادی دارد.</p>
+  <p>منبع: <a href="https://learnopencv.com/color-spaces-in-opencv-cpp-python/" class="ref-link" target="_blank">learnopencv.com – Color spaces in OpenCV</a></p>
+</div>
+<div class="section-c" data-section-id="module-4-chroma-pop">
+  <div class="section-h"><h2>3. کاربردهای عملی فیلتر رنگ: حذف پرده‌ی سبز و افکت Color Pop (37, 38)</h2></div>
+  <p>فیلتر رنگ در فضای HSV صرفاً یک تمرین آزمایشگاهی نیست؛ دو کاربرد عملی و شناخته‌شده‌ی آن حذف پرده‌ی سبز (Chroma Keying) در فیلم‌برداری و افکت Color Pop در عکاسی است.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">حذف پرده‌ی سبز (37)</h3></div>
+  <p>اولین قدم پیدا کردن بازه‌ی دقیق رنگ سبز پرده است. به‌جای حدس زدن، می‌توان میانگین HSV یک ناحیه از خود تصویر پرده‌ی سبز را محاسبه کرد:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+input_image = <span class="fn">cv2.imread</span>(<span class="str">"images/green-sccreen.png"</span>)
+croped_region = input_image[:<span class="num">200</span>,:<span class="num">200</span>,:]
+<span class="fn">plt.imshow</span>(croped_region[...,::-<span class="num">1</span>])
+
+hsv = <span class="fn">cv2.cvtColor</span>(croped_region, cv2.COLOR_BGR2HSV)
+<span class="fn">print</span>(<span class="str">"HSV: "</span>, <span class="fn">np.mean</span>(hsv, axis=(<span class="num">0</span>,<span class="num">1</span>)))</div>
+  <p>خروجی این کد میانگین Hue حدود ۷۰ را نشان می‌دهد که مبنای انتخاب بازه‌ی <code>[60,50,50]</code> تا <code>[80,255,255]</code> برای فیلتر سبز است. سپس با ماسک سبز و ماسک معکوس آن، پس‌زمینه‌ی جدید جایگزین می‌شود:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+input_image = <span class="fn">cv2.imread</span>(<span class="str">"images/green-sccreen.png"</span>)
+bg_image = <span class="fn">cv2.imread</span>(<span class="str">"images/balloon.png"</span>)
+hsv = <span class="fn">cv2.cvtColor</span>(input_image, cv2.COLOR_BGR2HSV)
+
+h, w, _ =input_image.shape
+bg_image = <span class="fn">cv2.resize</span>(bg_image,(w, h))
+l_green = <span class="fn">np.array</span>([<span class="num">60</span>, <span class="num">50</span>, <span class="num">50</span>])
+u_green = <span class="fn">np.array</span>([<span class="num">80</span>, <span class="num">255</span>, <span class="num">255</span>])
+
+mask = <span class="fn">cv2.inRange</span>(hsv, l_green, u_green)
+mask_not_green = <span class="fn">cv2.bitwise_not</span>(mask)
+
+new_bg = <span class="fn">cv2.bitwise_and</span>(bg_image, bg_image, mask=mask)
+removed_bg = <span class="fn">cv2.bitwise_and</span>(input_image, input_image, mask=mask_not_green)
+
+final = <span class="fn">cv2.add</span>(removed_bg, new_bg)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(input_image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">232</span>);<span class="fn">plt.imshow</span>(mask, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Green mask"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">233</span>);<span class="fn">plt.imshow</span>(mask_not_green, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Not green mask"</span>);
+<span class="cm">#second row</span>
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(removed_bg[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"removed bg"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(new_bg[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"background without object"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.imshow</span>(final[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Final result"</span>);</div>
+  <p>همین منطق روی هر فریم یک ویدیو هم قابل اجراست:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Load video clip</span>
+cap = <span class="fn">cv2.VideoCapture</span>(<span class="str">'./videos/akhavan-green-bg.mp4'</span>)
+bg_image = <span class="fn">cv2.imread</span>(<span class="str">"images/balloon.png"</span>)
+
+<span class="cm"># Get the height and width of the frame (required to be an interger)</span>
+w = <span class="fn">int</span>(<span class="fn">cap.get</span>(cv2.CAP_PROP_FRAME_WIDTH)) 
+h = <span class="fn">int</span>(<span class="fn">cap.get</span>(cv2.CAP_PROP_FRAME_HEIGHT))
+<span class="cm">#resize to frame size</span>
+bg_image = <span class="fn">cv2.resize</span>(bg_image,(w, h))
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = <span class="fn">cap.read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    background = <span class="fn">bg_image.copy</span>()
+    hsv = <span class="fn">cv2.cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+
+    l_green = <span class="fn">np.array</span>([<span class="num">60</span>, <span class="num">50</span>, <span class="num">50</span>])
+    u_green = <span class="fn">np.array</span>([<span class="num">80</span>, <span class="num">255</span>, <span class="num">255</span>])
+
+    mask = <span class="fn">cv2.inRange</span>(hsv, l_green, u_green)
+    mask_not_green = <span class="fn">cv2.bitwise_not</span>(mask)
+    removed_bg = <span class="fn">cv2.bitwise_and</span>(frame, frame, mask=mask_not_green)
+    background = <span class="fn">cv2.bitwise_and</span>(background, background, mask=mask)
+
+    final = <span class="fn">cv2.add</span>(removed_bg, background)
+    <span class="fn">cv2.imshow</span>(<span class="str">"result"</span>, final)
+    <span class="fn">cv2.waitKey</span>(<span class="num">25</span>)
+
+        
+<span class="fn">cap.release</span>()
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">بهبود لبه‌های سبز با dilate</div>
+      <p>لبه‌ی موضوع اغلب کمی رنگ سبز پرده را با خود دارد (Green spill) و ماسک خام معمولاً یک هاله‌ی نازک سبز اطراف موضوع باقی می‌گذارد. با اعمال <code>cv2.dilate</code> روی ماسک سبز، ماسک کمی بزرگ‌تر می‌شود و این هاله بهتر حذف می‌شود.</p>
+    </div>
+  </div>
+<div class="code-block">mask = <span class="fn">cv2.inRange</span>(hsv, l_green, u_green)
+kernel = <span class="fn">cv2.getStructuringElement</span>(cv2.MORPH_ELLIPSE, (<span class="num">5</span>, <span class="num">5</span>))
+mask = <span class="fn">cv2.dilate</span>(mask, kernel)
+mask_not_green = <span class="fn">cv2.bitwise_not</span>(mask)</div>
+  <p>روش دوم و دقیق‌تر برای حذف پرده‌ی سبز، استفاده از فضای رنگی LAB و آستانه‌گذاری خودکار Otsu روی کانال a است (کانال a محور سبز↔مجنتا را کد می‌کند، پس مرز سبز/غیرسبز در آن به‌وضوح دیده می‌شود):</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Load video clip</span>
+cap = <span class="fn">cv2.VideoCapture</span>(<span class="str">'./videos/akhavan-green-bg.mp4'</span>)
+bg_image = <span class="fn">cv2.imread</span>(<span class="str">"images/balloon.png"</span>)
+
+w = <span class="fn">int</span>(<span class="fn">cap.get</span>(cv2.CAP_PROP_FRAME_WIDTH)) 
+h = <span class="fn">int</span>(<span class="fn">cap.get</span>(cv2.CAP_PROP_FRAME_HEIGHT))
+bg_image = <span class="fn">cv2.resize</span>(bg_image,(w, h))
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = <span class="fn">cap.read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    background = <span class="fn">bg_image.copy</span>()
+    lab = <span class="fn">cv2.cvtColor</span>(frame, cv2.COLOR_BGR2LAB)
+    a_channel = lab[:,:,<span class="num">1</span>]
+    _, th = <span class="fn">cv2.threshold</span>(a_channel,<span class="num">0</span>,<span class="num">255</span>,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    mask_green = <span class="fn">cv2.bitwise_not</span>(th)
+    removed_bg = <span class="fn">cv2.bitwise_and</span>(frame, frame, mask=th)
+    background = <span class="fn">cv2.bitwise_and</span>(background, background, mask=mask_green)
+
+    final = <span class="fn">cv2.add</span>(removed_bg, background)
+    <span class="fn">cv2.imshow</span>(<span class="str">"result"</span>, final)
+    <span class="fn">cv2.waitKey</span>(<span class="num">25</span>)
+
+        
+<span class="fn">cap.release</span>()
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+  <p>مرجع تکمیلی برای روش‌های اصلاح لبه: <a href="https://stackoverflow.com/questions/51719472/remove-green-background-screen-from-image-using-opencv-python" class="ref-link" target="_blank">Stack Overflow</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">افکت Color Pop (38)</h3></div>
+  <p>در افکت Color Pop، فقط یک رنگ خاص از تصویر رنگی باقی می‌ماند و بقیه‌ی تصویر سیاه‌وسفید می‌شود. اولین قدم پیدا کردن مقدار HSV رنگ مورد نظر با کلیک ماوس روی تصویر است:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm"># mouse callback function</span>
+<span class="kw">def</span> <span class="fn">draw_circle</span>(event,x,y,flags,param):
+    <span class="kw">global</span> img
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        bgr = img[x:x+<span class="num">1</span>,y:y+<span class="num">1</span>,:]
+        <span class="fn">print</span>(<span class="str">"BGR: "</span>, bgr)
+        hsv = <span class="fn">cv2.cvtColor</span>(bgr, cv2.COLOR_BGR2HSV)
+        <span class="fn">print</span>(<span class="str">"HSV: "</span>, hsv)
+        <span class="fn">cv2.circle</span>(img,(x,y),<span class="num">5</span>,(<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>),+<span class="num">2</span>)
+
+<span class="cm"># Create a black image, a window and bind the function to window</span>
+img = <span class="fn">cv2.imread</span>(<span class="str">"images/PopEffects.jpeg"</span>)
+
+<span class="fn">cv2.namedWindow</span>(<span class="str">'image'</span>)
+<span class="fn">cv2.setMouseCallback</span>(<span class="str">'image'</span>,draw_circle)
+
+<span class="fn">while</span>(<span class="num">1</span>):
+    <span class="fn">cv2.imshow</span>(<span class="str">'image'</span>,img)
+    <span class="kw">if</span> <span class="fn">cv2.waitKey</span>(<span class="num">1</span>) &amp; 0xFF == <span class="num">27</span>:
+        <span class="kw">break</span>
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+  <p>سپس یک تابع کمکی می‌نویسیم که ناحیه‌ی داخل بازه‌ی رنگی را رنگی نگه دارد و بقیه‌ی تصویر را با نسخه‌ی سطح‌خاکستری خودش جایگزین کند:</p>
+<div class="code-block"><span class="kw">def</span> <span class="fn">pop_efect</span>(image, lower, upper):
+    img = <span class="fn">image.copy</span>()
+    <span class="cm">#convert the BGR image to HSV colour space</span>
+    hsv = <span class="fn">cv2.cvtColor</span>(img, cv2.COLOR_BGR2HSV)
+    <span class="cm">#obtain the grayscale image of the original image</span>
+    gray = <span class="fn">cv2.cvtColor</span>(img, cv2.COLOR_BGR2GRAY)
+    <span class="cm">#create a mask using the bounds set</span>
+    mask = <span class="fn">cv2.inRange</span>(hsv, lower, upper)
+    <span class="cm">#create an inverse of the mask</span>
+    mask_inv = <span class="fn">cv2.bitwise_not</span>(mask)
+    <span class="cm">#Take only region of image from the mask</span>
+    res = <span class="fn">cv2.bitwise_and</span>(img, img, mask=mask)
+    <span class="cm">#Filter the regions containing colors other than masked region from the grayscale image</span>
+    background = <span class="fn">cv2.bitwise_and</span>(gray, gray, mask = mask_inv)
+    <span class="cm">#convert the one channelled grayscale background to a three channelled image</span>
+    background = <span class="fn">cv2.merge</span>([background]*<span class="num">3</span>)
+    <span class="cm">#add the color region to gray image</span>
+    <span class="kw">return</span> <span class="fn">cv2.add</span>(res, background)</div>
+  <p>در نهایت با یک کال‌بک ماوس، با هر کلیک روی تصویر، رنگ همان نقطه (به‌همراه یک بازه‌ی ±10 درجه در Hue) به‌عنوان رنگ باقی‌مانده انتخاب و افکت اعمال می‌شود:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm"># mouse callback function</span>
+<span class="kw">def</span> <span class="fn">apply_pop_efect</span>(event,x,y,flags,param, crange=<span class="num">10</span>):
+    <span class="kw">global</span> image, new_image
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        hsv = <span class="fn">cv2.cvtColor</span>(image, cv2.COLOR_BGR2HSV)
+        h, s, v = hsv[x,y,:]
+        lower_h = <span class="fn">max</span>(<span class="num">0</span>, h-crange)
+        upper_h = <span class="fn">min</span>(<span class="num">179</span>, h+crange)
+        <span class="cm">#set the bounds for the red hue</span>
+        lower = <span class="fn">np.array</span>([lower_h,<span class="num">50</span>,<span class="num">50</span>])
+        upper = <span class="fn">np.array</span>([upper_h,<span class="num">255</span>,<span class="num">255</span>])
+        new_image = <span class="fn">pop_efect</span>(image, lower, upper)
+        <span class="fn">cv2.imshow</span>(<span class="str">"result"</span>, new_image)
+        
+        
+<span class="cm"># Create a black image, a window and bind the function to window</span>
+image = <span class="fn">cv2.imread</span>(<span class="str">"images/PopEffects.jpeg"</span>)
+new_image = <span class="fn">image.copy</span>()
+
+<span class="fn">cv2.namedWindow</span>(<span class="str">'image'</span>)
+<span class="fn">cv2.setMouseCallback</span>(<span class="str">'image'</span>,apply_pop_efect)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="fn">cv2.imshow</span>(<span class="str">'image'</span>,image)
+    <span class="kw">if</span> <span class="fn">cv2.waitKey</span>(<span class="num">1</span>) &amp; 0xFF == <span class="num">27</span>:
+        <span class="kw">break</span>
+<span class="fn">cv2.destroyAllWindows</span>()
+            
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">15</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(new_image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Output"</span>);</div>
+  <p>منبع: <a href="https://medium.com/featurepreneur/colour-filtering-and-colour-pop-effects-using-opencv-python-3ce7d4576140" class="ref-link" target="_blank">Medium – Colour filtering and Color Pop effects</a></p>
+</div>
+<div class="section-c" data-section-id="module-4-clustering">
+  <div class="section-h"><h2>4. خوشه‌بندی و پیدا کردن رنگ‌های غالب یک تصویر (39, 40, 42)</h2></div>
+  <p>«رنگ‌های غالب» یک تصویر یعنی چند رنگی که بیشترین سهم را در پیکسل‌های تصویر دارند. دو روش برای پیدا کردن آن‌ها را می‌بینیم: خوشه‌بندی K-Means روی پیکسل‌ها، و هیستوگرام کانال Hue.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">خوشه‌بندی چیست؟ (39)</h3></div>
+  <p>خوشه‌بندی (Clustering) یک روش یادگیری بدون‌نظارت است که داده‌ها را بر اساس شباهت، در چند گروه (خوشه) دسته‌بندی می‌کند، بدون اینکه از قبل برچسبی برای داده‌ها وجود داشته باشد. برخی کاربردهای رایج آن:</p>
+  <ul>
+    <li>فشرده‌سازی داده (Compression)</li>
+    <li>پیش‌پردازش برای سیستم‌های توصیه‌گر (Recommender systems)</li>
+    <li>گروه‌بندی اخبار یا نتایج جستجوی مرتبط (مثل Google News)</li>
+    <li>گروه‌بندی سهام‌های مرتبط برای مدیریت پورتفولیو</li>
+    <li>ساخت پروفایل مشتری برای تحلیل بازار</li>
+    <li>ساخت یک code book از نمونه‌های نمونه برای استخراج ویژگی بدون‌نظارت</li>
+  </ul>
+  <p>یک دیتاست دو‌بعدی مصنوعی می‌سازیم و با K-Means آن را به سه خوشه تقسیم می‌کنیم:</p>
+<div class="code-block"><span class="kw">from</span> sklearn.datasets <span class="kw">import</span> make_blobs
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+X, _ = <span class="fn">make_blobs</span>(random_state=<span class="num">42</span>)
+X.shape
+<span class="cm"># (100, 2)</span>
+
+<span class="fn">plt.scatter</span>(X[:, <span class="num">0</span>], X[:, <span class="num">1</span>]);</div>
+<div class="code-block"><span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+
+kmeans = <span class="fn">KMeans</span>(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>)
+labels = <span class="fn">kmeans.fit_predict</span>(X)
+labels</div>
+<div class="code-block"><span class="fn">plt.scatter</span>(X[:, <span class="num">0</span>], X[:, <span class="num">1</span>], c=labels);</div>
+  <p>این بخش از دوره‌ی <a href="https://class.vision/product/intro-to-ai-ml-deep/" class="ref-link" target="_blank">Machine Learning (نوشته‌ی علیرضا اخوان‌پور)</a> است.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">پیدا کردن رنگ‌های غالب با K-Means (40)</h3></div>
+  <p>همان ایده‌ی خوشه‌بندی را می‌توان مستقیم روی پیکسل‌های یک تصویر (هر پیکسل یک نقطه‌ی سه‌بعدی BGR) اجرا کرد. مرکز هر خوشه، یکی از رنگ‌های غالب تصویر خواهد بود:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+n_clusters = <span class="num">5</span>
+
+<span class="cm">#read image</span>
+img = <span class="fn">cv2.imread</span>(<span class="str">"images/felfel-dolme.jpg"</span>)
+
+<span class="cm">#reshape to a list of pixels</span>
+flat_img = <span class="fn">img.reshape</span>((-<span class="num">1</span>, <span class="num">3</span>))
+
+<span class="cm">#using k-means to cluster pixels</span>
+kmeans = <span class="fn">KMeans</span>(n_clusters = n_clusters)
+<span class="fn">kmeans.fit</span>(flat_img)
+
+<span class="cm">#the cluster centers are our dominant colors.</span>
+dominant_colors = <span class="fn">np.array</span>(kmeans.cluster_centers_, dtype=<span class="str">'uint8'</span>)
+
+labels = kmeans.labels_
+
+<span class="fn">print</span>(dominant_colors)
+<span class="fn">print</span>(labels)</div>
+  <p>سهم هر خوشه از کل پیکسل‌ها را می‌توان با شمارش برچسب‌ها به‌دست آورد:</p>
+<div class="code-block"><span class="fn">np.unique</span>(labels,return_counts=<span class="kw">True</span>)</div>
+<div class="code-block">percentages = <span class="fn">np.bincount</span>(labels)/<span class="fn">len</span>(flat_img)
+percentages</div>
+<div class="code-block">p_and_c = <span class="fn">zip</span>(percentages,dominant_colors)
+p_and_c = <span class="fn">sorted</span>(p_and_c,reverse=<span class="kw">True</span>)</div>
+  <p>برای نمایش، هر رنگ غالب را به‌صورت یک بلوک رنگی به‌همراه درصدش رسم می‌کنیم:</p>
+<div class="code-block">block = <span class="fn">np.ones</span>((<span class="num">50</span>,<span class="num">50</span>,<span class="num">3</span>),dtype=<span class="str">'uint'</span>)
+<span class="fn">plt.figure</span>(figsize=(<span class="num">12</span>,<span class="num">8</span>))
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n_clusters):
+    <span class="fn">plt.subplot</span>(<span class="num">1</span>,n_clusters,i+<span class="num">1</span>)
+    block[:] = p_and_c[i][<span class="num">1</span>][::-<span class="num">1</span>] <span class="cm"># we have done this to convert bgr(opencv) to rgb(matplotlib) </span>
+    <span class="fn">plt.imshow</span>(block)
+    <span class="fn">plt.xticks</span>([])
+    <span class="fn">plt.yticks</span>([])
+    <span class="fn">plt.xlabel</span>(<span class="fn">str</span>(<span class="fn">round</span>(p_and_c[i][<span class="num">0</span>]*<span class="num">100</span>,<span class="num">2</span>))+<span class="str">'%'</span>)</div>
+  <p>یا با یک نوار (bar) که طول هر قسمت متناسب با درصد آن رنگ است:</p>
+<div class="code-block">bar = <span class="fn">np.ones</span>((<span class="num">50</span>,<span class="num">500</span>,<span class="num">3</span>),dtype=<span class="str">'uint8'</span>)
+<span class="fn">plt.figure</span>(figsize=(<span class="num">12</span>,<span class="num">8</span>))
+<span class="fn">plt.title</span>(<span class="str">'Proportions of colors in the image'</span>)
+start = <span class="num">0</span>
+i = <span class="num">1</span>
+<span class="kw">for</span> p,c <span class="kw">in</span> p_and_c:
+    end = start+<span class="fn">int</span>(p*<span class="num">500</span>)
+    <span class="kw">if</span> i==n_clusters:
+        bar[:,start:] = c[::-<span class="num">1</span>]
+    <span class="kw">else</span>:
+        bar[:,start:end] = c[::-<span class="num">1</span>]
+    start = end
+    i+=<span class="num">1</span>
+
+<span class="fn">plt.imshow</span>(bar)
+<span class="fn">plt.xticks</span>([])
+<span class="fn">plt.yticks</span>([])</div>
+  <p>و در نهایت رنگ‌های غالب را مستقیم روی خود تصویر، به‌شکل یک بنر با شماره، رسم می‌کنیم:</p>
+<div class="code-block">rows = <span class="num">1000</span>
+cols = <span class="fn">int</span>((img.shape[<span class="num">0</span>]/img.shape[<span class="num">1</span>])*rows)
+img = <span class="fn">cv2.resize</span>(img,dsize=(rows,cols),interpolation=cv2.INTER_LINEAR)
+
+copy = <span class="fn">img.copy</span>()
+<span class="fn">cv2.rectangle</span>(copy,(rows//<span class="num">2</span>-<span class="num">250</span>,cols//<span class="num">2</span>-<span class="num">90</span>),(rows//<span class="num">2</span>+
+                                             <span class="num">250</span>,cols//<span class="num">2</span>+<span class="num">110</span>),(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>),-<span class="num">1</span>)
+
+final = <span class="fn">cv2.addWeighted</span>(img,<span class="num">0.1</span>,copy,<span class="num">0.9</span>,<span class="num">0</span>)
+<span class="fn">cv2.putText</span>(final,<span class="str">'Most Dominant Colors in the Image'</span>,(rows//<span class="num">2</span>-<span class="num">230</span>,cols//<span class="num">2</span>-<span class="num">40</span>),cv2.FONT_HERSHEY_DUPLEX,<span class="num">0.8</span>,(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>),<span class="num">1</span>,cv2.LINE_AA)
+
+
+start = rows//<span class="num">2</span>-<span class="num">220</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    end = start+<span class="num">70</span>
+    final[cols//<span class="num">2</span>:cols//<span class="num">2</span>+<span class="num">70</span>,start:end] = p_and_c[i][<span class="num">1</span>]
+    <span class="fn">cv2.putText</span>(final,<span class="fn">str</span>(i+<span class="num">1</span>),(start+<span class="num">25</span>,cols//<span class="num">2</span>+<span class="num">45</span>),cv2.FONT_HERSHEY_DUPLEX,<span class="num">1</span>,(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>),<span class="num">1</span>,cv2.LINE_AA)
+    start = end+<span class="num">20</span>
+
+<span class="fn">plt.show</span>()
+
+<span class="fn">cv2.imshow</span>(<span class="str">'img'</span>,final)
+<span class="fn">cv2.waitKey</span>(<span class="num">0</span>)
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">هزینه‌ی محاسباتی</div>
+      <p>K-Means روی تصاویر بزرگ می‌تواند کند باشد چون باید فاصله‌ی هر پیکسل تا هر مرکز خوشه را در چند تکرار محاسبه کند. برای تصاویر بزرگ معمولاً قبل از خوشه‌بندی، تصویر Resize یا Downsample می‌شود.</p>
+    </div>
+  </div>
+  <p>منبع: <a href="https://towardsdev.com/how-to-find-the-most-dominant-colors-in-an-image-in-python-using-kmeans-clustering-with-source-527ef3e6775f" class="ref-link" target="_blank">Towardsdev – Dominant colors with K-Means</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">رنگ‌های غالب با هیستوگرام کانال Hue (42)</h3></div>
+  <p>روش سبک‌تری برای پیدا کردن رنگ غالب، رسم هیستوگرام کانال Hue در فضای HSV است؛ قله‌های این هیستوگرام همان رنگ‌های پرتکرار تصویرند. ابتدا یک تصویر مرجع از طیف Hue می‌سازیم:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+hue_spectrum = <span class="fn">np.linspace</span>(<span class="num">0</span>, <span class="num">179</span>, dtype=<span class="str">'uint8'</span>, num=<span class="num">180</span>)
+img = <span class="fn">np.array</span>([hue_spectrum]*<span class="num">50</span>)
+saturation_channel = <span class="fn">np.ones_like</span>(img, dtype=<span class="str">'uint8'</span>)*<span class="num">255</span>
+value_channel = <span class="fn">np.ones_like</span>(img, dtype=<span class="str">'uint8'</span>)*<span class="num">255</span>
+
+hsv = <span class="fn">cv2.merge</span>([img, saturation_channel, value_channel])
+final_bgr_spectrum = <span class="fn">cv2.cvtColor</span>(hsv, cv2.COLOR_HSV2BGR)</div>
+  <p>سپس یک تابع کمکی می‌نویسیم که تصویر، هیستوگرام Hue، و خودِ طیف مرجع را کنار هم نشان دهد:</p>
+<div class="code-block"><span class="kw">def</span> <span class="fn">plot_hsv_histogram</span>(image_path):
+    image = <span class="fn">cv2.imread</span>(image_path)
+    hsv = <span class="fn">cv2.cvtColor</span>(image, cv2.COLOR_BGR2HSV)
+    hue_hist = <span class="fn">cv2.calcHist</span>([hsv], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">180</span>], [<span class="num">0</span>, <span class="num">180</span>])
+
+
+    <span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">3</span>]);
+    <span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.xticks</span>([]);<span class="fn">plt.yticks</span>([]);
+    <span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.plot</span>(hue_hist, color=<span class="str">'red'</span>);<span class="fn">plt.xticks</span>([]);<span class="fn">plt.yticks</span>([]);
+    <span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.imshow</span>(final_bgr_spectrum[...,::-<span class="num">1</span>]);<span class="fn">plt.xticks</span>([]);<span class="fn">plt.yticks</span>([]);</div>
+  <p>و آن را روی چند تصویر دلخواه امتحان می‌کنیم:</p>
+<div class="code-block"><span class="fn">plot_hsv_histogram</span>(<span class="str">'images/felfel-dolme.jpg'</span>)
+<span class="fn">plot_hsv_histogram</span>(<span class="str">'images/green-sccreen.png'</span>)
+<span class="fn">plot_hsv_histogram</span>(<span class="str">'images/color.png'</span>)
+<span class="fn">plot_hsv_histogram</span>(<span class="str">'images/PopEffects.jpeg'</span>)</div>
+  <div class="callout callout-tip">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">هیستوگرام Hue در برابر K-Means</div>
+      <p>هیستوگرام Hue بسیار سریع‌تر از K-Means است چون فقط یک بار روی پیکسل‌ها پیمایش می‌کند، اما فقط یک بعد (رنگ) را می‌بیند و Saturation/Value را نادیده می‌گیرد؛ برای مثال رنگ‌های خاکستری و کم‌اشباع می‌توانند Hue تصادفی و پرنویز داشته باشند. K-Means روی هر سه کانال با هم کار می‌کند و رنگ‌های واقعی‌تری می‌دهد، اما کندتر است.</p>
+    </div>
+  </div>
+</div>
+<div class="section-c" data-section-id="module-4-histogram">
+  <div class="section-h"><h2>5. هیستوگرام تصویر و مقایسه‌ی دو هیستوگرام (41, 45)</h2></div>
+  <p>هیستوگرام یک تصویر نشان می‌دهد چند پیکسل در هر سطح روشنایی (یا هر مقدار کانال رنگی) وجود دارد؛ محور افقی مقدار پیکسل (۰ تا ۲۵۵) و محور عمودی تعداد تکرار آن مقدار است.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مرور مفهوم هیستوگرام</h3></div>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+list_of_numbers = <span class="fn">np.array</span>([<span class="num">5</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">10</span>,<span class="num">3</span>,<span class="num">5</span>,<span class="num">6</span>,<span class="num">9</span>,<span class="num">7</span>,<span class="num">8</span>,<span class="num">7</span>,<span class="num">9</span>,<span class="num">1</span>,<span class="num">3</span>,<span class="num">7</span>])
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">3</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.hist</span>(list_of_numbers);<span class="fn">plt.title</span>(<span class="str">"Histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.hist</span>(list_of_numbers, <span class="num">5</span>, color=<span class="str">'green'</span>);<span class="fn">plt.title</span>(<span class="str">"Histogram with 5 bins"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">هیستوگرام تصویر سطح‌خاکستری با matplotlib</h3></div>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/input.jpg'</span>,<span class="num">0</span>)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">3</span>])
+<span class="cm"># ravel() flatens an image array </span>
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.hist</span>(<span class="fn">image.ravel</span>(), <span class="num">256</span>, color=<span class="str">'orange'</span>);<span class="fn">plt.title</span>(<span class="str">"Gray image histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.hist</span>(<span class="fn">image.ravel</span>(), <span class="num">256</span>, histtype=<span class="str">'step'</span>, color = <span class="str">'red'</span>);<span class="fn">plt.title</span>(<span class="str">"gray image histogram(step)"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">هیستوگرام با OpenCV — تابع calcHist</h3></div>
+  <p><code>cv2.calcHist(images, channels, mask, bins, ranges)</code> پنج آرگومان می‌گیرد:</p>
+  <ul>
+    <li><b>images</b> — تصویر ورودی، به‌صورت لیست (مثلاً <code>[image]</code>)</li>
+    <li><b>channels</b> — اندیس کانال مورد نظر به‌صورت لیست (<code>[0]</code> برای تصویر سطح‌خاکستری؛ <code>[0]</code>/<code>[1]</code>/<code>[2]</code> برای آبی/سبز/قرمز در تصویر رنگی)</li>
+    <li><b>mask</b> — ماسکی برای محدود کردن محاسبه به یک ناحیه‌ی خاص از تصویر (اختیاری)</li>
+    <li><b>bins</b> — تعداد سطل‌های هیستوگرام برای هر کانال</li>
+    <li><b>ranges</b> — بازه‌ی مقادیر ممکن پیکسل، که برای تصاویر ۸ بیتی <code>[0, 256]</code> است</li>
+  </ul>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/input.jpg'</span>,<span class="num">0</span>)
+histogram = <span class="fn">cv2.calcHist</span>([image], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+<span class="fn">plt.figure</span>(figsize=[<span class="num">5</span>,<span class="num">3</span>])
+<span class="fn">plt.plot</span>(histogram)</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تاثیر نور تصویر روی هیستوگرام</h3></div>
+  <p>در تصویر تیره، هیستوگرام سمت چپ (مقادیر کم) متمرکز است؛ در تصویر روشن، سمت راست؛ و در تصویر با نور متوسط، پخش‌تر و نزدیک به وسط.</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm"># read images</span>
+dark_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/dark.png'</span>)
+mid_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/mid.png'</span>)
+light_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/light.png'</span>)
+
+<span class="cm">#convert to gray</span>
+dark_tones_gray = <span class="fn">cv2.cvtColor</span>(dark_tones, cv2.COLOR_BGR2GRAY)
+mid_tones_gray = <span class="fn">cv2.cvtColor</span>(mid_tones, cv2.COLOR_BGR2GRAY)
+light_tones_gray = <span class="fn">cv2.cvtColor</span>(light_tones, cv2.COLOR_BGR2GRAY)
+
+<span class="cm">#calculate histograms</span>
+dark_tones_histogram = <span class="fn">cv2.calcHist</span>([dark_tones_gray], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+mid_tones_histogram = <span class="fn">cv2.calcHist</span>([mid_tones_gray], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+light_tones_histogram = <span class="fn">cv2.calcHist</span>([light_tones_gray], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+
+<span class="cm">#plot</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(dark_tones_gray, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"dark tones image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">232</span>);<span class="fn">plt.imshow</span>(mid_tones_gray, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"mid tones image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">233</span>);<span class="fn">plt.imshow</span>(light_tones_gray, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"light tones image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.plot</span>(dark_tones_histogram);<span class="fn">plt.title</span>(<span class="str">"dark tones histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.plot</span>(mid_tones_histogram);<span class="fn">plt.title</span>(<span class="str">"mid tones histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.plot</span>(light_tones_histogram);<span class="fn">plt.title</span>(<span class="str">"light tones histogram"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">هیستوگرام هر کانال رنگی</h3></div>
+  <p>برای تصویر رنگی می‌توان هیستوگرام هر سه کانال B، G و R را روی یک نمودار کشید:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm"># read images</span>
+dark_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/dark.png'</span>)
+mid_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/mid.png'</span>)
+light_tones = <span class="fn">cv2.imread</span>(<span class="str">'images/light.png'</span>)
+
+<span class="cm">#plot imagea</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(dark_tones[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"dark tones image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">232</span>);<span class="fn">plt.imshow</span>(mid_tones[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"mid tones image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">233</span>);<span class="fn">plt.imshow</span>(light_tones[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"light tones image"</span>);
+
+color = (<span class="str">'b'</span>, <span class="str">'g'</span>, <span class="str">'r'</span>)
+<span class="cm">#dark tones histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([dark_tones], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)
+    
+<span class="cm">#mid tones histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([mid_tones], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)
+    
+<span class="cm">#light tones histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([light_tones], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)</div>
+  <p>منابع: <a href="https://docs.opencv.org/4.6.0/d1/db7/tutorial_py_histogram_begins.html" class="ref-link" target="_blank">مستندات OpenCV</a> — <a href="https://medium.com/@rndayala/image-histograms-in-opencv-40ee5969a3b7" class="ref-link" target="_blank">Medium</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مقایسه‌ی دو هیستوگرام (45)</h3></div>
+  <p>هیستوگرام به سایز تصویر حساس است: تصویر بزرگ‌تر پیکسل بیشتری دارد، پس ارتفاع هیستوگرامش هم بزرگ‌تر است، حتی اگر توزیع رنگ دو تصویر یکسان باشد.</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm">#load images in gray-scale</span>
+image1 = <span class="fn">cv2.imread</span>(<span class="str">'images/input.jpg'</span>,<span class="num">0</span>)
+image2 = <span class="fn">cv2.imread</span>(<span class="str">'images/input-small.jpg'</span>,<span class="num">0</span>)
+
+<span class="cm">#print dimentions</span>
+<span class="fn">print</span>(<span class="str">"image1 is: "</span>, image1.shape)
+<span class="fn">print</span>(<span class="str">"image2 is: "</span>, image2.shape)
+
+<span class="cm">#calculate histograms</span>
+histogram1 = <span class="fn">cv2.calcHist</span>([image1], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+histogram2 = <span class="fn">cv2.calcHist</span>([image2], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+
+<span class="cm">#plot</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">3</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.plot</span>(histogram1);<span class="fn">plt.title</span>(<span class="str">"Bigger image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.plot</span>(histogram2);<span class="fn">plt.title</span>(<span class="str">"Smaller image"</span>);</div>
+  <p>برای مستقل کردن هیستوگرام از سایز تصویر، محور y را نرمال می‌کنیم (<code>cv2.normalize</code>):</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm">#load images in gray-scale</span>
+image1 = <span class="fn">cv2.imread</span>(<span class="str">'images/input.jpg'</span>,<span class="num">0</span>)
+image2 = <span class="fn">cv2.imread</span>(<span class="str">'images/input-small.jpg'</span>,<span class="num">0</span>)
+
+<span class="cm">#calculate histograms</span>
+histogram1 = <span class="fn">cv2.calcHist</span>([image1], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+histogram2 = <span class="fn">cv2.calcHist</span>([image2], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+
+<span class="cm">#copy histograms</span>
+histogram1_normalized = <span class="fn">histogram1.copy</span>()
+histogram2_normalized = <span class="fn">histogram2.copy</span>()
+
+<span class="cm">#normalize histograms</span>
+<span class="fn">cv2.normalize</span>(histogram1, histogram1_normalized, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX);
+<span class="fn">cv2.normalize</span>(histogram2, histogram2_normalized, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX);
+
+<span class="cm">#plot</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.plot</span>(histogram1);<span class="fn">plt.title</span>(<span class="str">"Bigger image before normalization"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.plot</span>(histogram2);<span class="fn">plt.title</span>(<span class="str">"Smaller image before normalization"</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.plot</span>(histogram1_normalized);<span class="fn">plt.title</span>(<span class="str">"Bigger image after normalization"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.plot</span>(histogram2_normalized);<span class="fn">plt.title</span>(<span class="str">"Smaller image after normalization"</span>);</div>
+  <p>برای مقایسه‌ی عددی دو هیستوگرام از <code>cv2.compareHist(H1, H2, method)</code> استفاده می‌شود. در مثال زیر یک تصویر پایه، نصف پایینی همان تصویر، و دو تصویر تست دیگر با روش Bhattacharyya مقایسه می‌شوند (هرچه مقدار به صفر نزدیک‌تر باشد، دو هیستوگرام شبیه‌ترند):</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+src_base = <span class="fn">cv2.imread</span>(<span class="str">"images/Histogram_Comparison_Source_0.jpg"</span>)
+src_test1 = <span class="fn">cv2.imread</span>(<span class="str">"images/Histogram_Comparison_Source_1.jpg"</span>)
+src_test2 = <span class="fn">cv2.imread</span>(<span class="str">"images/Histogram_Comparison_Source_2.jpg"</span>)
+
+hsv_base = <span class="fn">cv2.cvtColor</span>(src_base, cv2.COLOR_BGR2HSV)
+hsv_test1 = <span class="fn">cv2.cvtColor</span>(src_test1, cv2.COLOR_BGR2HSV)
+hsv_test2 = <span class="fn">cv2.cvtColor</span>(src_test2, cv2.COLOR_BGR2HSV)
+
+<span class="cm"># create an image of half the base image (in HSV format):</span>
+hsv_half_down = hsv_base[hsv_base.shape[<span class="num">0</span>]//<span class="num">2</span>:,:]
+                       
+               
+hist_base = <span class="fn">cv2.calcHist</span>([hsv_base], [<span class="num">0</span>, <span class="num">1</span>], <span class="kw">None</span>,  [<span class="num">180</span>,<span class="num">256</span>], [<span class="num">0</span>,<span class="num">180</span>,<span class="num">0</span>,<span class="num">256</span>])
+<span class="fn">cv2.normalize</span>(hist_base, hist_base, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX)
+hist_half_down = <span class="fn">cv2.calcHist</span>([hsv_half_down], [<span class="num">0</span>, <span class="num">1</span>], <span class="kw">None</span>,  [<span class="num">180</span>,<span class="num">256</span>], [<span class="num">0</span>,<span class="num">180</span>,<span class="num">0</span>,<span class="num">256</span>])
+<span class="fn">cv2.normalize</span>(hist_half_down, hist_half_down, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX)
+hist_test1 = <span class="fn">cv2.calcHist</span>([hsv_test1], [<span class="num">0</span>, <span class="num">1</span>], <span class="kw">None</span>,  [<span class="num">180</span>,<span class="num">256</span>], [<span class="num">0</span>,<span class="num">180</span>,<span class="num">0</span>,<span class="num">256</span>])
+<span class="fn">cv2.normalize</span>(hist_test1, hist_test1, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX)
+hist_test2 = <span class="fn">cv2.calcHist</span>([hsv_test2], [<span class="num">0</span>, <span class="num">1</span>], <span class="kw">None</span>,  [<span class="num">180</span>,<span class="num">256</span>], [<span class="num">0</span>,<span class="num">180</span>,<span class="num">0</span>,<span class="num">256</span>])
+<span class="fn">cv2.normalize</span>(hist_test2, hist_test2, alpha=<span class="num">0</span>, beta=<span class="num">1</span>, norm_type=cv2.NORM_MINMAX)
+                       
+base_base = <span class="fn">cv2.compareHist</span>(hist_base, hist_base, cv2.HISTCMP_BHATTACHARYYA)
+base_half = <span class="fn">cv2.compareHist</span>(hist_base, hist_half_down, cv2.HISTCMP_BHATTACHARYYA)
+base_test1 = <span class="fn">cv2.compareHist</span>(hist_base, hist_test1, cv2.HISTCMP_BHATTACHARYYA)
+base_test2 = <span class="fn">cv2.compareHist</span>(hist_base, hist_test2, cv2.HISTCMP_BHATTACHARYYA)
+
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(src_base[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Base image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.imshow</span>(<span class="fn">cv2.cvtColor</span>(hsv_half_down, cv2.COLOR_HSV2RGB));<span class="fn">plt.title</span>(<span class="str">"Half image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(src_test1[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"test1"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.imshow</span>(src_test2[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"test2"</span>);
+
+
+<span class="fn">print</span>(<span class="str">'Perfect: {}, \nBase-Half:{}, \nBase-Test(1):{}, \nBase-Test(2) :{}'</span>.<span class="fn">format</span>(\
+          base_base, base_half, base_test1, base_test2))</div>
+  <p>در OpenCV چند روش دیگر هم برای <code>compareHist</code> وجود دارد که هرکدام مقیاس و معنای متفاوتی دارند:</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>روش</th><th>مقدار برای دو هیستوگرام یکسان</th><th>معنا</th></tr></thead>
+    <tbody>
+      <tr><td>HISTCMP_BHATTACHARYYA</td><td>۰ (کمترین فاصله)</td><td>فاصله؛ هرچه کمتر، شبیه‌تر</td></tr>
+      <tr><td>HISTCMP_CHISQR</td><td>۰</td><td>فاصله؛ هرچه کمتر، شبیه‌تر</td></tr>
+      <tr><td>HISTCMP_CORREL</td><td>۱ (بیشترین شباهت)</td><td>همبستگی؛ هرچه بیشتر، شبیه‌تر</td></tr>
+      <tr><td>HISTCMP_INTERSECT</td><td>حداکثر ممکن</td><td>اشتراک؛ هرچه بیشتر، شبیه‌تر</td></tr>
+      <tr><td>HISTCMP_KL_DIV</td><td>۰</td><td>واگرایی KL؛ هرچه کمتر، شبیه‌تر</td></tr>
+    </tbody>
+  </table></div>
+<div class="code-block">methods = [cv2.HISTCMP_BHATTACHARYYA, cv2.HISTCMP_CHISQR, cv2.HISTCMP_CORREL, cv2.HISTCMP_INTERSECT, cv2.HISTCMP_KL_DIV]
+method_names = [<span class="str">'cv2.HISTCMP_BHATTACHARYYA'</span>, <span class="str">'cv2.HISTCMP_CHISQR'</span>, <span class="str">'cv2.HISTCMP_CORREL'</span>, <span class="str">'cv2.HISTCMP_INTERSECT'</span>, <span class="str">'cv2.HISTCMP_KL_DIV'</span>]
+
+<span class="kw">for</span> method, method_name <span class="kw">in</span> <span class="fn">zip</span>(methods, method_names):
+    <span class="fn">print</span>(<span class="str">"Method:"</span>, method_name)
+    base_base = <span class="fn">cv2.compareHist</span>(hist_base, hist_base, method)
+    base_half = <span class="fn">cv2.compareHist</span>(hist_base, hist_half_down, method)
+    base_test1 = <span class="fn">cv2.compareHist</span>(hist_base, hist_test1, method)
+    base_test2 = <span class="fn">cv2.compareHist</span>(hist_base, hist_test2, method)
+    <span class="fn">print</span>(<span class="str">' -Perfect: {}, \n -Base-Half:{}, \n -Base-Test(1):{}, \n -Base-Test(2) :{}\n---'</span>.<span class="fn">format</span>(\
+              base_base, base_half, base_test1, base_test2))</div>
+  <p>منبع: <a href="https://docs.opencv.org/3.4/d8/dc8/tutorial_histogram_comparison.html" class="ref-link" target="_blank">مستندات OpenCV — Histogram Comparison</a></p>
+</div>
+<div class="section-c" data-section-id="module-4-equalization">
+  <div class="section-h"><h2>6. یکنواخت‌سازی هیستوگرام: روش سراسری و روش تطبیقی CLAHE (43, 44)</h2></div>
+  <p>اگر مقادیر پیکسل یک تصویر در بازه‌ی محدودی از هیستوگرام جمع شده باشند (مثلاً تصویر خیلی روشن یا خیلی تیره)، کنتراست پایین است. یکنواخت‌سازی هیستوگرام (Histogram Equalization) این هیستوگرام را می‌کشد تا هر دو انتها را بهتر پر کند و کنتراست را بهبود دهد. این روش خصوصاً در تصاویر پزشکی و ماهواره‌ای که کنتراست بالا اهمیت دارد، پرکاربرد است.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">یکنواخت‌سازی سراسری با equalizeHist (43)</h3></div>
+  <p>تابع <code>cv2.equalizeHist(image)</code> فقط روی تصویر تک‌کاناله (سطح‌خاکستری) کار می‌کند:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm">#image source: https://radiopaedia.org/cases/normal-frontal-chest-x-ray?lang=us</span>
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/xray.jpg'</span>, <span class="num">0</span>)
+result = <span class="fn">cv2.equalizeHist</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">8</span>,<span class="num">4</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original X-ray image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"equalized histogram"</span>)</div>
+  <p>برای درک بهتر تاثیر آن، هیستوگرام قبل و بعد را کنار تصویر رسم می‌کنیم:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm">#image source: https://radiopaedia.org/cases/normal-frontal-chest-x-ray?lang=us</span>
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/xray.jpg'</span>, <span class="num">0</span>)
+result = <span class="fn">cv2.equalizeHist</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original X-ray image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.hist</span>(<span class="fn">image.ravel</span>(), <span class="num">256</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"equalized histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.hist</span>(<span class="fn">result.ravel</span>(), <span class="num">256</span>);</div>
+  <p>همین کار را روی یک تصویر ماهواره‌ای و یک تصویر کم‌کنتراست دیگر هم تکرار می‌کنیم؛ در هر دو مورد جزئیاتی که قبلاً در سایه یا نور شدید گم شده بودند، آشکار می‌شوند:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/satellite.jpg'</span>, <span class="num">0</span>)
+result = <span class="fn">cv2.equalizeHist</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.hist</span>(<span class="fn">image.ravel</span>(), <span class="num">256</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"equalized histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.hist</span>(<span class="fn">result.ravel</span>(), <span class="num">256</span>);</div>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm">#image source: https://en.wikipedia.org/wiki/Histogram_equalization</span>
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/low-contrast.jpg'</span>, <span class="num">0</span>)
+result = <span class="fn">cv2.equalizeHist</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original image"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.hist</span>(<span class="fn">image.ravel</span>(), <span class="num">256</span>);
+
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"equalized histogram"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.hist</span>(<span class="fn">result.ravel</span>(), <span class="num">256</span>);</div>
+  <p>برای تصاویر رنگی، چون <code>equalizeHist</code> فقط تک‌کاناله می‌پذیرد، باید تصویر را با <code>cv2.split</code> کانال‌بندی کرد، هر کانال را جدا Equalize کرد و دوباره با <code>cv2.merge</code> ترکیب کرد:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/mid.png'</span>)
+<span class="cm">###############</span>
+<span class="cm"># Histogram Equalization</span>
+channels = <span class="fn">cv2.split</span>(image)
+eq_channels = []
+<span class="kw">for</span> ch <span class="kw">in</span> channels:
+    <span class="fn">eq_channels.append</span>(<span class="fn">cv2.equalizeHist</span>(ch))
+eq_image = <span class="fn">cv2.merge</span>(eq_channels)
+
+
+<span class="cm">#plot images</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(eq_image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Equalized"</span>);
+
+
+color = (<span class="str">'b'</span>, <span class="str">'g'</span>, <span class="str">'r'</span>)
+<span class="cm">#Original image histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([image], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)
+    
+<span class="cm">#Equualized image histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([eq_image], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)</div>
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">Equalize کردن جدا هر کانال BGR رنگ را جابه‌جا می‌کند</div>
+      <p>چون سه کانال B، G و R مستقل از هم Equalize می‌شوند، نسبت روشنایی بین کانال‌ها به‌هم می‌خورد و رنگ کلی تصویر می‌تواند تغییر کند. راه بهتر برای تصاویر رنگی، تبدیل به یک فضای رنگی مثل YCrCb یا LAB و Equalize کردن فقط کانال روشنایی (Y یا L) است، سپس تبدیل دوباره به BGR.</p>
+    </div>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مشکل یکنواخت‌سازی سراسری</h3></div>
+  <p>یکنواخت‌سازی سراسری هیستوگرام کل تصویر را با هم می‌بیند و همیشه بهترین انتخاب نیست. برای مثال:</p>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/statue.png'</span>, <span class="num">0</span>)
+result = <span class="fn">cv2.equalizeHist</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">4</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"After global histogram equalization"</span>);</div>
+  <p>پس‌زمینه بهتر می‌شود اما جزئیات خود مجسمه و نوشته‌ی زیر آن ممکن است هنوز واضح نباشند، چون کنتراست این نواحی نسبت به کل تصویر کوچک است.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">یکنواخت‌سازی تطبیقی با کنتراست محدود — CLAHE (44)</h3></div>
+  <p>CLAHE (Contrast Limited Adaptive Histogram Equalization) این مشکل را با تقسیم تصویر به بلوک‌های کوچک (tile) حل می‌کند و روی هر بلوک، Equalization جداگانه انجام می‌دهد. سایز این بلوک‌ها با پارامتر <code>tileGridSize</code> قابل تنظیم است (پیش‌فرض OpenCV هشت‌در‌هشت).</p>
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا «کنتراست محدود» (Contrast Limited)؟</div>
+      <p>اگر روی هر بلوک کوچک به‌طور کامل Equalize شود، نویز موجود در آن ناحیه هم تقویت می‌شود. برای جلوگیری از این مشکل، سطل‌های هیستوگرام هر بلوک که از یک آستانه‌ی کنتراست (پیش‌فرض ۴۰) بالاتر بروند، بریده و به‌طور یکنواخت بین سایر سطل‌ها توزیع می‌شوند. در پایان هم برای حذف مصنوعات لبه‌ی بلوک‌ها، بین آن‌ها درون‌یابی (Interpolation) انجام می‌شود.</p>
+    </div>
+  </div>
+<div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/statue.png'</span>, <span class="num">0</span>)
+
+<span class="cm"># create a CLAHE object (Arguments are optional).</span>
+clahe = <span class="fn">cv2.createCLAHE</span>(clipLimit=<span class="num">2.0</span>, tileGridSize=(<span class="num">8</span>,<span class="num">8</span>))
+result = <span class="fn">clahe.apply</span>(image)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">4</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(result, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"After adaptive histogram equalization"</span>);</div>
+  <p>و مقایسه‌ی کامل بین تصویر اصلی، نتیجه‌ی CLAHE و نتیجه‌ی روش سراسری، به‌همراه هیستوگرام هر کدام روی تصویر رنگی:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/statue.png'</span>)
+<span class="cm">###############</span>
+<span class="cm"># Histogram Equalization</span>
+channels = <span class="fn">cv2.split</span>(image)
+
+<span class="cm">#Adaptive method(CLAHE)</span>
+clahe = <span class="fn">cv2.createCLAHE</span>(clipLimit=<span class="num">2.0</span>, tileGridSize=(<span class="num">8</span>,<span class="num">8</span>))
+eq_channels = []
+<span class="kw">for</span> ch <span class="kw">in</span> channels:
+    <span class="fn">eq_channels.append</span>(<span class="fn">clahe.apply</span>(ch))
+eq_clahe_image = <span class="fn">cv2.merge</span>(eq_channels)
+
+<span class="cm">#Global method</span>
+eq_channels = []
+<span class="kw">for</span> ch <span class="kw">in</span> channels:
+    <span class="fn">eq_channels.append</span>(<span class="fn">cv2.equalizeHist</span>(ch))
+eq_image = <span class="fn">cv2.merge</span>(eq_channels)
+
+<span class="cm">#plot images</span>
+<span class="fn">plt.figure</span>(figsize=[<span class="num">15</span>,<span class="num">15</span>])
+<span class="fn">plt.subplot</span>(<span class="num">321</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">323</span>);<span class="fn">plt.imshow</span>(eq_clahe_image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After Adaptive histogram equalization"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">325</span>);<span class="fn">plt.imshow</span>(eq_image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After global histogram equalization"</span>);
+
+
+color = (<span class="str">'b'</span>, <span class="str">'g'</span>, <span class="str">'r'</span>)
+<span class="cm">#Original image histogram</span>
+<span class="fn">plt.subplot</span>(<span class="num">322</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([image], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)
+
+<span class="cm">#Equualized image histogram with Adaptive method</span>
+<span class="fn">plt.subplot</span>(<span class="num">324</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([eq_clahe_image], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)
+    
+<span class="cm">#Equualized image histogram with Global method</span>
+<span class="fn">plt.subplot</span>(<span class="num">326</span>);
+<span class="kw">for</span> i, col <span class="kw">in</span> <span class="fn">enumerate</span>(color):
+    histogram = <span class="fn">cv2.calcHist</span>([eq_image], [i], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+    <span class="fn">plt.plot</span>(histogram, color = col)</div>
+  <p>منبع: <a href="https://docs.opencv.org/4.x/d5/daf/tutorial_py_histogram_equalization.html" class="ref-link" target="_blank">مستندات OpenCV — Histogram Equalization</a></p>
+</div>
+<div class="section-c" data-section-id="module-4-filters">
+  <div class="section-h"><h2>7. فیلترهای denoising/blurring و sharpening (46, 47)</h2></div>
+  <p>فیلتر کردن یک تصویر یعنی کانوالو کردن (Convolve) آن با یک کرنل (ماتریس کوچک وزن). بسته به وزن‌های کرنل، می‌توان تصویر را محو (blur)، صاف‌تر (denoise) یا تیزتر (sharpen) کرد.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">وزن‌های یکنواخت — Box Filter (46)</h3></div>
+  <p>ساده‌ترین کرنل بلور، کرنلی است که همه‌ی وزن‌ها را یکسان (میانگین‌گیری ساده) در نظر می‌گیرد:</p>
+  <p style="text-align:center">K = (1/9) × [[1,1,1],[1,1,1],[1,1,1]]</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/noisy-cow.png'</span>)
+
+<span class="cm"># Creating our 3 x 3 kernel</span>
+kernel_3x3 = <span class="fn">np.ones</span>((<span class="num">3</span>, <span class="num">3</span>), np.float32) / <span class="num">9</span>
+
+<span class="cm"># We use the cv2.fitler2D to conovlve the kernal with an image </span>
+blurred = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, kernel_3x3)
+
+
+<span class="cm"># Creating our 7 x 7 kernel</span>
+kernel_7x7 = <span class="fn">np.ones</span>((<span class="num">7</span>, <span class="num">7</span>), np.float32) / <span class="num">49</span>
+
+blurred2 = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, kernel_7x7)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+<span class="fn">plt.subplot</span>(<span class="num">131</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">132</span>);<span class="fn">plt.imshow</span>(blurred[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"blurred with 3x3 filter"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">133</span>);<span class="fn">plt.imshow</span>(blurred2[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"blurred with 7x7 filter"</span>);</div>
+  <p>هرچه سایز کرنل بزرگ‌تر باشد، بلور شدیدتر است، چون هر پیکسل خروجی از میانگین ناحیه‌ی بزرگ‌تری محاسبه می‌شود.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">وزن‌های غیریکنواخت و مقایسه‌ی چند فیلتر</h3></div>
+  <p>به‌جای وزن یکسان (Box)، می‌توان از توابع آماده‌ی OpenCV با انواع مختلف وزن‌دهی استفاده کرد:</p>
+  <ul>
+    <li><code>cv2.blur</code> — میانگین‌گیری ساده با کرنل جعبه‌ای (box filter)</li>
+    <li><code>cv2.GaussianBlur</code> — وزن‌دهی گاوسی؛ پیکسل‌های نزدیک‌تر به مرکز وزن بیشتری دارند، بسیار موثر در حذف نویز گاوسی</li>
+    <li><code>cv2.medianBlur</code> — به‌جای میانگین، میانه‌ی پیکسل‌های زیر کرنل را جایگزین پیکسل مرکزی می‌کند</li>
+    <li><code>cv2.bilateralFilter</code> — نویز را حذف می‌کند اما لبه‌ها را تیز نگه می‌دارد</li>
+  </ul>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/noisy-cow.png'</span>)
+
+<span class="cm"># Averaging done by convolving the image with a normalized box filter. </span>
+<span class="cm"># This takes the pixels under the box and replaces the central element</span>
+<span class="cm"># Box size needs to odd and positive </span>
+blur = <span class="fn">cv2.blur</span>(image, (<span class="num">7</span>,<span class="num">7</span>))
+
+<span class="cm"># Instead of box filter, gaussian kernel</span>
+gaussian = <span class="fn">cv2.GaussianBlur</span>(image, (<span class="num">7</span>,<span class="num">7</span>), <span class="num">0</span>)
+
+<span class="cm"># Takes median of all the pixels under kernel area and central </span>
+<span class="cm"># element is replaced with this median value</span>
+median = <span class="fn">cv2.medianBlur</span>(image, <span class="num">5</span>)
+
+<span class="cm"># Bilateral is very effective in noise removal while keeping edges sharp</span>
+bilateral = <span class="fn">cv2.bilateralFilter</span>(image, <span class="num">9</span>, <span class="num">75</span>, <span class="num">75</span>)
+
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">15</span>,<span class="num">10</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">232</span>);<span class="fn">plt.imshow</span>(blur[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After uniform filter"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">233</span>);<span class="fn">plt.imshow</span>(gaussian[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After non-uniform gaussian filter"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(median[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After median filter"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(bilateral[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"After bilateral filter"</span>);</div>
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">پارامتر sigma در GaussianBlur</div>
+      <p>اگر فقط sigmaX داده شود، sigmaY هم برابر همان در نظر گرفته می‌شود؛ اگر هر دو صفر باشند، از روی سایز کرنل محاسبه می‌شوند. هرچه sigma بزرگ‌تر باشد، پخش (spread) گاوسی و در نتیجه شدت بلور بیشتر می‌شود.</p>
+    </div>
+  </div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/noisy-cow.png'</span>)
+
+gaussian2 = <span class="fn">cv2.GaussianBlur</span>(image, (<span class="num">11</span>,<span class="num">11</span>), <span class="num">2</span>)
+gaussian3 = <span class="fn">cv2.GaussianBlur</span>(image, (<span class="num">11</span>,<span class="num">11</span>), <span class="num">3</span>)
+gaussian5 = <span class="fn">cv2.GaussianBlur</span>(image, (<span class="num">11</span>,<span class="num">11</span>), <span class="num">5</span>)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">10</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.imshow</span>(gaussian2[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Gaussian filter, sigma=2"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">223</span>);<span class="fn">plt.imshow</span>(gaussian3[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Gaussian filter, sigma=3"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">224</span>);<span class="fn">plt.imshow</span>(gaussian5[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Gaussian filter, sigma=5"</span>);</div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">حذف نویز پیشرفته — Non-Local Means Denoising</h3></div>
+  <p>روش‌های بالا نویز را با میانگین‌گیری روی همسایگی محلی هر پیکسل حذف می‌کنند. Non-Local Means فراتر می‌رود: به جای فقط همسایگی نزدیک، شباهت هر ناحیه‌ی کوچک را با نواحی مشابه در سرتاسر تصویر می‌سنجد و از آن‌ها میانگین می‌گیرد؛ نتیجه معمولاً حذف نویز قوی‌تر با حفظ جزئیات بیشتر است.</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/noisy-cow.png'</span>)
+
+<span class="cm"># Parameters, after None are - the filter strength 'h' (5-10 is a good range)</span>
+<span class="cm"># Next is hForColorComponents, set as same value as h again</span>
+<span class="cm"># </span>
+dst = <span class="fn">cv2.fastNlMeansDenoisingColored</span>(image, <span class="kw">None</span>, <span class="num">6</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">21</span>)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">10</span>,<span class="num">10</span>])
+<span class="fn">plt.subplot</span>(<span class="num">221</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">222</span>);<span class="fn">plt.imshow</span>(dst[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"result"</span>);</div>
+  <p>چهار نسخه از این تابع در OpenCV موجود است:</p>
+  <ul>
+    <li><code>cv2.fastNlMeansDenoising()</code> — یک تصویر سطح‌خاکستری</li>
+    <li><code>cv2.fastNlMeansDenoisingColored()</code> — یک تصویر رنگی</li>
+    <li><code>cv2.fastNlMeansDenoisingMulti()</code> — دنباله‌ای از تصاویر سطح‌خاکستری گرفته‌شده در بازه‌ی زمانی کوتاه</li>
+    <li><code>cv2.fastNlMeansDenoisingColoredMulti()</code> — مشابه بالا ولی برای تصاویر رنگی</li>
+  </ul>
+  <p>منبع: <a href="https://docs.opencv.org/3.3.1/d5/d69/tutorial_py_non_local_means.html" class="ref-link" target="_blank">مستندات OpenCV — Non-Local Means Denoising</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">فیلتر تیزکردن — Sharpening (47)</h3></div>
+  <p>ایده‌ی تیزکردن تصویر این است که تصویر اصلی را با یک نسخه‌ی بلورشده از خودش مقایسه کنیم و اختلاف (جزئیات ریز/لبه‌ها) را تقویت کنیم. یک راه ساده، ساخت کرنل تیزکننده از تفاضل «مرکز تقویت‌شده» و «میانگین‌گیر جعبه‌ای» است:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/plate.jpg'</span>)
+
+kernel1 = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                              [<span class="num">0</span>,<span class="num">2</span>,<span class="num">0</span>], 
+                              [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+kernel2 = <span class="num">1</span>/<span class="num">9</span>*<span class="fn">np.array</span>([[<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>], 
+                              [<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>], 
+                              [<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>]])
+
+final_kernel = kernel1-kernel2
+<span class="cm"># applying different kernels to the input image</span>
+sharpened = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, final_kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(sharpened[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Sharpened"</span>);
+<span class="fn">print</span>(final_kernel)</div>
+  <p>یک کرنل تیزکننده‌ی رایج و پرکاربردتر، مستقیم به این شکل تعریف می‌شود (مجموع درایه‌ها برابر ۱ است تا روشنایی کلی تصویر حفظ شود):</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/plate.jpg'</span>)
+
+kernel_sharpening = <span class="fn">np.array</span>([[-<span class="num">1</span>,-<span class="num">1</span>,-<span class="num">1</span>], 
+                              [-<span class="num">1</span>,<span class="num">9</span>,-<span class="num">1</span>], 
+                              [-<span class="num">1</span>,-<span class="num">1</span>,-<span class="num">1</span>]])
+
+<span class="cm"># applying different kernels to the input image</span>
+sharpened = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, kernel_sharpening)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(sharpened[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Sharpened"</span>);</div>
+  <div class="callout callout-tip">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا مجموع کرنل مهم است؟</div>
+      <p>وقتی مجموع درایه‌های کرنل برابر ۱ باشد، روشنایی متوسط تصویر بعد از فیلتر تغییر چندانی نمی‌کند. اگر مجموع بزرگ‌تر از ۱ باشد تصویر روشن‌تر و اگر کوچک‌تر باشد تیره‌تر می‌شود.</p>
+    </div>
+  </div>
+</div>
+<div class="section-c" data-section-id="module-4-edges">
+  <div class="section-h"><h2>8. تشخیص لبه: گرادیان تصویر، Sobel، Laplacian و Canny (48, 49, 50, 51)</h2></div>
+  <p>لبه‌ها جایی در تصویر رخ می‌دهند که روشنایی به‌طور ناگهانی تغییر می‌کند. مشتق‌گیری از تصویر (که با کانوالو کردن با یک کرنل مناسب انجام می‌شود) این تغییرات را برجسته می‌کند. توجه کنید که <code>cv2.filter2D</code> در واقع Correlation انجام می‌دهد نه Convolution ریاضی خالص.</p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">گرادیان تصویر با یک کرنل ساده‌ی مشتق (48)</h3></div>
+  <p>یک تابع کمکی برای دیدن بازه‌ی مقادیر و نوع داده‌ی هر تصویر یا نتیجه می‌سازیم:</p>
+<div class="code-block"><span class="kw">def</span> <span class="fn">print_min_and_max</span>(img):
+    <span class="fn">print</span>(<span class="str">"Min: {}, Max: {}, dtype: {}"</span>.<span class="fn">format</span>(<span class="fn">np.min</span>(img), <span class="fn">np.max</span>(img), img.dtype))</div>
+  <p>کرنل مشتق افقی ساده <code>[[0,0,0],[-1/2,0,1/2],[0,0,0]]</code> است. روی یک تصویر با تغییر روشنایی تدریجی (gradient.png):</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/gradient.png'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span> , kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges"</span>);
+
+<span class="fn">print_min_and_max</span>(image)
+<span class="fn">print_min_and_max</span>(edges)</div>
+  <p>و روی تصویری با تغییر روشنایی ناگهانی (sharp_variation.png)، مقدار گرادیان به‌مراتب بزرگ‌تر است:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/sharp_variation.png'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span> , kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges"</span>);
+
+<span class="fn">print_min_and_max</span>(image)
+<span class="fn">print_min_and_max</span>(edges)</div>
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">خروجی منفی و نوع داده‌ی uint8</div>
+      <p>وقتی تصویر ورودی <code>uint8</code> است و ddepth تابع <code>filter2D</code> برابر <code>-1</code> باشد، خروجی هم <code>uint8</code> می‌شود و هر مقدار منفی به صفر Clip می‌شود؛ یعنی نیمی از اطلاعات گرادیان (لبه‌هایی که از روشن به تیره می‌روند) گم می‌شود. برای نگه‌داشتن مقادیر منفی باید ddepth را <code>cv2.CV_64F</code> بگذاریم.</p>
+    </div>
+  </div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/sharp_variation.png'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, cv2.CV_64F , kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges"</span>);
+
+<span class="fn">print_min_and_max</span>(image)
+<span class="fn">print_min_and_max</span>(edges)</div>
+  <p>روی یک تصویر واقعی (little_girl.jpg) هم همین کرنل را امتحان می‌کنیم، هم با ddepth پیش‌فرض و هم با CV_64F:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span> , kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges"</span>);
+
+<span class="fn">print_min_and_max</span>(image)
+<span class="fn">print_min_and_max</span>(edges)</div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, cv2.CV_64F , kernel)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges"</span>);
+
+<span class="fn">print_min_and_max</span>(image)
+<span class="fn">print_min_and_max</span>(edges)</div>
+  <p>برای گرفتن هر دو جهت تغییر (چپ‌به‌راست و راست‌به‌چپ)، یا نتیجه‌ی دو کرنل معکوس را با هم جمع می‌کنیم، یا ساده‌تر، قدرمطلق مشتق (با ddepth مقداردار) را می‌گیریم:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+kernel1 = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                    [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                    [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+kernel2 = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                    [<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,-<span class="num">1</span>/<span class="num">2</span>], 
+                    [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+<span class="cm"># Extract Sobl Edges</span>
+edges1 = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, kernel1)
+edges2 = <span class="fn">cv2.filter2D</span>(image, -<span class="num">1</span>, kernel2)
+all_vertical_edges = <span class="fn">cv2.add</span>(edges1, edges2)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">15</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(edges1, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges 1"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(edges2, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Edges 2"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.imshow</span>(all_vertical_edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Final edges"</span>);</div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+kernel = <span class="fn">np.array</span>([[<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>], 
+                   [-<span class="num">1</span>/<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>/<span class="num">2</span>], 
+                   [<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>]])
+
+
+<span class="cm"># Extract Sobl Edges</span>
+edges = <span class="fn">cv2.filter2D</span>(image, cv2.CV_64F , kernel)
+
+all_edges = <span class="fn">np.abs</span>(edges).<span class="fn">astype</span>(<span class="str">'uint8'</span>)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(all_vertical_edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"with add"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(all_edges, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"with abs"</span>);</div>
+  <div class="callout callout-tip">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">جمع دو جهت در برابر قدرمطلق</div>
+      <p>جمع دو نتیجه‌ی Clip‌شده (روش اول) با گرفتن قدرمطلق مستقیم روی نتیجه‌ی float (روش دوم) عملاً هر دو به یک نتیجه‌ی مشابه می‌رسند؛ روش دوم ساده‌تر و با یک بار فیلتر کردن به‌جای دو بار انجام می‌شود.</p>
+    </div>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">لبه‌یابی با Sobel (49)</h3></div>
+  <p>عملگر Sobel یک کرنل مشتق‌گیر آماده و بهبودیافته است که همزمان مشتق و کمی صاف‌سازی (Smoothing) انجام می‌دهد و در برابر نویز مقاوم‌تر از کرنل ساده‌ی بالاست:</p>
+  <p style="text-align:center">Gx = [[-1,0,1],[-2,0,2],[-1,0,1]] * I &nbsp;&nbsp; Gy = [[-1,-2,-1],[0,0,0],[1,2,1]] * I</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+<span class="cm"># Extract Sobel Edges</span>
+sobel_x = <span class="fn">cv2.Sobel</span>(image, cv2.CV_64F, <span class="num">1</span>, <span class="num">0</span>, ksize=<span class="num">5</span>)
+sobel_y = <span class="fn">cv2.Sobel</span>(image, cv2.CV_64F, <span class="num">0</span>, <span class="num">1</span>, ksize=<span class="num">5</span>)
+
+final_sobel = <span class="fn">cv2.add</span>(sobel_x, sobel_y)
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(sobel_x, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"sobel X"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(sobel_y, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"sobel Y"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.imshow</span>(final_sobel, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Final"</span>);</div>
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">جمع مستقیم sobel_x و sobel_y بدون قدرمطلق ناقص است</div>
+      <p>در کد بالا <code>sobel_x</code> و <code>sobel_y</code> مقادیر منفی هم دارند (چون ddepth برابر <code>CV_64F</code> است) اما <code>cv2.add</code> این مقادیر منفی و مثبت را مستقیم جمع می‌کند و ممکن است لبه‌های مثبت و منفی همدیگر را خنثی کنند. راه درست، گرفتن قدرمطلق هر دو قبل از جمع است:</p>
+    </div>
+  </div>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+image = <span class="fn">cv2.imread</span>(<span class="str">'images/little_girl.jpg'</span>,<span class="num">0</span>)
+
+<span class="cm"># Extract Sobel Edges</span>
+sobel_x = <span class="fn">cv2.Sobel</span>(image, cv2.CV_64F, <span class="num">1</span>, <span class="num">0</span>, ksize=<span class="num">5</span>)
+sobel_y = <span class="fn">cv2.Sobel</span>(image, cv2.CV_64F, <span class="num">0</span>, <span class="num">1</span>, ksize=<span class="num">5</span>)
+
+sobel_x = <span class="fn">np.abs</span>(sobel_x)
+sobel_y = <span class="fn">np.abs</span>(sobel_y)
+final_sobel = <span class="fn">cv2.add</span>(sobel_x, sobel_y)
+
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(image, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(sobel_x, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"sobel X"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(sobel_y, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"sobel Y"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.imshow</span>(final_sobel, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Final"</span>);</div>
+  <p>یک الگوی رایج‌تر در پروژه‌های واقعی، بلور گاوسی قبل از Sobel (برای کاهش نویز)، سپس <code>cv2.convertScaleAbs</code> برای تبدیل امن به <code>uint8</code> و در نهایت ترکیب وزن‌دار دو جهت با <code>cv2.addWeighted</code> است:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+src = <span class="fn">cv2.imread</span>(<span class="str">"images/little_girl.jpg"</span>)
+
+src = <span class="fn">cv2.GaussianBlur</span>(src, (<span class="num">3</span>, <span class="num">3</span>), <span class="num">0</span>)
+
+gray = <span class="fn">cv2.cvtColor</span>(src, cv2.COLOR_BGR2GRAY)
+
+
+grad_x = <span class="fn">cv2.Sobel</span>(gray, cv2.CV_16S, <span class="num">1</span>, <span class="num">0</span>, ksize=<span class="num">3</span>)
+grad_y = <span class="fn">cv2.Sobel</span>(gray, cv2.CV_16S, <span class="num">0</span>, <span class="num">1</span>, ksize=<span class="num">3</span>)
+
+
+abs_grad_x = <span class="fn">cv2.convertScaleAbs</span>(grad_x)
+abs_grad_y = <span class="fn">cv2.convertScaleAbs</span>(grad_y)
+
+grad = <span class="fn">cv2.addWeighted</span>(abs_grad_x, <span class="num">0.5</span>, abs_grad_y, <span class="num">0.5</span>, <span class="num">0</span>)
+
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">231</span>);<span class="fn">plt.imshow</span>(src[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">234</span>);<span class="fn">plt.imshow</span>(abs_grad_x, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"grad x"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">235</span>);<span class="fn">plt.imshow</span>(abs_grad_y, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"grad y"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">236</span>);<span class="fn">plt.imshow</span>(grad, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"final grad"</span>);</div>
+  <p>منبع: <a href="https://docs.opencv.org/3.4/d2/d2c/tutorial_sobel_derivatives.html" class="ref-link" target="_blank">مستندات OpenCV — Sobel Derivatives</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">لبه‌یابی با Laplacian (50)</h3></div>
+  <p>Sobel از مشتق مرتبه‌ی اول استفاده می‌کند: در محل لبه، مقدار مشتق اول یک قله (تغییر ناگهانی) نشان می‌دهد. اگر یک بار دیگر مشتق بگیریم (مشتق مرتبه‌ی دوم)، در محل دقیق لبه مقدار صفر می‌شود (Zero-crossing) و همین ویژگی هم برای تشخیص لبه قابل استفاده است — با این تفاوت که صفر فقط منحصر به لبه‌ها نیست.</p>
+  <p style="text-align:center">Laplace(f) = ∂²f/∂x² + ∂²f/∂y²</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+
+src = <span class="fn">cv2.imread</span>(<span class="str">"images/little_girl.jpg"</span>) 
+
+<span class="cm"># Remove noise by blurring with a Gaussian filter</span>
+src = <span class="fn">cv2.GaussianBlur</span>(src, (<span class="num">3</span>, <span class="num">3</span>), <span class="num">0</span>)
+
+src_gray = <span class="fn">cv2.cvtColor</span>(src, cv2.COLOR_BGR2GRAY)
+
+dst = <span class="fn">cv2.Laplacian</span>(src_gray, cv2.CV_16S, ksize=<span class="num">3</span>)
+
+abs_dst = <span class="fn">cv2.convertScaleAbs</span>(dst)
+
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+<span class="fn">plt.subplot</span>(<span class="num">121</span>);<span class="fn">plt.imshow</span>(src[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">"Original"</span>);
+<span class="fn">plt.subplot</span>(<span class="num">122</span>);<span class="fn">plt.imshow</span>(abs_dst, cmap=<span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">"Laplacian"</span>);</div>
+  <p>منبع: <a href="https://docs.opencv.org/3.4/d2/d2c/tutorial_sobel_derivatives.html" class="ref-link" target="_blank">مستندات OpenCV — Sobel Derivatives</a></p>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">لبه‌یابی با Canny (51)</h3></div>
+  <p><code>cv2.Canny</code> یک الگوریتم چندمرحله‌ای است (بلور گاوسی، محاسبه‌ی گرادیان، Non-Maximum Suppression و آستانه‌گذاری دوگانه با Hysteresis) که معمولاً تمیزترین و نازک‌ترین لبه‌ها را می‌دهد و رایج‌ترین روش لبه‌یابی در OpenCV است.</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="fn">plt.figure</span>(figsize=[<span class="num">12</span>,<span class="num">7</span>])
+src = <span class="fn">cv2.imread</span>(<span class="str">"images/little_girl.jpg"</span>) 
+
+edges = <span class="fn">cv2.Canny</span>(src,<span class="num">100</span>,<span class="num">200</span>)
+<span class="fn">plt.subplot</span>(<span class="num">121</span>),<span class="fn">plt.imshow</span>(src[...,::-<span class="num">1</span>]);<span class="fn">plt.title</span>(<span class="str">'Original Image'</span>)
+<span class="fn">plt.subplot</span>(<span class="num">122</span>),<span class="fn">plt.imshow</span>(edges,cmap = <span class="str">'gray'</span>);<span class="fn">plt.title</span>(<span class="str">'Edge Image'</span>)</div>
+  <p><code>cv2.Canny</code> دو آستانه می‌گیرد (پایین و بالا): لبه‌های قوی‌تر از آستانه‌ی بالا قطعاً لبه هستند، لبه‌های ضعیف‌تر از آستانه‌ی پایین قطعاً حذف می‌شوند، و لبه‌های بین این دو فقط اگر به یک لبه‌ی قوی متصل باشند نگه داشته می‌شوند (Hysteresis). با یک Trackbar می‌توان تاثیر آستانه‌ی پایین را به‌صورت زنده دید:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+max_lowThreshold = <span class="num">100</span>
+window_name = <span class="str">'Edge Map'</span>
+title_trackbar = <span class="str">'Min Threshold:'</span>
+ratio = <span class="num">3</span>
+kernel_size = <span class="num">3</span>
+<span class="kw">def</span> <span class="fn">CannyThreshold</span>(val):
+    low_threshold = val
+    img_blur = <span class="fn">cv2.GaussianBlur</span>(src_gray, (<span class="num">3</span>,<span class="num">3</span>), <span class="num">0</span>)
+    detected_edges = <span class="fn">cv2.Canny</span>(img_blur, low_threshold, low_threshold*ratio, kernel_size)
+    mask = detected_edges != <span class="num">0</span>
+    dst = src * (mask[:,:,<span class="kw">None</span>].<span class="fn">astype</span>(src.dtype))
+    <span class="fn">cv2.imshow</span>(window_name, dst)
+    
+src = <span class="fn">cv2.imread</span>(<span class="str">"images/little_girl.jpg"</span>)
+src_gray = <span class="fn">cv2.cvtColor</span>(src, cv2.COLOR_BGR2GRAY)
+<span class="fn">cv2.namedWindow</span>(window_name, cv2.WINDOW_GUI_EXPANDED)
+<span class="fn">cv2.createTrackbar</span>(title_trackbar, window_name , <span class="num">0</span>, max_lowThreshold, CannyThreshold)
+<span class="fn">CannyThreshold</span>(<span class="num">0</span>)
+<span class="fn">cv2.waitKey</span>()
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+  <p>همین کد روی یک تصویر دیگر (پلاک خودرو) هم قابل تکرار است:</p>
+<div class="code-block">max_lowThreshold = <span class="num">100</span>
+window_name = <span class="str">'Edge Map'</span>
+title_trackbar = <span class="str">'Min Threshold:'</span>
+
+ratio = <span class="num">3</span>
+kernel_size = <span class="num">3</span>
+<span class="kw">def</span> <span class="fn">CannyThreshold</span>(val):
+    low_threshold = val
+    img_blur = <span class="fn">cv2.GaussianBlur</span>(src_gray, (<span class="num">3</span>,<span class="num">3</span>), <span class="num">0</span>)
+    detected_edges = <span class="fn">cv2.Canny</span>(img_blur, low_threshold, low_threshold*ratio, kernel_size)
+    mask = detected_edges != <span class="num">0</span>
+    dst = src * (mask[:,:,<span class="kw">None</span>].<span class="fn">astype</span>(src.dtype))
+    <span class="fn">cv2.imshow</span>(window_name, dst)
+src = <span class="fn">cv2.imread</span>(<span class="str">"images/plate2.jpg"</span>)
+src_gray = <span class="fn">cv2.cvtColor</span>(src, cv2.COLOR_BGR2GRAY)
+<span class="fn">cv2.namedWindow</span>(window_name, cv2.WINDOW_GUI_EXPANDED)
+<span class="fn">cv2.createTrackbar</span>(title_trackbar, window_name , <span class="num">0</span>, max_lowThreshold, CannyThreshold)
+<span class="fn">CannyThreshold</span>(<span class="num">0</span>)
+<span class="fn">cv2.waitKey</span>()
+<span class="fn">cv2.destroyAllWindows</span>()</div>
+  <p>و در نهایت روی وبکم به‌صورت زنده:</p>
+<div class="code-block"><span class="kw">import</span> cv2
+
+cap = <span class="fn">cv2.VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = <span class="fn">cap.read</span>()
+    src_gray = <span class="fn">cv2.cvtColor</span>(frame, cv2.COLOR_BGR2GRAY)
+    edges = <span class="fn">cv2.Canny</span>(src_gray,<span class="num">60</span>,<span class="num">120</span>)
+    edges = <span class="fn">cv2.bitwise_not</span>(edges)
+    <span class="fn">cv2.imshow</span>(<span class="str">'Webcam'</span>, edges)    
+    <span class="kw">if</span> <span class="fn">cv2.waitKey</span>(<span class="num">1</span>) &amp; 0xFF == <span class="num">27</span>:
+        <span class="kw">break</span>
+        
+<span class="cm"># Release camera and close windows</span>
+<span class="fn">cap.release</span>()
+<span class="fn">cv2.destroyAllWindows</span>()      </div>
+  <p>منبع: <a href="https://docs.opencv.org/4.x/da/d5c/tutorial_canny_detector.html" class="ref-link" target="_blank">مستندات OpenCV — Canny Edge Detector</a></p>
+</div>
+
+<div class="section-c" data-section-id="module-4-summary">
+  <div class="section-h"><h2>جمع‌بندی ماژول ۴</h2></div>
+  <ul>
+    <li>فضای رنگی HSV چون رنگ (Hue) را از روشنایی (Value) جدا می‌کند، برای فیلتر کردن رنگ با <code>cv2.inRange</code> از BGR مناسب‌تر است؛ رنگ قرمز چون دو سر طیف Hue قرار دارد به دو ماسک جداگانه نیاز دارد.</li>
+    <li>فضاهای LAB و YCrCb هم روشنایی را از رنگ جدا می‌کنند و در کاربردهایی مثل حذف پرده‌ی سبز با آستانه‌گذاری خودکار (Otsu) روی کانال a کاربرد دارند.</li>
+    <li>حذف پرده‌ی سبز و افکت Color Pop هر دو روی همان ایده‌ی ماسک رنگی و ترکیب بیتی (bitwise_and/bitwise_not/add) ساخته می‌شوند.</li>
+    <li>رنگ‌های غالب یک تصویر را می‌توان با خوشه‌بندی K-Means (دقیق‌تر، کندتر) یا هیستوگرام کانال Hue (سریع‌تر، تک‌بعدی) پیدا کرد.</li>
+    <li>هیستوگرام توزیع مقادیر پیکسل را نشان می‌دهد؛ <code>cv2.calcHist</code> ابزار اصلی محاسبه‌ی آن است و باید قبل از مقایسه‌ی دو هیستوگرام آن‌ها را نرمال کرد چون به سایز تصویر حساس است.</li>
+    <li>یکنواخt‌سازی هیستوگرام (equalizeHist) کنتراست سراسری تصویر را بهبود می‌دهد؛ CLAHE با تقسیم تصویر به بلوک‌های کوچک و محدود کردن تقویت نویز، نسخه‌ی تطبیقی و معمولاً بهتر آن است.</li>
+    <li>فیلترهای blur (box، Gaussian، median، bilateral) نویز را کم می‌کنند؛ هرکدام مصالحه‌ی متفاوتی بین حذف نویز و حفظ لبه دارند. کرنل‌های sharpening با تفریق یک نسخه‌ی بلورشده از تصویر اصلی، جزئیات را تقویت می‌کنند.</li>
+    <li>لبه‌ها با مشتق‌گیری از تصویر پیدا می‌شوند: کرنل ساده و Sobel از مشتق مرتبه‌ی اول، Laplacian از مشتق مرتبه‌ی دوم (zero-crossing)، و Canny با ترکیب بلور، گرادیان، Non-Maximum Suppression و آستانه‌گذاری دوگانه، معمولاً تمیزترین نتیجه را می‌دهد.</li>
+    <li>برای خروجی گرادیان با مقادیر منفی (لبه‌های تیره‌به‌روشن)، باید ddepth را <code>cv2.CV_64F</code> یا مشابه آن گذاشت، وگرنه با ddepth پیش‌فرض (uint8) نیمی از اطلاعات لبه با Clip شدن از بین می‌رود.</li>
+  </ul>
+</div>

@@ -1,0 +1,59 @@
+<!--
+  ─────────────────────────────────────────────────────────────────────────────
+  TEMPLATE — Cheat Sheet (برگه‌ی تقلب)
+
+  این فایل یک اسکلت مرجع است — خودش در سایت لود نمی‌شود.
+  برای ساخت یک سکشن واقعی:
+    1. کپی به:  content/module-N/cheatsheet.html
+    2. داده‌ی همه‌ی idهای «module-N» را به ماژول خودت تغییر بده.
+    3. در manifest (assets/js/content-loader.js) برای همان ماژول:
+       { type: 'cheatsheet', file: 'content/module-N/cheatsheet.html' }  ← placeholder حذف
+    4. اولین سکشن‌c- این فایل باید data-section-id برابر
+       «module-N-cheatsheet» داشته باشد (لنگر نوار سکشن‌ها).
+    5. هر h2 با id منحصربه‌فرد باشد (لینک OTP و کپی لینک سکشن).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="section-c" data-section-id="module-N-cheatsheet">
+  <div class="section-h">
+    <div class="label">Cheat Sheet</div>
+    <h2 id="cheatsheet-intro">برگه‌ی تقلب — <موضوع ماژول></h2>
+    <p>خلاصه‌ی فشرده‌ی توابع، سینتکس‌ها و الگوهای پرکاربرد این ماژول؛ برای رجوع سریع، نه یادگیری از صفر.</p>
+  </div>
+
+  <p style="margin-bottom:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="#" class="ref-link">لینک منبع</a></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.function_name(args)</td><td>شرح کارکرد</td><td class="code">cv2.fn(img, 50)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباهات رایج</div>
+      <ul>
+        <li><strong>خطای رایج ۱:</strong> توضیح</li>
+        <li><strong>خطای رایج ۲:</strong> توضیح</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">نکته</div>
+      <p>نکته‌ای که موقع کپی‌پیست از داکومنت باید بدانی.</p>
+    </div>
+  </div>
+
+  <div class="code-block"># الگوی استاندارد بازکردن و بستن منبع
+<span class="kw">import</span> cv2
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+<span class="cm"># ...</span>
+cap.<span class="fn">release</span>()</div>
+</div>

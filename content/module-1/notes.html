@@ -1,0 +1,847 @@
+
+
+  <div class="section-c chapter-intro" data-section-id="module-1-intro">
+    <div class="ci-question">شروع کار با OpenCV در پایتون یعنی چی؟</div>
+    <p class="ci-intro">این ماژول پایه‌ی همه‌چیز است: تصویر چطور خوانده، نمایش داده و ذخیره می‌شود، چطور به سطح خاکستری تبدیل می‌شود، چطور برش می‌خوریم، فضاهای رنگی چه فرقی دارند، کانال آلفا و عملیات بیتی چیست، چطور روی تصویر شکل و متن رسم می‌کنیم، عملیات ریاضی روی پیکسل‌ها چطور کار می‌کند، و در نهایت روشنایی و کنتراست چطور با روش خطی و گاما تنظیم می‌شوند. این نسخه، نسخه‌ی کامل‌شده است — هر نکته، هشدار، تمرین و مثالی که در خود نوت‌بوک‌ها بوده، اینجا هم آمده.</p>
+  </div>
+
+  <div class="section-c" data-section-id="module-1-checklist">
+    <div class="metrics">
+      <span class="metric accent">10 نوت‌بوک</span>
+      <span class="metric success">10 تکمیل‌شده</span>
+      <span class="metric">7 موضوع اصلی</span>
+      <span class="metric success">4 تمرین حل‌شده</span>
+    </div>
+    <div class="section-h"><h2>فهرست نوت‌بوک‌های این ماژول</h2></div>
+    <p style="margin-bottom:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع اصلی نوت‌بوک‌ها: <a href="https://github.com/Alireza-Akhavan/class.vision" class="ref-link">github.com/Alireza-Akhavan/class.vision</a> — روی نام هر فایل کلیک کنید تا نسخه‌ی آنلاینش (nbviewer) باز شود.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:8%">#</th><th style="width:44%">فایل</th><th style="width:34%">موضوع</th><th style="width:14%">وضعیت</th></tr></thead>
+        <tbody>
+          <tr><td class="code">01</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/reading-writing-and-displaying-images.ipynb" class="ref-link">reading-writing-and-displaying-images.ipynb</a></td><td>خواندن / نمایش / ذخیره تصویر</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">02</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/Grayscaling.ipynb" class="ref-link">Grayscaling.ipynb</a></td><td>تبدیل به سطح خاکستری</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">03</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/cropping.ipynb" class="ref-link">cropping.ipynb</a></td><td>برش تصویر</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">04</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/color-spaces.ipynb" class="ref-link">color-spaces.ipynb</a></td><td>فضاهای رنگی (BGR / HSV)</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">05</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/alpha-channel.ipynb" class="ref-link">alpha-channel.ipynb</a></td><td>کانال آلفا و PNG شفاف</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">06</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/bitwise-operations-and-masking.ipynb" class="ref-link">bitwise-operations-and-masking.ipynb</a></td><td>عملیات بیتی و ماسک</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">07</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/Drawing-and-annotating.ipynb" class="ref-link">Drawing-and-annotating.ipynb</a></td><td>رسم شکل و نوشتن متن</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">08</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/Arithmetic-Operations.ipynb" class="ref-link">Arithmetic-Operations.ipynb</a></td><td>جمع و تفریق تصاویر</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">09</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/linear-brightness-and-contrast-adjustment.ipynb" class="ref-link">linear-brightness-and-contrast-adjustment.ipynb</a></td><td>روشنایی و کنتراست خطی</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">10</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/Gamma-correction.ipynb" class="ref-link">Gamma-correction.ipynb</a></td><td>تصحیح گاما</td><td><span class="badge success">تکمیل</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== 1. Introduction to image ===== -->
+  <div class="section-c" data-section-id="module-1-intro-image">
+    <div class="section-h"><h2>1. خواندن، نمایش، ذخیره و گری‌اسکیل تصویر (01, 02)</h2></div>
+    <p>هر تصویر برای OpenCV یک آرایه‌ی NumPy است. نصب پکیج:</p>
+    <div class="code-block">pip install opencv-python</div>
+
+    <div class="code-head"><span class="ch-label">Notebook 01</span><span class="ch-path">reading-writing-and-displaying-images.ipynb</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;img = cv2.imread('./images/input.jpg')&#10;cv2.imshow('It is a cow!', img)&#10;cv2.waitKey(0)&#10;cv2.destroyAllWindows()" aria-label="Copy code">⌘</button></div>
+    <div class="code-block"><span class="kw">import</span> cv2
+
+<span class="cm"># خواندن تصویر با مشخص‌کردن مسیر فایل</span>
+img = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+
+<span class="cm"># پارامتر اول: عنوان پنجره‌ی نمایش، پارامتر دوم: خود متغیر تصویر</span>
+cv2.<span class="fn">imshow</span>(<span class="str">'It is a cow!'</span>, img)
+
+<span class="cm"># waitKey منتظر فشرده‌شدن یک کلید می‌ماند تا اجرا ادامه پیدا کند</span>
+<span class="cm"># با گذاشتن یک عدد (به‌جز 0)، می‌توان تاخیر مشخصی (به میلی‌ثانیه) تعیین کرد</span>
+cv2.<span class="fn">waitKey</span>()
+
+<span class="cm"># همه‌ی پنجره‌های باز را می‌بندد</span>
+<span class="cm"># نبود این خط ممکنه روی بعضی سیستم‌ها باعث هنگ‌کردن برنامه بشه!</span>
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">نوع متغیر تصویر و ابعادش را می‌توان این‌طور چک کرد:</p>
+    <div class="code-block"><span class="fn">type</span>(img)   <span class="cm"># numpy.ndarray</span>
+
+print(img.shape)   <span class="cm"># satr, soton -> (height, width, channels)</span></div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">shape چی می‌گه؟</div>
+        <p>دو بعد نخست به ترتیب نشان‌دهنده‌ی <strong>ارتفاع (height)</strong> و <strong>عرض (width)</strong> تصویرند. عدد سوم (۳) هم نمایانگر وجود سه کانال رنگی است.</p>
+      </div>
+    </div>
+
+    <div class="code-block"><span class="cm"># چاپ هر بعد تصویر به‌طور جداگانه</span>
+print(<span class="str">'Height of Image:'</span>, <span class="fn">int</span>(img.shape[<span class="num">0</span>]), <span class="str">'pixels'</span>)
+print(<span class="str">'Width of Image: '</span>, <span class="fn">int</span>(img.shape[<span class="num">1</span>]), <span class="str">'pixels'</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">ذخیره‌سازی تصویر با <code class="code">imwrite</code>:</p>
+    <div class="code-block">cv2.<span class="fn">imwrite</span>(<span class="str">'output.jpg'</span>, img)
+cv2.<span class="fn">imwrite</span>(<span class="str">'output.png'</span>, img)
+<span class="cm"># هر دو خروجی True برمی‌گردانند به معنی اینکه عملیات با موفقیت انجام شد</span></div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">نمایش در نوت‌بوک با matplotlib</h3></div>
+    <div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+plt.<span class="fn">imshow</span>(img)
+<span class="cm"># دلیل اینکه رنگ‌ها اینطوری برعکس دراومده اینه که matplotlib ترتیب RGB</span>
+<span class="cm"># رو انتظار داره ولی OpenCV تصویر رو BGR لود کرده</span></div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">نکته مهم: BGR نه RGB</div>
+        <p>سطر و ستون‌های ماتریس به ترتیب height و width عکس هستند. رنگ تصویر در matplotlib وارونه دیده می‌شود چون ترتیب کانال‌ها در OpenCV برخلاف اکثر کتابخانه‌های دیگر <strong>BGR</strong> است، نه RGB. دو راه رفعش:</p>
+        <ul>
+          <li><strong>روش ۱ (NumPy):</strong> <code>plt.imshow(img[:,:,::-1])</code></li>
+          <li><strong>روش ۲ (OpenCV):</strong> <code>rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code> سپس <code>plt.imshow(rgb_image)</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">چون تصویر یک آرایه‌ی NumPy است، دستکاری مستقیم پیکسل‌ها هم فقط با slicing انجام می‌شود:</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+img[<span class="num">200</span>:<span class="num">300</span>, <span class="num">300</span>:<span class="num">500</span>, :] = <span class="num">255</span>          <span class="cm"># کل ناحیه سفید می‌شود</span>
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])
+
+img[<span class="num">200</span>:<span class="num">300</span>, <span class="num">300</span>:<span class="num">500</span>, :] = (<span class="num">0</span>, <span class="num">0</span>, <span class="num">255</span>)   <span class="cm"># یک مستطیل قرمز (چون BGR است، آخرین مقدار R است)</span>
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+  </div>
+
+  <div class="section-c" data-section-id="module-1-grayscale">
+    <div class="section-h"><h3 style="font-size:var(--fs-lg)">گری‌اسکیل کردن (02)</h3></div>
+    <p>گری‌اسکیل یعنی تبدیل تصویر رنگی به سطوح خاکستری (سیاه و سفید). در OpenCV، بسیاری از توابع قبل از پردازش، تصویر را گری‌اسکیل می‌کنند؛ این کار تقریباً مثل کاهش نویز عمل می‌کند و چون اطلاعات کمتری در تصویر است، سرعت پردازش را هم بالا می‌برد.</p>
+
+    <div class="code-block"><span class="kw">import</span> cv2
+
+image = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+cv2.<span class="fn">imshow</span>(<span class="str">'Original'</span>, image)
+cv2.<span class="fn">waitKey</span>()
+
+<span class="cm"># با cvtColor به سطح خاکستری تبدیل می‌کنیم</span>
+gray_image = cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_BGR2GRAY)
+
+cv2.<span class="fn">imshow</span>(<span class="str">'Grayscale'</span>, gray_image)
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">روش سریع‌تر: مستقیم موقع خواندن، با پاس دادن ۰ به <code class="code">imread</code>:</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>, <span class="num">0</span>)
+<span class="cm"># با پاس دادن صفر به imread، تصویر مستقیماً گری‌اسکیل خونده میشه</span>
+<span class="cm"># با گری‌اسکیل کردن، تعداد کانال‌ها هم تغییر می‌کنه</span>
+cv2.<span class="fn">imshow</span>(<span class="str">'Grayscale'</span>, img)
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()
+
+print(img.shape)   <span class="cm"># فقط (h, w) — بدون بعد سوم</span></div>
+
+    <p style="margin-top:var(--sp-4-5)">برای نمایش تصویر گری‌اسکیل در نوت‌بوک با matplotlib:</p>
+    <div class="code-block">plt.<span class="fn">imshow</span>(img)
+<span class="cm"># رنگی و عجیب نمایش داده میشه چون matplotlib به‌طور پیش‌فرض یک colormap رنگی می‌زنه</span></div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">حتماً cmap='gray' بدهید</div>
+        <p>برای عکس سطح‌خاکستری حتماً باید از <code>cmap</code> در matplotlib استفاده شود، وگرنه matplotlib آن را با یک colormap رنگی (مثلاً زرد-بنفش) نمایش می‌دهد که گمراه‌کننده است:</p>
+        <p><code>plt.imshow(img, cmap='gray')</code></p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">حالا بیایید ببینیم فرمول داخلی گری‌اسکیل کردن دقیقاً چیست. ابتدا مقدار سه کانال یک پیکسل خاص را نگاه می‌کنیم:</p>
+    <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+
+<span class="cm"># مقدار تک‌تک کانال‌های رنگی برای پیکسل (10,50)</span>
+B, G, R = image[<span class="num">10</span>, <span class="num">50</span>]
+print(B, G, R)
+print(<span class="str">"shape:"</span>, image.shape)</div>
+    <div class="code-block">gray_img = cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_BGR2GRAY)
+print(gray_img[<span class="num">10</span>, <span class="num">50</span>])
+print(<span class="str">"shape:"</span>, gray_img.shape)</div>
+    <p style="margin-top:var(--sp-4-5)">و همین مقدار را دستی با فرمول وزن‌دار OpenCV حساب می‌کنیم — دقیقاً همان عدد به‌دست می‌آید:</p>
+    <div class="code-block"><span class="fn">round</span>(<span class="num">0.2989</span>*R + <span class="num">0.5872</span>*G + <span class="num">0.1140</span>*B)</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">میانگین ساده هم امتحان‌کردنی است</div>
+        <p>تصویر سطح‌خاکستری واقعی OpenCV با <strong>میانگین‌گیری وزن‌دار</strong> از سه کانال به‌دست می‌آید (وزن‌ها بر اساس حساسیت چشم انسان به هر رنگ است، برای همین G بیشترین وزن را دارد). اما می‌شود با میانگین ساده (بدون وزن) هم یک نسخه‌ی تقریبی ساخت:</p>
+      </div>
+    </div>
+    <div class="code-block">new_image = image[:,:,<span class="num">0</span>]//<span class="num">3</span> + image[...,<span class="num">1</span>]//<span class="num">3</span> + image[...,<span class="num">2</span>]//<span class="num">3</span>
+new_image.shape
+
+plt.<span class="fn">imshow</span>(new_image, cmap=<span class="str">'gray'</span>)</div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">✓</div>
+      <div class="callout-body">
+        <div class="callout-title">تمرین همین نوت‌بوک</div>
+        <p>تلاش کنید تصویر رنگی خوانده‌شده را فقط با NumPy (بدون <code>cvtColor</code>) سطح‌خاکستری کنید. برای سادگی می‌توانید میانگین بدون وزن بگیرید (دقیقاً همان کدی که بالا نوشته شد).</p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-4-5)">یک تمرین جانبی دیگر در همین نوت‌بوک: خواندن یک تصویر checkerboard به‌صورت گری‌اسکیل مستقیم و چاپ مقادیر خام پیکسل‌ها (که هرکدام یک عدد ۸ بیتی بین ۰ تا ۲۵۵ هستند):</p>
+    <div class="code-block">cb_img = cv2.<span class="fn">imread</span>(<span class="str">"images/checkerboard_18x18.png"</span>, <span class="num">0</span>)
+plt.<span class="fn">imshow</span>(cb_img, cmap=<span class="str">'gray'</span>)
+
+<span class="cm"># چاپ مقادیر خام پیکسل‌ها — هر خانه یک آرایه‌ی 2 بعدی از اعداد 8 بیتی [0,255] است</span>
+print(cb_img)</div>
+  </div>
+
+  <!-- ===== 2. Basic image operations ===== -->
+  <div class="section-c" data-section-id="module-1-cropping">
+    <div class="section-h"><h2>2. برش تصویر — Cropping (03)</h2></div>
+    <p>چون تصویر یک آرایه‌ی NumPy است، برش (crop) کردن فقط یعنی slicing؛ نیازی به تابع مخصوص OpenCV نیست.</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = cv2.<span class="fn">imread</span>(<span class="str">'images/input.jpg'</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+    <div class="code-block">height, width = image.shape[:<span class="num">2</span>]
+
+<span class="cm"># به‌سادگی با اندیس‌گذاری، مستطیل مورد نظر رو برش می‌زنیم</span>
+<span class="cm"># image[y1:y2, x1:x2] — اول ارتفاع(y)، بعد عرض(x)</span>
+cropped = image[<span class="num">250</span>:<span class="num">400</span>, <span class="num">250</span>:<span class="num">550</span>]
+
+plt.<span class="fn">imshow</span>(cropped[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">نمایش هم‌زمان تصویر اصلی و برش‌خورده در دو پنجره:</p>
+    <div class="code-block">cv2.<span class="fn">imshow</span>(<span class="str">"original"</span>, image)
+cv2.<span class="fn">imshow</span>(<span class="str">"cropped"</span>, cropped)
+
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">ترتیب مختصات، منبع اصلی اشتباه مبتدی‌ها</div>
+        <p>در slicing آرایه، ترتیب <code>[row, col]</code> یعنی <code>[y, x]</code> است — نه <code>[x, y]</code>. این دقیقاً برعکس چیزی است که در توابع رسم (مثل <code>cv2.rectangle</code>) با آن مواجه می‌شوید — آنجا ترتیب <code>(x, y)</code> است.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3. Color spaces ===== -->
+  <div class="section-c" data-section-id="module-1-colorspaces">
+    <div class="section-h"><h2>3. فضاهای رنگی — Color Spaces (04)</h2></div>
+    <p style="margin-bottom:var(--sp-3)">بیشتر درباره‌ی تصاویر RGB (یا در OpenCV در واقع BGR):</p>
+    <p>جدا کردن کانال‌های تصویر با <code class="code">cv2.split</code>:</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">"./images/color.png"</span>)
+b, g, r = cv2.<span class="fn">split</span>(img)
+
+<span class="cm"># نمایش هر کانال جداگانه به‌صورت gray</span>
+plt.<span class="fn">figure</span>(figsize=[<span class="num">20</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">141</span>); plt.<span class="fn">imshow</span>(r, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Red Channel"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">142</span>); plt.<span class="fn">imshow</span>(g, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Green Channel"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">143</span>); plt.<span class="fn">imshow</span>(b, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Blue Channel"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">144</span>); plt.<span class="fn">imshow</span>(img[:,:,::-<span class="num">1</span>]); plt.title(<span class="str">"all channels"</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">ترکیب دوباره‌ی کانال‌ها با <code class="code">cv2.merge</code> (خروجی دقیقاً همان تصویر اصلی است):</p>
+    <div class="code-block">merged = cv2.<span class="fn">merge</span>([b, g, r])
+plt.<span class="fn">imshow</span>(merged[:,:,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">با صفر کردن دو کانال دیگر، می‌توان هر کانال را به‌تنهایی و با رنگ واقعی‌اش دید (نه فقط خاکستری):</p>
+    <div class="code-block">zeros = np.<span class="fn">zeros_like</span>(r, <span class="str">'uint8'</span>)
+
+red   = cv2.<span class="fn">merge</span>([zeros, zeros, r])   <span class="cm"># فقط کانال قرمز فعال</span>
+green = cv2.<span class="fn">merge</span>([zeros, g, zeros])   <span class="cm"># فقط کانال سبز فعال</span>
+blue  = cv2.<span class="fn">merge</span>([b, zeros, zeros])   <span class="cm"># فقط کانال آبی فعال</span>
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">20</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">141</span>); plt.<span class="fn">imshow</span>(red[...,::-<span class="num">1</span>]);   plt.title(<span class="str">"Red"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">142</span>); plt.<span class="fn">imshow</span>(green[...,::-<span class="num">1</span>]); plt.title(<span class="str">"Green"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">143</span>); plt.<span class="fn">imshow</span>(blue[...,::-<span class="num">1</span>]);  plt.title(<span class="str">"Blue"</span>)</div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تغییر یک کانال به‌تنهایی — و باگ رایج آن</h3></div>
+    <p>یک اشتباه خیلی رایج، جمع مستقیم روی یک کانال است:</p>
+    <div class="code-block">b, g, r = cv2.<span class="fn">split</span>(img)
+
+modified_b = b + <span class="num">20</span>
+merged = cv2.<span class="fn">merge</span>([modified_b, g, r])
+plt.<span class="fn">imshow</span>(merged[:,:,::-<span class="num">1</span>])</div>
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">می‌تونی حدس بزنی مشکل کجاست؟</div>
+        <p>چون <code>b</code> از نوع <code>uint8</code> است (فقط ۰ تا ۲۵۵)، جمع مستقیم <code>b + 20</code> در مقادیر نزدیک به ۲۵۵ <strong>overflow (سرریز)</strong> می‌کند — مثلاً ۲۴۵ به‌جای ۲۶۵ می‌شود ۹. نتیجه لکه‌های رنگی عجیب در قسمت‌های روشن تصویر است.</p>
+      </div>
+    </div>
+    <p style="margin-top:var(--sp-4-5)">راه‌حل درست: قبل از جمع به <code class="code">int16</code> تبدیل کن، بعد با <code class="code">clip</code> در بازه‌ی مجاز نگه دار:</p>
+    <div class="code-block">modified_b = b.astype(<span class="str">'int16'</span>) + <span class="num">20</span>
+modified_b = np.<span class="fn">minimum</span>(modified_b, <span class="num">255</span>)
+modified_b = modified_b.astype(<span class="str">'uint8'</span>)
+
+merged = cv2.<span class="fn">merge</span>([modified_b, g, r])</div>
+    <p style="margin-top:var(--sp-4-5)">راه بهتر (و کوتاه‌تر) همانی است که در نوت‌بوک <a href="#module-1/module-1-arithmetic" class="ref-link">عملیات ریاضی</a> می‌بینیم — <code class="code">cv2.add</code> که خودش این saturating را انجام می‌دهد:</p>
+    <div class="code-block"><span class="kw">assert</span> np.<span class="fn">all</span>(modified_b == cv2.<span class="fn">add</span>(b, <span class="num">20</span>))   <span class="cm"># هر دو دقیقاً یکسان‌اند</span></div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">فضای رنگی HSV</h3></div>
+    <p>در HSV، رنگ (Hue) از روشنایی (Value) جدا شده — همین باعث می‌شود تشخیص رنگ خاص، مستقل از نور محیط، خیلی راحت‌تر باشد. HSV به‌خصوص در فیلترکردن رنگ خیلی مفید است.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:20%">کانال</th><th style="width:20%">بازه در OpenCV</th><th>معنی</th></tr></thead>
+        <tbody>
+          <tr><td class="code">H (Hue)</td><td class="code">0 – 179</td><td>خود رنگ (Color Value)</td></tr>
+          <tr><td class="code">S (Saturation)</td><td class="code">0 – 255</td><td>غلظت/شدت رنگ (Vibrancy)</td></tr>
+          <tr><td class="code">V (Value)</td><td class="code">0 – 255</td><td>روشنایی/شدت نور (Brightness)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+hsv_image = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2HSV)
+
+cv2.<span class="fn">imshow</span>(<span class="str">'HSV image'</span>, hsv_image)
+cv2.<span class="fn">imshow</span>(<span class="str">'Hue channel'</span>, hsv_image[:, :, <span class="num">0</span>])
+cv2.<span class="fn">imshow</span>(<span class="str">'Saturation channel'</span>, hsv_image[:, :, <span class="num">1</span>])
+cv2.<span class="fn">imshow</span>(<span class="str">'Value channel'</span>, hsv_image[:, :, <span class="num">2</span>])
+
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+    <div class="code-block">plt.<span class="fn">figure</span>(figsize=[<span class="num">20</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(hsv_image[:,:,<span class="num">0</span>], cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Hue Channel"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(hsv_image[:,:,<span class="num">1</span>], cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Saturation Channel"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(hsv_image[:,:,<span class="num">2</span>], cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Value Channel"</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">افزایش اشباع رنگ (Saturation) — با اضافه‌کردن به کانال S و برگرداندن به BGR:</p>
+    <div class="code-block">saturated_image = cv2.<span class="fn">merge</span>([hsv_image[:,:,<span class="num">0</span>], cv2.<span class="fn">add</span>(hsv_image[:,:,<span class="num">1</span>], <span class="num">50</span>), hsv_image[:,:,<span class="num">2</span>]])
+saturated_image = cv2.<span class="fn">cvtColor</span>(saturated_image, cv2.COLOR_HSV2BGR)</div>
+    <p style="margin-top:var(--sp-4-5)">و همین‌طور افزایش روشنایی — با اضافه‌کردن به کانال V:</p>
+    <div class="code-block">brighter_image = cv2.<span class="fn">merge</span>([hsv_image[:,:,<span class="num">0</span>], hsv_image[:,:,<span class="num">1</span>], cv2.<span class="fn">add</span>(hsv_image[:,:,<span class="num">2</span>], <span class="num">50</span>)])
+brighter_image = cv2.<span class="fn">cvtColor</span>(brighter_image, cv2.COLOR_HSV2BGR)</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">فضاهای رنگی بیشتر</div>
+        <p>OpenCV ده‌ها حالت تبدیل فضای رنگی دیگر هم دارد — اما در عمل خیلی‌هایشان به ندرت لازم می‌شوند؛ BGR، RGB، GRAY و HSV بیشترین کاربرد را دارند. لیست کامل تبدیل‌های رنگ: <a href="https://docs.opencv.org/4.6.0/d8/d01/group__imgproc__color__conversions.html" class="ref-link">docs.opencv.org – color conversions</a></p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">مثال عملی کامل: ردیابی زنده‌ی یک شیء آبی‌رنگ از وب‌کم با ماسک HSV، پیدا کردن بزرگ‌ترین contour، و رسم کادر و مرکز آن روی فریم:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    hsv = cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+
+    <span class="cm"># محدوده رنگ آبی (مثال)</span>
+    lower = np.array([<span class="num">100</span>, <span class="num">100</span>, <span class="num">100</span>])
+    upper = np.array([<span class="num">130</span>, <span class="num">255</span>, <span class="num">255</span>])
+    mask = cv2.<span class="fn">inRange</span>(hsv, lower, upper)
+
+    contours, _ = cv2.<span class="fn">findContours</span>(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    <span class="kw">if</span> contours:
+        c = <span class="fn">max</span>(contours, key=cv2.contourArea)
+        <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(c) > <span class="num">500</span>:
+            x, y, w, h = cv2.<span class="fn">boundingRect</span>(c)
+            cx = x + w // <span class="num">2</span>
+            cy = y + h // <span class="num">2</span>
+            cv2.<span class="fn">rectangle</span>(frame, (x, y), (x+w, y+h), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)
+            cv2.<span class="fn">circle</span>(frame, (cx, cy), <span class="num">5</span>, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), -<span class="num">1</span>)
+            print(<span class="str">"Center:"</span>, cx, cy)
+
+    cv2.<span class="fn">imshow</span>(<span class="str">"Frame"</span>, frame)
+    cv2.<span class="fn">imshow</span>(<span class="str">"Mask"</span>, mask)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) == <span class="num">27</span>:  <span class="cm"># کلید ESC</span>
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+  </div>
+
+  <!-- ===== 4. Bitwise operations & PNG ===== -->
+  <div class="section-c" data-section-id="module-1-alpha">
+    <div class="section-h"><h2>4. کانال آلفا و عملیات بیتی (05, 06)</h2></div>
+    <p>فایل PNG می‌تواند یک کانال چهارم — آلفا — داشته باشد (Red, Green, Blue, Alpha). برای خواندنش حتماً از <code class="code">IMREAD_UNCHANGED</code> استفاده کنید، وگرنه کانال آلفا نادیده گرفته می‌شود:</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">"./images/transparency.png"</span>, cv2.IMREAD_UNCHANGED)
+img.shape   <span class="cm"># (h, w, 4)</span>
+
+bgr_image = img[...,<span class="num">0</span>:<span class="num">3</span>]
+alpha_image = img[...,-<span class="num">1</span>]
+rgb_image = cv2.<span class="fn">cvtColor</span>(bgr_image, cv2.COLOR_BGR2RGB)
+plt.<span class="fn">imshow</span>(rgb_image); plt.title(<span class="str">"RGB"</span>)</div>
+    <div class="code-block">plt.<span class="fn">imshow</span>(alpha_image); plt.title(<span class="str">"Alpha"</span>)</div>
+    <p style="margin-top:var(--sp-4-5)">همین کار را با یک تصویر دیگر هم می‌شود امتحان کرد (نمونه از <a href="http://www.alphamatting.com/datasets.php" class="ref-link">سایت Alpha Matting Evaluation</a>):</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">"./images/alpha.png"</span>, cv2.IMREAD_UNCHANGED)
+bgr_image = img[...,<span class="num">0</span>:<span class="num">3</span>]
+alpha_image = img[...,-<span class="num">1</span>]
+plt.<span class="fn">imshow</span>(alpha_image, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Alpha"</span>)</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">فرمول ترکیب با آلفا</div>
+        <p>مقدار α بین ۰ تا ۲۵۵ ذخیره می‌شود که تقسیم بر ۲۵۵ می‌شود (پس ۰ ≤ α ≤ ۱)، و فرمول ترکیب چنین است:</p>
+        <p style="font-family:var(--mono);margin:var(--sp-2) 0">I = α·F + (1-α)·B</p>
+        <ul>
+          <li>وقتی <strong>α = 0</strong>، خروجی همان تصویر پس‌زمینه (B) است.</li>
+          <li>وقتی <strong>α = 1</strong>، خروجی همان تصویر جلو/شما (F) است.</li>
+          <li>وقتی <strong>0 &lt; α &lt; 1</strong>، خروجی ترکیبی از تصویر و پس‌زمینه است.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-c" data-section-id="module-1-bitwise">
+    <div class="section-h"><h3 style="font-size:var(--fs-lg)">عملیات بیتی و ماسکینگ (06)</h3></div>
+    <p>در گام نخست، برای درک بهتر این عملیات، دو شکل ساده (مربع و بیضی) می‌سازیم — برای رسم اشکال نگران نباشید، در بخش بعد کامل توضیح داده می‌شود:</p>
+    <div class="code-block"><span class="cm"># اگر فقط 2 بعد داریم چون این تصویر گری‌اسکیله؛</span>
+<span class="cm"># برای تصویر رنگی می‌نوشتیم: rectangle = np.zeros((300, 300, 3), np.uint8)</span>
+
+square = np.<span class="fn">zeros</span>((<span class="num">300</span>, <span class="num">300</span>), np.uint8)
+cv2.<span class="fn">rectangle</span>(square, (<span class="num">50</span>, <span class="num">50</span>), (<span class="num">250</span>, <span class="num">250</span>), <span class="num">255</span>, -<span class="num">1</span>)
+
+ellipse = np.<span class="fn">zeros</span>((<span class="num">300</span>, <span class="num">300</span>), np.uint8)
+cv2.<span class="fn">ellipse</span>(ellipse, (<span class="num">150</span>, <span class="num">150</span>), (<span class="num">150</span>, <span class="num">150</span>), <span class="num">30</span>, <span class="num">0</span>, <span class="num">180</span>, <span class="num">255</span>, -<span class="num">1</span>)
+
+plt.<span class="fn">subplot</span>(<span class="num">121</span>); plt.<span class="fn">imshow</span>(square, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"square"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">122</span>); plt.<span class="fn">imshow</span>(ellipse, cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"ellipse"</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">حالا چهار عملیات بیتی روی همین دو شکل:</p>
+    <div class="code-block">bitwise_and = cv2.<span class="fn">bitwise_and</span>(square, ellipse)    <span class="cm"># فقط اشتراک دو شکل</span>
+bitwise_or  = cv2.<span class="fn">bitwise_or</span>(square, ellipse)     <span class="cm"># هرجا حداقل یکی از دو شکل باشد</span>
+bitwise_xor = cv2.<span class="fn">bitwise_xor</span>(square, ellipse)    <span class="cm"># هرجا فقط یکی از دو شکل به‌تنهایی باشد</span>
+bitwise_not_sq = cv2.<span class="fn">bitwise_not</span>(square)          <span class="cm"># همه‌جا به‌جز مربع</span>
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">12</span>,<span class="num">6</span>])
+plt.<span class="fn">subplot</span>(<span class="num">242</span>); plt.<span class="fn">imshow</span>(square,cmap=<span class="str">'gray'</span>);  plt.title(<span class="str">"Square"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">243</span>); plt.<span class="fn">imshow</span>(ellipse,cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Ellipse"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">245</span>); plt.<span class="fn">imshow</span>(bitwise_and,cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"And"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">246</span>); plt.<span class="fn">imshow</span>(bitwise_or,cmap=<span class="str">'gray'</span>);  plt.title(<span class="str">"Or"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">247</span>); plt.<span class="fn">imshow</span>(bitwise_xor,cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"Xor"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">248</span>); plt.<span class="fn">imshow</span>(bitwise_not_sq,cmap=<span class="str">'gray'</span>); plt.title(<span class="str">"not (square)"</span>)</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">برای درک عملگر بیتی در سطح بیت</div>
+        <p>عملیات بیتی واقعاً روی <strong>بیت‌های</strong> عدد هر پیکسل کار می‌کند، نه فقط "روشن/خاموش". یک مثال کوچک با ماتریس‌های ۱۰×۱۰ و مقادیر باینری این را روشن می‌کند:</p>
+      </div>
+    </div>
+    <div class="code-block">square = np.<span class="fn">zeros</span>((<span class="num">10</span>, <span class="num">10</span>), np.uint8)
+cv2.<span class="fn">rectangle</span>(square, (<span class="num">2</span>, <span class="num">2</span>), (<span class="num">8</span>, <span class="num">8</span>), <span class="num">2</span>, -<span class="num">1</span>)  <span class="cm"># 2 : 010</span>
+
+circle1 = np.<span class="fn">zeros</span>((<span class="num">10</span>, <span class="num">10</span>), np.uint8)
+cv2.<span class="fn">circle</span>(circle1, (<span class="num">5</span>, <span class="num">5</span>), <span class="num">2</span>, <span class="num">3</span>, -<span class="num">1</span>)   <span class="cm"># 3 : 011</span>
+
+circle2 = np.<span class="fn">zeros</span>((<span class="num">10</span>, <span class="num">10</span>), np.uint8)
+cv2.<span class="fn">circle</span>(circle2, (<span class="num">5</span>, <span class="num">5</span>), <span class="num">2</span>, <span class="num">4</span>, -<span class="num">1</span>)   <span class="cm"># 4 : 100</span>
+
+output1 = cv2.<span class="fn">bitwise_and</span>(square, circle1)  <span class="cm"># 010 AND 011 = 010 -> 2</span>
+output2 = cv2.<span class="fn">bitwise_and</span>(square, circle2)  <span class="cm"># 010 AND 100 = 000 -> 0</span>
+
+print(<span class="str">"--square--"</span>);  print(square)
+print(<span class="str">"--circle1--"</span>); print(circle1)
+print(<span class="str">"--circle2--"</span>); print(circle2)
+print(<span class="str">"--output1--"</span>); print(output1)
+print(<span class="str">"--output2--"</span>); print(output2)</div>
+    <p>نتیجه: در ناحیه‌ی مشترک مربع (مقدار ۲) و circle1 (مقدار ۳)، چون در سطح بیت <code class="code">010 AND 011 = 010</code> است، خروجی ۲ می‌شود. اما با circle2 (مقدار ۴ = <code class="code">100</code>)، چون هیچ بیت مشترکی با <code class="code">010</code> ندارند، خروجی همه‌جا صفر است — با اینکه از نظر شکل، مربع و دایره در همان ناحیه هم‌پوشانی دارند!</p>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مثال عملی با تصویر رنگی: برش دایره‌ای و ساخت PNG شفاف</h3></div>
+    <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+cropped = image[<span class="num">100</span>:<span class="num">600</span>, <span class="num">150</span>:<span class="num">650</span>]
+
+circle = np.<span class="fn">zeros</span>((<span class="num">500</span>,<span class="num">500</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">circle</span>(circle, (<span class="num">250</span>, <span class="num">250</span>), <span class="num">250</span>, (<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>), -<span class="num">1</span>)
+
+output_image = cv2.<span class="fn">bitwise_and</span>(cropped, circle)
+plt.<span class="fn">imshow</span>(output_image[...,::-<span class="num">1</span>])</div>
+    <p style="margin-top:var(--sp-4-5)">و همان برش دایره‌ای را این‌بار به‌عنوان یک PNG چهارکاناله (با پس‌زمینه‌ی واقعاً شفاف) ذخیره می‌کنیم:</p>
+    <div class="code-block">png_image = np.<span class="fn">zeros</span>((<span class="num">500</span>,<span class="num">500</span>,<span class="num">4</span>), np.uint8)
+png_image[:,:,<span class="num">0</span>:<span class="num">3</span>] = cropped
+
+circle = np.<span class="fn">zeros</span>((<span class="num">500</span>,<span class="num">500</span>), np.uint8)
+cv2.<span class="fn">circle</span>(circle, (<span class="num">250</span>, <span class="num">250</span>), <span class="num">250</span>, (<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>), -<span class="num">1</span>)
+png_image[:,:,<span class="num">3</span>] = circle
+
+cv2.<span class="fn">imwrite</span>(<span class="str">"caw.png"</span>, png_image)</div>
+  </div>
+
+  <!-- ===== 5. Image Annotation ===== -->
+  <div class="section-c" data-section-id="module-1-drawing">
+    <div class="section-h"><h2>5. رسم و حاشیه‌نویسی — Drawing &amp; Annotating (07)</h2></div>
+    <p>یک بوم خالی (تمام‌سیاه) برای شروع، هم به‌صورت رنگی و هم گری‌اسکیل:</p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)      <span class="cm"># رنگی</span>
+image_bw = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>), np.uint8)         <span class="cm"># سیاه و سفید</span>
+
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])
+plt.<span class="fn">figure</span>()
+plt.<span class="fn">imshow</span>(image_bw, cmap=<span class="str">'gray'</span>)</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">OpenCV بسته به نوع داده‌ی آرایه رفتار متفاوتی دارد</div>
+        <p>طبق مستندات رسمی:</p>
+        <ul>
+          <li>اگر تصویر <strong>8-bit unsigned</strong> باشد، همان‌طور که هست نمایش داده می‌شود.</li>
+          <li>اگر <strong>16-bit unsigned</strong> یا <strong>32-bit integer</strong> باشد، پیکسل‌ها تقسیم بر ۲۵۶ می‌شوند (بازه‌ی [0, 255×256] به [0, 255] نگاشت می‌شود).</li>
+          <li>اگر <strong>32-bit float</strong> باشد، مقادیر ضرب در ۲۵۵ می‌شوند (بازه‌ی [0,1] به [0,255] نگاشت می‌شود).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:22%">شکل</th><th>سینتکس</th></tr></thead>
+        <tbody>
+          <tr><td class="code">خط</td><td class="code">cv2.line(image, starting_coord, ending_coord, color, thickness)</td></tr>
+          <tr><td class="code">مستطیل</td><td class="code">cv2.rectangle(image, starting_vertex, opposite_vertex, color, thickness)</td></tr>
+          <tr><td class="code">دایره</td><td class="code">cv2.circle(image, center, radius, color, thickness)</td></tr>
+          <tr><td class="code">بیضی</td><td class="code">cv2.ellipse(image, center, axes, angle, startAngle, endAngle, color, thickness)</td></tr>
+          <tr><td class="code">چندضلعی</td><td class="code">cv2.polylines(image, [pts], isClosed, color, thickness)</td></tr>
+          <tr><td class="code">متن</td><td class="code">cv2.putText(image, text, bottom_left_point, font, fontScale, color, thickness)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:var(--sp-4-5)"><strong>خط:</strong></p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">line</span>(image, (<span class="num">0</span>,<span class="num">0</span>), (<span class="num">511</span>,<span class="num">511</span>), (<span class="num">255</span>,<span class="num">127</span>,<span class="num">0</span>), <span class="num">5</span>)  <span class="cm"># خط آبی قطری با ضخامت 5</span>
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)"><strong>مستطیل:</strong></p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">rectangle</span>(image, (<span class="num">100</span>,<span class="num">100</span>), (<span class="num">300</span>,<span class="num">250</span>), (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">5</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+    <p style="margin-top:var(--sp-4-5)">و همین کار روی یک تصویر واقعی، برای مشخص‌کردن یک ناحیه:</p>
+    <div class="code-block">img = cv2.<span class="fn">imread</span>(<span class="str">"./images/input.jpg"</span>)
+cv2.<span class="fn">rectangle</span>(img, (<span class="num">280</span>,<span class="num">270</span>), (<span class="num">530</span>,<span class="num">400</span>), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">255</span>), <span class="num">5</span>)
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)"><strong>دایره</strong> (اگر thickness منفی باشد، شکل پر می‌شود):</p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">circle</span>(image, (<span class="num">350</span>, <span class="num">350</span>), <span class="num">100</span>, (<span class="num">15</span>,<span class="num">75</span>,<span class="num">50</span>), <span class="num">7</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)"><strong>بیضی:</strong></p>
+    <div class="code-block">ellipse = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">ellipse</span>(ellipse, (<span class="num">250</span>, <span class="num">250</span>), (<span class="num">250</span>, <span class="num">100</span>), <span class="num">45</span>, <span class="num">90</span>, <span class="num">360</span>, (<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>), -<span class="num">1</span>)
+plt.<span class="fn">imshow</span>(ellipse[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)"><strong>چندضلعی:</strong></p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+
+<span class="cm"># تعریف چهار نقطه</span>
+pts = np.array([[<span class="num">10</span>,<span class="num">50</span>], [<span class="num">400</span>,<span class="num">50</span>], [<span class="num">90</span>,<span class="num">200</span>], [<span class="num">50</span>,<span class="num">500</span>]], np.int32)
+<span class="cm"># تغییر شکل نقاط به فرمی که polylines می‌خواهد</span>
+pts = pts.<span class="fn">reshape</span>((-<span class="num">1</span>,<span class="num">1</span>,<span class="num">2</span>))
+
+cv2.<span class="fn">polylines</span>(image, [pts], <span class="kw">True</span>, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">3</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">نکته‌ی polylines</div>
+        <p>اگر آرگومان سوم (isClosed) را <code>False</code> بگذارید، فقط یک خط شکسته باز میان همه‌ی نقاط رسم می‌شود، نه یک شکل بسته. همچنین <code>cv2.polylines()</code> می‌تواند چند خط را هم‌زمان رسم کند — کافی‌ست لیستی از همه‌ی خطوط بسازید و بدهید؛ این کار خیلی بهتر و سریع‌تر از فراخوانی جداگانه‌ی <code>cv2.line()</code> برای هر خط است.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)"><strong>افزودن نوشته (لاتین):</strong> فونت‌های موجود عبارت‌اند از: <code class="code">FONT_HERSHEY_SIMPLEX</code>, <code class="code">FONT_HERSHEY_PLAIN</code>, <code class="code">FONT_HERSHEY_DUPLEX</code>, <code class="code">FONT_HERSHEY_COMPLEX</code>, <code class="code">FONT_HERSHEY_TRIPLEX</code>, <code class="code">FONT_HERSHEY_COMPLEX_SMALL</code>, <code class="code">FONT_HERSHEY_SCRIPT_SIMPLEX</code>, <code class="code">FONT_HERSHEY_SCRIPT_COMPLEX</code></p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">putText</span>(image, <span class="str">'Hello World!'</span>, (<span class="num">75</span>,<span class="num">290</span>), cv2.FONT_HERSHEY_COMPLEX, <span class="num">2</span>, (<span class="num">100</span>,<span class="num">170</span>,<span class="num">0</span>), <span class="num">3</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">افزودن نوشته‌ی فارسی — و چرا putText معمولی کار نمی‌کند</h3></div>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+text = <span class="str">"سلام دنیا"</span>
+cv2.<span class="fn">putText</span>(image, text, (<span class="num">75</span>,<span class="num">290</span>), cv2.FONT_HERSHEY_COMPLEX, <span class="num">2</span>, (<span class="num">100</span>,<span class="num">170</span>,<span class="num">0</span>), <span class="num">3</span>)
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])
+<span class="cm"># نتیجه خراب است: حروف جدا از هم و در جهت اشتباه چاپ می‌شوند</span></div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">سه مشکل جداگانه که باید حل شوند</div>
+        <ul>
+          <li><strong>مشکل چسبیدگی/جداافتادگی حروف:</strong> حروف فارسی باید بسته به موقعیتشان در کلمه شکل بگیرند؛ <code>cv2.putText</code> این را نمی‌فهمد.</li>
+          <li><strong>مشکل جهت متن:</strong> متن باید راست‌به‌چپ چیده شود.</li>
+          <li><strong>مشکل encoding:</strong> بدون تنظیم درست، به‌جای حروف، کادرهای مستطیلی چاپ می‌شود.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-4-5)">راه‌حل: عبور از مسیر <code class="code">arabic_reshaper</code> + <code class="code">python-bidi</code> + Pillow:</p>
+    <div class="code-block"><span class="cm"># pip install arabic-reshaper python-bidi pillow</span>
+<span class="kw">import</span> arabic_reshaper
+<span class="kw">from</span> bidi.algorithm <span class="kw">import</span> get_display
+<span class="kw">from</span> PIL <span class="kw">import</span> Image, ImageFont, ImageDraw
+
+image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+
+text_to_be_reshaped = <span class="str">'سلام دنیا'</span>
+reshaped_text = arabic_reshaper.<span class="fn">reshape</span>(text_to_be_reshaped)   <span class="cm"># رفع مشکل جداافتادگی حروف</span>
+bidi_text = <span class="fn">get_display</span>(reshaped_text)                     <span class="cm"># رفع مشکل جهت</span>
+text = bidi_text.<span class="fn">encode</span>().<span class="fn">decode</span>(<span class="str">'utf-8'</span>)                <span class="cm"># رفع مشکل encoding (کادرهای مستطیلی)</span>
+
+pil_image = Image.<span class="fn">fromarray</span>(image)
+font = ImageFont.<span class="fn">truetype</span>(<span class="str">"arial"</span>, <span class="num">100</span>, encoding=<span class="str">'unic'</span>)
+draw = ImageDraw.<span class="fn">Draw</span>(pil_image)
+draw.<span class="fn">text</span>((<span class="num">75</span>,<span class="num">290</span>), text, (<span class="num">100</span>,<span class="num">170</span>,<span class="num">0</span>), font=font)
+
+plt.<span class="fn">imshow</span>(pil_image)</div>
+
+    <p style="margin-top:var(--sp-4-5)">برای برگشتن به دنیای OpenCV (مثلاً برای نمایش با <code class="code">cv2.imshow</code>)، باید از RGB (فرمت Pillow) به BGR برگردیم:</p>
+    <div class="code-block">np.asarray(pil_image).shape
+
+open_cv_image = cv2.<span class="fn">cvtColor</span>(np.array(pil_image), cv2.COLOR_RGB2BGR)
+cv2.<span class="fn">imshow</span>(<span class="str">"open_cv_image"</span>, open_cv_image)
+cv2.<span class="fn">waitKey</span>(<span class="num">0</span>)
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">و در نهایت، استفاده از یک فونت دلخواه/سفارشی (مثلاً B Lotus) به‌جای فونت پیش‌فرض arial:</p>
+    <div class="code-block">image = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+pil_image = Image.<span class="fn">fromarray</span>(image)
+
+font = ImageFont.<span class="fn">truetype</span>(font=<span class="str">'font/BLotus.ttf'</span>, size=<span class="num">100</span>, encoding=<span class="str">'unic'</span>)
+draw = ImageDraw.<span class="fn">Draw</span>(pil_image)
+draw.<span class="fn">text</span>((<span class="num">75</span>,<span class="num">290</span>), text, (<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>), font=font)
+
+plt.<span class="fn">imshow</span>(pil_image)</div>
+  </div>
+
+  <!-- ===== 6. Mathematical operations ===== -->
+  <div class="section-c" data-section-id="module-1-arithmetic">
+    <div class="section-h"><h2>6. عملیات ریاضی — Arithmetic Operations (08)</h2></div>
+    <p>عملیات ساده‌ای است که به ما این امکان را می‌دهد که به‌طور مستقیم شدت رنگ را اضافه یا کم کنیم. عملیات روی خانه‌های نظیر‌به‌نظیر دو آرایه با ابعاد یکسان انجام می‌شود و نتیجه‌ی نهایی، کاهش یا افزایش روشنایی تصویر خواهد بود.</p>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">یادآوری: uint8 چیست</div>
+        <p>تصاویر در OpenCV با نوع داده‌ی <code>uint8</code> (عدد صحیح بدون‌علامت ۸ بیتی) ذخیره می‌شوند. چون ۸ بیتی است، ۲ به‌توان ۸ یعنی ۲۵۶ عدد مختلف در آن جا می‌گیرد — یعنی فقط بازه‌ی ۰ تا ۲۵۵. مقادیر خارج از این بازه امکان‌پذیر نیست و اگر عددی بزرگ‌تر قرار بدهیم، متغیر <strong>سرریز (overflow)</strong> می‌شود.</p>
+      </div>
+    </div>
+
+    <div class="code-block">a = np.<span class="fn">ones</span>([<span class="num">2</span>], dtype=<span class="str">"uint8"</span>)
+b = a * <span class="num">100</span>
+print(b)          <span class="cm"># [100 100]</span>
+print(b + <span class="num">155</span>)    <span class="cm"># [255 255] -> درست به سقف رسید، هنوز مشکلی نیست</span>
+print(b + <span class="num">160</span>)    <span class="cm"># [4 4]     -> سرریز شد! (260 mod 256 = 4)</span></div>
+
+    <p style="margin-top:var(--sp-4-5)">همین اتفاق وقتی broadcast نشود و دو ماتریس هم‌اندازه را با هم جمع کنیم هم می‌افتد:</p>
+    <div class="code-block">m1 = np.array([[<span class="num">150</span>, <span class="num">155</span>], [<span class="num">156</span>, <span class="num">157</span>]], dtype=<span class="str">"uint8"</span>)
+m2 = np.<span class="fn">ones</span>([<span class="num">2</span>,<span class="num">2</span>], dtype=<span class="str">"uint8"</span>) * <span class="num">100</span>
+print(<span class="str">"m1:"</span>); print(m1)
+print(<span class="str">"m2:"</span>); print(m2)
+print(<span class="str">"m1+m2:"</span>); print(m1 + m2)   <span class="cm"># همه‌جا سرریز شد، چون هر مقدار m1 + 100 از 255 رد می‌شود</span></div>
+
+    <p style="margin-top:var(--sp-4-5)">راه‌حل ۱: تبدیل موقت به <code class="code">int16</code>، جمع، بعد <code class="code">clip</code> و برگشت به <code class="code">uint8</code>:</p>
+    <div class="code-block">modified_m1 = m1.astype(<span class="str">'int16'</span>) + m2
+modified_m1 = np.<span class="fn">minimum</span>(modified_m1, <span class="num">255</span>)
+modified_m1 = modified_m1.astype(<span class="str">'uint8'</span>)
+modified_m1</div>
+
+    <p style="margin-top:var(--sp-4-5)">راه‌حل ۲: با اندیس‌گذاری شرطی (بدون تغییر نوع داده)، مقادیری که از یک آستانه بیشترند مستقیم ۲۵۵ می‌شوند و بقیه به‌سادگی جمع می‌شوند:</p>
+    <div class="code-block">m1 = np.array([[<span class="num">150</span>, <span class="num">155</span>], [<span class="num">156</span>, <span class="num">157</span>]], dtype=<span class="str">"uint8"</span>)
+
+value_to_add = <span class="num">100</span>
+max_threshold = <span class="num">255</span> - value_to_add
+
+m1[m1 >= max_threshold] = <span class="num">255</span>
+m1[m1 <  max_threshold] += value_to_add
+
+print(m1)</div>
+
+    <p style="margin-top:var(--sp-5)"><strong>راه سوم و ساده‌تر از همه:</strong> استفاده از توابع آماده‌ی OpenCV — <code class="code">cv2.add</code> و <code class="code">cv2.subtract</code> این مشکل را اصلاً نشان نمی‌دهند؛ مقادیر کمتر از ۰ همان ۰ باقی می‌مانند و مقادیر بیشتر از ۲۵۵ همان ۲۵۵:</p>
+    <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">'images/input.jpg'</span>)
+
+<span class="cm"># ماتریسی هم‌اندازه‌ی تصویر که همه‌جایش مقدار 100 است</span>
+M = np.<span class="fn">ones</span>(image.shape, dtype=<span class="str">"uint8"</span>) * <span class="num">100</span>
+
+added = cv2.<span class="fn">add</span>(image, M)         <span class="cm"># روشن‌تر، بدون سرریز</span>
+subtracted = cv2.<span class="fn">subtract</span>(image, M)  <span class="cm"># تیره‌تر، بدون منفی شدن</span>
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>]);      plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(added[...,::-<span class="num">1</span>]);        plt.title(<span class="str">"Added"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(subtracted[...,::-<span class="num">1</span>]);   plt.title(<span class="str">"Subtracted"</span>)</div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مثال عملی: ترکیب دو تصویر رنگی</h3></div>
+    <div class="code-block">img1 = cv2.<span class="fn">imread</span>(<span class="str">'./images/class.vision.jpg'</span>)
+shape = img1.shape
+
+<span class="cm"># img2 رو دقیقا هم‌اندازه‌ی img1 برش می‌زنیم تا جمع ممکن بشه</span>
+img2 = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)[<span class="num">100</span>:<span class="num">100</span>+shape[<span class="num">0</span>], <span class="num">100</span>:<span class="num">100</span>+shape[<span class="num">1</span>], :]
+
+output_image = cv2.<span class="fn">add</span>(img1, img2)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">10</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(img1[...,::-<span class="num">1</span>]);         plt.title(<span class="str">"image1"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(img2[...,::-<span class="num">1</span>]);         plt.title(<span class="str">"image2"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(output_image[...,::-<span class="num">1</span>]); plt.title(<span class="str">"image1+image2"</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">اما اگر دو تصویر هم‌اندازه نباشند چه؟ تکنیک رایج: یک لوگو (تصویر کوچک‌تر) را با <code class="code">np.zeros_like</code> در یک بوم سیاه هم‌اندازه‌ی تصویر اصلی «padding» می‌کنیم و بعد جمع می‌زنیم — چون سیاه (۰) در جمع اثری ندارد:</p>
+    <div class="code-block">img1 = cv2.<span class="fn">imread</span>(<span class="str">'./images/input.jpg'</span>)
+img2 = cv2.<span class="fn">imread</span>(<span class="str">'./images/class.vision.jpg'</span>)
+
+print(img1.shape)
+print(img2.shape)
+
+logo_h, logo_w, _ = img2.shape
+location_h = <span class="num">10</span>
+location_w = <span class="num">500</span>
+
+padded_img2 = np.<span class="fn">zeros_like</span>(img1)
+padded_img2[location_h:location_h+logo_h, location_w:location_w+logo_w, :] = img2
+plt.<span class="fn">imshow</span>(padded_img2[...,::-<span class="num">1</span>])</div>
+    <div class="code-block">output_image = cv2.<span class="fn">add</span>(img1, padded_img2)
+plt.<span class="fn">imshow</span>(output_image[...,::-<span class="num">1</span>])</div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">ترکیب دو تصویر با جمع وزن‌دار (addWeighted)</h3></div>
+    <p><code class="code">cv2.addWeighted(src1, alpha, src2, beta, gamma)</code> — فرمول دقیق‌اش:</p>
+    <p style="font-family:var(--mono)">g(x) = (1−α)·f₀(x) + α·f₁(x)&nbsp;&nbsp;&nbsp;یا معادل آن: dst = α·img1 + β·img2 + γ</p>
+    <p style="font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/3.2.0/d0/d86/tutorial_py_image_arithmetics.html" class="ref-link">docs.opencv.org – Image Arithmetics Tutorial</a></p>
+    <div class="code-block">img1 = cv2.<span class="fn">imread</span>(<span class="str">'./images/opencv.jpg'</span>)
+img2 = cv2.<span class="fn">imread</span>(<span class="str">'./images/class.vision.jpg'</span>)
+output_image = cv2.<span class="fn">addWeighted</span>(img1, <span class="num">0.3</span>, img2, <span class="num">0.7</span>, <span class="num">0</span>)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">10</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(img1[...,::-<span class="num">1</span>]);         plt.title(<span class="str">"image1"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(img2[...,::-<span class="num">1</span>]);         plt.title(<span class="str">"image2"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(output_image[...,::-<span class="num">1</span>]); plt.title(<span class="str">"weighted sum"</span>)</div>
+    <p style="margin-top:var(--sp-4-5)">و مقایسه‌ی چند نسبت وزنی مختلف کنار هم:</p>
+    <div class="code-block">output_image2_8 = cv2.<span class="fn">addWeighted</span>(img1, <span class="num">0.2</span>, img2, <span class="num">0.8</span>, <span class="num">0</span>)
+output_image5_5 = cv2.<span class="fn">addWeighted</span>(img1, <span class="num">0.5</span>, img2, <span class="num">0.5</span>, <span class="num">0</span>)
+output_image8_2 = cv2.<span class="fn">addWeighted</span>(img1, <span class="num">0.8</span>, img2, <span class="num">0.2</span>, <span class="num">0</span>)</div>
+  </div>
+
+  <!-- ===== 7. Brightness & Contrast ===== -->
+  <div class="section-c" data-section-id="module-1-brightness">
+    <div class="section-h"><h2>7. روشنایی و کنتراست — خطی و گاما (09, 10)</h2></div>
+    <p>در نوت‌بوک قبلی، تاثیر جمع/تفریق یک مقدار ثابت روی روشنایی (brightness) تصویر را دیدیم. حالا علاوه بر روشنایی، <strong>کنتراست (contrast)</strong> تصویر را هم بررسی می‌کنیم — و مشکلات این روش خطی را هم می‌بینیم.</p>
+    <p style="font-family:var(--mono);margin:var(--sp-3) 0">g(x) = α·f(x) + β&nbsp;&nbsp;&nbsp;(α &gt; 0)</p>
+    <p>پارامترهای α و β معمولاً <strong>gain</strong> و <strong>bias</strong> نامیده می‌شوند؛ گاهی هم می‌گویند این دو به‌ترتیب کنتراست و روشنایی را کنترل می‌کنند.</p>
+
+    <div class="section-h" style="margin-top:var(--sp-5)"><h3 style="font-size:var(--fs-lg)">با تابع convertScaleAbs</h3></div>
+    <div class="code-block">image = cv2.<span class="fn">imread</span>(<span class="str">"images/input.jpg"</span>)
+
+alpha = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">'* Enter the alpha value [0.1-3.0]: '</span>))
+beta = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">'* Enter the beta value [0-100]: '</span>))
+
+new_image = cv2.<span class="fn">convertScaleAbs</span>(image, alpha=alpha, beta=beta)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">121</span>); plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>]);     plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">122</span>); plt.<span class="fn">imshow</span>(new_image[...,::-<span class="num">1</span>]); plt.title(<span class="str">"Output"</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">همین فرمول را می‌شود پیکسل‌به‌پیکسل هم پیاده‌سازی کرد — با فرض i شماره سطر و j شماره ستون: <span style="font-family:var(--mono)">g(i,j) = α·f(i,j) + β</span></p>
+    <div class="code-block">new_image2 = np.<span class="fn">zeros</span>(image.shape, image.dtype)
+
+<span class="cm"># به‌جای این حلقه‌های تودرتو می‌شد فقط از convertScaleAbs استفاده کرد</span>
+<span class="cm"># اما هدف اینجا نشون‌دادن نحوه‌ی دسترسی مستقیم به پیکسل‌هاست :)</span>
+<span class="kw">for</span> y <span class="kw">in</span> <span class="fn">range</span>(image.shape[<span class="num">0</span>]):
+    <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(image.shape[<span class="num">1</span>]):
+        <span class="kw">for</span> c <span class="kw">in</span> <span class="fn">range</span>(image.shape[<span class="num">2</span>]):
+            new_image2[y,x,c] = np.<span class="fn">clip</span>(alpha*image[y,x,c] + beta, <span class="num">0</span>, <span class="num">255</span>)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">121</span>); plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>]);      plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">122</span>); plt.<span class="fn">imshow</span>(new_image2[...,::-<span class="num">1</span>]); plt.title(<span class="str">"Output"</span>)</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">آیا دو روش بالا دقیقاً یکی هستند؟</div>
+        <p>در تئوری هر دو یک فرمول را پیاده می‌کنند، اما حلقه‌ی پیکسل‌به‌پیکسل به‌شدت کند است (روی تصاویر بزرگ ممکن است چند ثانیه طول بکشد)، در حالی که <code>convertScaleAbs</code> یک عملیات برداری بهینه‌شده در سطح C++ است. همیشه در عمل از <code>convertScaleAbs</code> استفاده کنید.</p>
+      </div>
+    </div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تحلیل هیستوگرام</h3></div>
+    <div class="code-block">gray_image =  cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_BGR2GRAY)
+gray_new_image  = cv2.<span class="fn">cvtColor</span>(new_image, cv2.COLOR_BGR2GRAY)
+gray_new_image2 = cv2.<span class="fn">cvtColor</span>(new_image2, cv2.COLOR_BGR2GRAY)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">hist</span>(gray_image.<span class="fn">ravel</span>(), <span class="num">256</span>, [<span class="num">0</span>,<span class="num">256</span>]); plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">hist</span>(gray_new_image.<span class="fn">ravel</span>(), <span class="num">256</span>, [<span class="num">0</span>,<span class="num">256</span>]); plt.title(<span class="str">"new_image"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">hist</span>(gray_new_image2.<span class="fn">ravel</span>(), <span class="num">256</span>, [<span class="num">0</span>,<span class="num">256</span>]); plt.title(<span class="str">"new_image2"</span>)</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">مشکل این روش چیست؟</div>
+        <p>تنظیم خطی روی همه‌ی پیکسل‌ها یکنواخت اثر می‌گذارد، اما چشم انسان به روشنایی به‌صورت غیرخطی (لگاریتمی) حساس است. این مشکل در نوت‌بوک بعدی (تصحیح گاما) حل می‌شود.</p>
+      </div>
+    </div>
+
+    <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">تنظیم روشنایی و کنتراست با تصحیح گاما (10)</h3></div>
+    <p>تصحیح گاما را می‌توان برای اصلاح روشنایی یک تصویر با استفاده از یک تبدیل <strong>غیرخطی</strong> بین مقادیر ورودی و خروجی استفاده کرد:</p>
+    <p style="font-family:var(--mono);margin:var(--sp-3) 0">O = (I / 255)^γ × 255</p>
+    <p>از آنجا که این رابطه غیرخطی است، اثر آن برای همه‌ی پیکسل‌ها یکسان نیست و به مقدار اصلی خودشان بستگی دارد — برخلاف تنظیم خطی که همه را به یک اندازه جابه‌جا می‌کند.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:20%">مقدار گاما</th><th>اثر</th></tr></thead>
+        <tbody>
+          <tr><td class="code">γ &lt; 1</td><td>مناطق تاریک تصویر روشن‌تر می‌شوند و هیستوگرام به سمت راست منتقل می‌شود</td></tr>
+          <tr><td class="code">γ &gt; 1</td><td>برعکس حالت بالا: مناطق روشن تیره‌تر می‌شوند و هیستوگرام به چپ منتقل می‌شود</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:var(--sp-5)"><strong>مثال: تصحیح یک تصویر کم‌نور (underexposed)</strong> با استفاده از یک Look-Up Table — چون گاما برای هر مقدار پیکسل ورودی (۰ تا ۲۵۵) از قبل محاسبه‌شدنی است، به‌جای محاسبه برای هر پیکسل، یک جدول ۲۵۶‌تایی می‌سازیم و با <code class="code">cv2.LUT</code> یک‌جا اعمالش می‌کنیم — این کار خیلی سریع‌تر از حلقه زدن است:</p>
+    <div class="code-block">gamma = <span class="num">0.4</span>
+
+img_original = cv2.<span class="fn">imread</span>(<span class="str">"images/room-light.jpg"</span>)
+lookUpTable = np.<span class="fn">empty</span>((<span class="num">1</span>,<span class="num">256</span>), np.uint8)
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">256</span>):
+    lookUpTable[<span class="num">0</span>,i] = np.<span class="fn">clip</span>(<span class="fn">pow</span>(i / <span class="num">255.0</span>, gamma) * <span class="num">255.0</span>, <span class="num">0</span>, <span class="num">255</span>)
+
+out = cv2.<span class="fn">LUT</span>(img_original, lookUpTable)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">15</span>,<span class="num">5</span>])
+plt.<span class="fn">subplot</span>(<span class="num">121</span>); plt.<span class="fn">imshow</span>(img_original[...,::-<span class="num">1</span>]); plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">122</span>); plt.<span class="fn">imshow</span>(out[...,::-<span class="num">1</span>]);          plt.title(<span class="str">"Output"</span>)</div>
+
+    <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">مقایسه‌ی مستقیم: روش خطی در برابر گاما</h3></div>
+    <div class="code-block">gamma = <span class="num">0.4</span>
+
+img_original1 = cv2.<span class="fn">imread</span>(<span class="str">"images/aa.jpg"</span>)
+img_original2 = cv2.<span class="fn">imread</span>(<span class="str">"images/asalooye.jpg"</span>)
+
+output_linear1 = cv2.<span class="fn">convertScaleAbs</span>(img_original1, alpha=<span class="num">1.3</span>, beta=<span class="num">40</span>)
+output_linear2 = cv2.<span class="fn">convertScaleAbs</span>(img_original2, alpha=<span class="num">1.3</span>, beta=<span class="num">40</span>)
+
+lookUpTable = np.<span class="fn">empty</span>((<span class="num">1</span>,<span class="num">256</span>), np.uint8)
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">256</span>):
+    lookUpTable[<span class="num">0</span>,i] = np.<span class="fn">clip</span>(<span class="fn">pow</span>(i / <span class="num">255.0</span>, gamma) * <span class="num">255.0</span>, <span class="num">0</span>, <span class="num">255</span>)
+
+output_gammacorrected1 = cv2.<span class="fn">LUT</span>(img_original1, lookUpTable)
+output_gammacorrected2 = cv2.<span class="fn">LUT</span>(img_original2, lookUpTable)
+
+plt.<span class="fn">figure</span>(figsize=[<span class="num">17</span>,<span class="num">6</span>])
+plt.<span class="fn">subplot</span>(<span class="num">231</span>); plt.<span class="fn">imshow</span>(img_original1[...,::-<span class="num">1</span>]);          plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">232</span>); plt.<span class="fn">imshow</span>(output_linear1[...,::-<span class="num">1</span>]);          plt.title(<span class="str">"Linear"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">233</span>); plt.<span class="fn">imshow</span>(output_gammacorrected1[...,::-<span class="num">1</span>]);  plt.title(<span class="str">"Gamma"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">234</span>); plt.<span class="fn">imshow</span>(img_original2[...,::-<span class="num">1</span>]);          plt.title(<span class="str">"Original"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">235</span>); plt.<span class="fn">imshow</span>(output_linear2[...,::-<span class="num">1</span>]);          plt.title(<span class="str">"Linear"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">236</span>); plt.<span class="fn">imshow</span>(output_gammacorrected2[...,::-<span class="num">1</span>]);  plt.title(<span class="str">"Gamma"</span>)</div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">✓</div>
+      <div class="callout-body">
+        <div class="callout-title">نکته‌ی کلیدی مقایسه</div>
+        <p>با اینکه هر دو روش (خطی و گاما) هدفشان روشن‌تر کردن تصویر است، خروجی گاما معمولاً طبیعی‌تر به نظر می‌رسد چون نواحی که از قبل روشن بودند بیش‌ازحد نمی‌سوزند (over-expose نمی‌شوند)، در حالی که روش خطی چون به همه‌ی پیکسل‌ها یک مقدار ثابت اضافه می‌کند، ممکن است نواحی روشن را کاملاً سفید کند.</p>
+      </div>
+    </div>
+    <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">منبع هر دو نوت‌بوک (۰۹ و ۱۰): <a href="https://docs.opencv.org/4.6.0/d3/dc1/tutorial_basic_linear_transform.html" class="ref-link">docs.opencv.org – Basic Linear Transform Tutorial</a></p>
+  </div>
+
+  <div class="section-c" data-section-id="module-1-summary">
+    <div class="section-h"><h2>جمع‌بندی ماژول 1</h2></div>
+    <ul>
+      <li>تصویر = آرایه‌ی NumPy؛ هر چیزی که در NumPy بلدید (slicing, broadcasting, dtype) اینجا هم کاربرد دارد.</li>
+      <li>OpenCV پیش‌فرض روی <strong>BGR</strong> کار می‌کند، نه RGB.</li>
+      <li>مختصات رسم <code class="code">(x, y)</code> هستند؛ اندیس‌گذاری آرایه <code class="code">[y, x]</code> است.</li>
+      <li>توابع OpenCV مثل <code class="code">cv2.add</code> معمولاً <strong>saturating</strong> هستند؛ عملیات خام NumPy روی <code class="code">uint8</code> overflow می‌کند — راه‌حل‌های دستی هم شامل تبدیل به int16+clip و هم اندیس‌گذاری شرطی می‌شود.</li>
+      <li>HSV برای تشخیص رنگ، و ماسک‌های باینری (که در سطح بیت عمل می‌کنند) برای ترکیب/جداسازی نواحی، ابزارهای پایه‌ای پرکاربردند.</li>
+      <li>نوشتن متن فارسی روی تصویر نیاز به مسیر جداگانه (arabic_reshaper + bidi + Pillow) دارد؛ <code class="code">cv2.putText</code> معمولی از پس آن برنمی‌آید.</li>
+      <li>برای روشن/تیره‌کردن تصویر، تصحیح گاما (غیرخطی) معمولاً نتیجه‌ی طبیعی‌تری از تنظیم خطی (alpha/beta) می‌دهد.</li>
+    </ul>

@@ -1,0 +1,100 @@
+<div class="section-c" data-section-id="module-1-cheatsheet">
+  <div class="section-h">
+    <div class="label">Cheat Sheet</div>
+    <h2 id="cheatsheet-intro">برگه‌ی تقلب — مبانی OpenCV</h2>
+    <p>خلاصه‌ی فشرده‌ی توابع، سینتکس‌ها و الگوهای پرکاربرد ماژول ۱؛ برای رجوع سریع، نه یادگیری از صفر.</p>
+  </div>
+
+  <div class="section-h"><h3 style="font-size:var(--fs-lg)">خواندن / نمایش / ذخیره</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.imread(path)</td><td>خواندن تصویر؛ BGR سه‌کاناله؛ اگر پیدا نشود <code>None</code> برمی‌گرداند (خطا نمی‌دهد)</td><td class="code">cv2.imread('a.jpg')</td></tr>
+        <tr><td class="code">cv2.imread(path, 0)</td><td>خواندن مستقیم به‌صورت گری‌اسکیل</td><td class="code">cv2.imread('a.jpg', 0)</td></tr>
+        <tr><td class="code">cv2.imread(path, cv2.IMREAD_UNCHANGED)</td><td>حفظ کانال آلفا در PNG (چهارکاناله)</td><td class="code">...IMREAD_UNCHANGED)</td></tr>
+        <tr><td class="code">cv2.imwrite(path, img)</td><td>ذخیره؛ فرمت از پسوند فایل تشخیص داده می‌شود</td><td class="code">cv2.imwrite('out.png', img)</td></tr>
+        <tr><td class="code">cv2.imshow(name, img)</td><td>نمایش در پنجره؛ نیاز به <code>waitKey</code>+<code>destroyAllWindows</code></td><td class="code">cv2.imshow('w', img)</td></tr>
+        <tr><td class="code">img.shape</td><td><code>(height, width, channels)</code> — دقت: ارتفاع اول می‌آید</td><td class="code">h, w = img.shape[:2]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">رنگ و کانال</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.cvtColor(img, code)</td><td>تبدیل فضای رنگی</td><td class="code">...COLOR_BGR2GRAY)</td></tr>
+        <tr><td class="code">COLOR_BGR2GRAY / RGB / HSV</td><td>پرکاربردترین کدهای تبدیل</td><td class="code">cv2.COLOR_BGR2HSV</td></tr>
+        <tr><td class="code">cv2.split(img)</td><td>جداکردن کانال‌ها → <code>b, g, r</code></td><td class="code">b,g,r = cv2.split(img)</td></tr>
+        <tr><td class="code">cv2.merge([...])</td><td>ترکیب دوباره‌ی کانال‌ها</td><td class="code">cv2.merge([b,g,r])</td></tr>
+        <tr><td class="code">img[:,:,::-1]</td><td>ترفند NumPy برای BGR→RGB (بدون cvtColor)</td><td class="code">plt.imshow(img[...,::-1])</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">هندسه و ماسک</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع / الگو</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">image[y1:y2, x1:x2]</td><td>برش (crop) با NumPy slicing — ترتیب <code>[y,x]</code></td><td class="code">img[100:300, 50:200]</td></tr>
+        <tr><td class="code">cv2.bitwise_and/or/xor/not</td><td>عملیات در سطح بیت؛ پایه‌ی ماسکینگ</td><td class="code">cv2.bitwise_and(a,b)</td></tr>
+        <tr><td class="code">cv2.inRange(hsv, lo, hi)</td><td>ساخت ماسک باینری از یک بازه‌ی رنگی HSV</td><td class="code">cv2.inRange(hsv, lo, hi)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">رسم</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.line(img,p1,p2,color,t)</td><td>خط؛ مختصات <code>(x,y)</code> نه <code>(row,col)</code></td><td class="code">cv2.line(img,(0,0),(9,9),c,2)</td></tr>
+        <tr><td class="code">cv2.rectangle(...)</td><td><code>thickness=-1</code> یعنی پر (fill)</td><td class="code">cv2.rectangle(img,p1,p2,c,-1)</td></tr>
+        <tr><td class="code">cv2.circle(...)</td><td>مرکز + شعاع</td><td class="code">cv2.circle(img,(x,y),r,c,2)</td></tr>
+        <tr><td class="code">cv2.putText(...)</td><td>متن لاتین مستقیم؛ فارسی نیاز به Pillow دارد</td><td class="code">cv2.putText(img,'Hi',p,f,s,c,t)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">ریاضی، روشنایی و گاما</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%">تابع</th><th style="width:52%">مشخصات و خروجی</th><th style="width:22%">مثال سریع</th></tr></thead>
+      <tbody>
+        <tr><td class="code">cv2.add / cv2.subtract</td><td>جمع/تفریق <strong>saturating</strong> (بدون overflow)</td><td class="code">cv2.add(img, M)</td></tr>
+        <tr><td class="code">cv2.addWeighted(i1,a,i2,b,g)</td><td>ترکیب وزن‌دار دو تصویر</td><td class="code">addWeighted(i1,.3,i2,.7,0)</td></tr>
+        <tr><td class="code">cv2.convertScaleAbs(img,alpha,beta)</td><td>تنظیم خطی کنتراست/روشنایی + clip خودکار</td><td class="code">...(img, alpha=1.3, beta=40)</td></tr>
+        <tr><td class="code">cv2.LUT(img, table)</td><td>اعمال جدول از‌پیش‌محاسبه‌شده (برای گاما)</td><td class="code">cv2.LUT(img, lut)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">اشتباهات رایج</div>
+      <ul>
+        <li><strong>BGR ≠ RGB:</strong> نمایش مستقیم با matplotlib رنگ‌ها را وارونه نشان می‌دهد.</li>
+        <li><strong>x/y ≠ row/column:</strong> در رسم مختصات <code>(x,y)</code> است، در slicing آرایه <code>[row,col]=[y,x]</code>.</li>
+        <li><strong>uint8 overflow:</strong> جمع خام NumPy روی <code>uint8</code> بی‌صدا سرریز می‌کند؛ به‌جایش <code>cv2.add</code> یا تبدیل به <code>int16</code>+clip.</li>
+        <li><strong>HSV ranges:</strong> در OpenCV بازه‌ی H بین ۰ تا ۱۷۹ است، نه ۰ تا ۳۶۰.</li>
+        <li><strong>imread بی‌صدا None برمی‌گرداند</strong> اگر مسیر غلط باشد — همیشه <code>assert img is not None</code> بگذار.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">الگوی امن باز و بسته‌کردن</div>
+      <p>هر بار که با <code>cv2.imshow</code>/<code>VideoCapture</code> کار می‌کنی، این الگو را رعایت کن تا پنجره‌ها گیر نکنند:</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="cm"># الگوی استاندارد نمایش و بستن</span>
+cv2.<span class="fn">imshow</span>(<span class="str">'win'</span>, img)
+cv2.<span class="fn">waitKey</span>(<span class="num">0</span>)
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+</div>

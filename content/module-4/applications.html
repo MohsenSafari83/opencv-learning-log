@@ -1,0 +1,97 @@
+<div class="section-c" data-section-id="module-4-applications">
+  <div class="section-h">
+    <div class="label">Applications</div>
+    <h2 id="applications-intro">جایگاه رنگ، هیستوگرام و لبه‌یابی در دنیای واقعی</h2>
+    <p>فیلتر رنگ و لبه‌یابی شاید ساده‌ترین ابزارهای بینایی ماشین به نظر برسند، اما هسته‌ی خیلی از محصولات واقعی همین تکنیک‌های سبک و سریع‌اند.</p>
+  </div>
+
+  <div class="rich-card accent">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">ردیابی اشیاء رنگی در رباتیک</div>
+        <div class="path">Robotics / Color-based tracking</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>ربات‌هایی که باید یک شیء با رنگ مشخص را دنبال کنند (مثلاً توپ در RoboCup یا قطعه‌ی رنگی در خط تولید) اغلب به‌جای مدل‌های سنگین یادگیری عمیق، همان ترکیب <code>cvtColor→inRange→findContours</code> نوت‌بوک‌های ۳۴ و ۳۵ را استفاده می‌کنند، چون سریع، سبک و روی سخت‌افزار ضعیف هم قابل اجراست.</p>
+      <ul>
+        <li>فیلتر رنگ و دنبال‌کردن مرکز شیء (نوت‌بوک ۳۵)</li>
+        <li>تنظیم زنده‌ی بازه‌ی HSV با Trackbar برای هر محیط نوری جدید</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="tag">مثال: RoboCup، بازوهای رباتیک صنعتی</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">کروماکی و استودیوهای مجازی</div>
+        <div class="path">Broadcast / Live streaming</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>خبرهای هواشناسی تلویزیونی، پس‌زمینه‌های مجازی نرم‌افزارهای کنفرانس (Zoom, OBS) و استریم بازی‌های آنلاین همگی نسخه‌ی صنعتی‌شده‌ی حذف پرده‌ی سبز (نوت‌بوک ۳۷) هستند؛ تفاوت اصلی، پردازش هم‌زمان با نرخ فریم بالا و مدل‌های پیشرفته‌تر برای لبه‌ی مو و اشیاء نیمه‌شفاف است.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: OBS Studio، پس‌زمینه‌ی مجازی Zoom</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">تصویربرداری پزشکی و ماهواره‌ای</div>
+        <div class="path">Medical & satellite imaging</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>تصاویر رادیولوژی (X-ray، MRI، CT) و تصاویر ماهواره‌ای اغلب کنتراست پایینی دارند و جزئیات مهم در سایه یا نور شدید گم می‌شوند. یکنواخت‌سازی هیستوگرام و به‌خصوص CLAHE (نوت‌بوک‌های ۴۳ و ۴۴) استاندارد صنعتی برای آشکارسازی این جزئیات بدون از دست‌دادن اطلاعات کل تصویر است.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: نرم‌افزارهای PACS رادیولوژی، پردازش تصاویر ماهواره‌ای Sentinel/Landsat</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">بازرسی بصری و کنترل کیفیت صنعتی</div>
+        <div class="path">Industrial inspection / OCR</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>خطوط تولید برای تشخیص ترک، لبه‌ی ناصاف یا قطعه‌ی معیوب از لبه‌یابی Sobel/Canny استفاده می‌کنند (نوت‌بوک‌های ۴۹ تا ۵۱)؛ همین‌طور اولین قدم بسیاری از سیستم‌های تشخیص پلاک خودرو (ANPR)، پیدا کردن مستطیل پلاک از روی لبه‌های تیز آن است — دقیقاً همان تصویر پلاکی که در نوت‌بوک Canny استفاده کردیم.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: سیستم‌های ANPR، بازرسی بصری خط تولید</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">جستجوی تصویر بر اساس محتوا</div>
+        <div class="path">Content-Based Image Retrieval (CBIR)</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>موتورهای «جستجوی تصویر مشابه» (مثل جستجوی معکوس تصویر) در نسخه‌ی ساده‌شان دقیقاً از مقایسه‌ی هیستوگرام رنگ (نوت‌بوک ۴۵) به‌عنوان یک فیلتر سریع اولیه استفاده می‌کنند، پیش از اینکه یک مدل سنگین‌تر شباهت معنایی را بررسی کند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: جستجوی معکوس تصویر، تشخیص تصاویر تکراری</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">استخراج پالت رنگ و طراحی</div>
+        <div class="path">Design tools / Thumbnails</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>ابزارهایی مثل Adobe Color یا سیستم‌های پیشنهاد پالت رنگ Pinterest، رنگ‌های غالب یک عکس را (با همان روش خوشه‌بندی K-Means یا هیستوگرام Hue در نوت‌بوک‌های ۴۰ و ۴۲) استخراج می‌کنند تا پس‌زمینه، رنگ متن یا پالت طراحی هماهنگ با تصویر پیشنهاد دهند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: Adobe Color، پیشنهاد پالت رنگ Pinterest</span></div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">نکته: تقریباً همه‌ی این کاربردها روی سخت‌افزار محدود یا نیازمند سرعت بالا هم اجرا می‌شوند، چون تکنیک‌های این ماژول (بر خلاف مدل‌های یادگیری عمیق) نیاز به GPU یا داده‌ی آموزشی ندارند و صرفاً روی قواعد ریاضی ساده‌ی رنگ و گرادیان بنا شده‌اند.</p>
+</div>

@@ -1,0 +1,97 @@
+<div class="section-c" data-section-id="module-1-applications">
+  <div class="section-h">
+    <div class="label">Applications</div>
+    <h2 id="applications-intro">جایگاه مبانی OpenCV در دنیای واقعی</h2>
+    <p>مفاهیم این ماژول (I/O تصویر، فضای رنگی، ماسکینگ، رسم، و تنظیم روشنایی) ساده به نظر می‌رسند، ولی زیرساخت تقریباً همه‌ی سیستم‌های بینایی ماشین واقعی همین‌ها هستند.</p>
+  </div>
+
+  <div class="rich-card accent">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">پیش‌پردازش دوربین‌های کم‌نور و CCTV</div>
+        <div class="path">Surveillance / Low-light imaging</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>دوربین‌های مداربسته و نظارتی معمولاً در نور کم کار می‌کنند. قبل از هر تشخیص شیء یا تحلیلی، تصویر خام باید با <strong>تصحیح گاما</strong> یا تنظیم خطی (alpha/beta) روشن‌تر شود — دقیقاً همان تکنیکی که در همین ماژول یاد گرفتیم.</p>
+      <ul>
+        <li>پیش‌پردازش فریم قبل از ورود به مدل تشخیص</li>
+        <li>تنظیم خودکار exposure بر اساس هیستوگرام فریم</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="tag">مثال: سیستم‌های CCTV هوشمند</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">خودروهای خودران و رباتیک</div>
+        <div class="path">Autonomous vehicles / Robotics vision</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>دوربین خودروهای خودران در شرایط نوری بسیار متغیر (تونل، غروب، باران) کار می‌کند. تصحیح گاما و تنظیم کنتراست به‌صورت زنده روی هر فریم اعمال می‌شود تا لبه‌ها و اشیاء برای مراحل بعدی (تشخیص خط، تشخیص عابر) واضح بمانند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: پایپ‌لاین پیش‌پردازش تصویر خودروی خودران</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">تصویربرداری پزشکی</div>
+        <div class="path">Medical imaging</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>تصاویر اشعه‌ی X یا MRI اغلب کنتراست پایینی دارند. تنظیم روشنایی/کنتراست و عملیات ریاضی ساده (تفریق پس‌زمینه، ترکیب دو تصویر) پایه‌ی خیلی از ابزارهای پیش‌پردازش تصویر پزشکی است، قبل از این‌که مدل‌های پیچیده‌تر روی آن‌ها اجرا شوند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: نرم‌افزارهای PACS پیش‌پردازش تصویر</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">OCR و استخراج متن از تصویر</div>
+        <div class="path">OCR preprocessing</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>قبل از هر OCR (مثل Tesseract)، تصویر باید گری‌اسکیل، کراپ به ناحیه‌ی متن، و از نظر روشنایی/کنتراست یکدست شود. دقت OCR روی تصویر خام معمولاً به‌شدت پایین‌تر از تصویری‌ست که این پیش‌پردازش‌های ساده رویش انجام شده.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: اسکن رسید، خواندن پلاک خودرو</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">بازرسی صنعتی (Industrial Inspection)</div>
+        <div class="path">Manufacturing / Quality control</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>در خط تولید، دوربین‌های صنعتی محصولات را برای عیب‌یابی اسکن می‌کنند. ماسکینگ با عملیات بیتی برای جداکردن ناحیه‌ی مورد بررسی از پس‌زمینه، و فضای رنگی HSV برای تشخیص لکه/رنگ غیرعادی، دقیقاً همان ابزارهایی هستند که در این ماژول کار کردیم.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: تشخیص عیب سطحی قطعات</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">گرافیک و ترکیب تصویر (Compositing)</div>
+        <div class="path">Green screen / Logo overlay</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>حذف پس‌زمینه‌ی سبز (Green Screen) در پخش زنده، یا گذاشتن لوگو روی یک ویدیو، دقیقاً همان ترکیب <strong>HSV masking + عملیات بیتی</strong>ای است که در نوت‌بوک‌های ۰۴ تا ۰۶ ساختیم — فقط روی فریم‌های زنده به‌جای یک عکس ثابت.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: استریم زنده، فیلترهای اینستاگرام</span></div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">نکته: در بیشتر این حوزه‌ها، همین عملیات ساده‌ی ماژول ۱ (I/O، رنگ، ماسک، روشنایی) به‌عنوان لایه‌ی <strong>پیش‌پردازش</strong> قبل از مدل‌های پیچیده‌تر (تشخیص شیء، سگمنتیشن، OCR عصبی) اجرا می‌شود — یعنی حتی پیشرفته‌ترین سیستم‌های بینایی ماشین هم از همین‌جا شروع می‌شوند.</p>
+</div>

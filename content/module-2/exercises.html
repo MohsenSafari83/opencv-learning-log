@@ -1,0 +1,147 @@
+<div class="section-c" data-section-id="module-2-exercises">
+  <div class="metrics">
+    <span class="metric success">3 تمرین</span>
+  </div>
+  <div class="section-h"><h2 id="exercises-intro">تمرین‌های ماژول 2</h2></div>
+  <p>این سه تمرین روی مباحث همین ماژول (رویدادهای ماوس، Trackbar، و پردازش زنده‌ی فریم وب‌کم) طراحی شده‌اند و مستقیم ترکیبی از نکات ماژول ۱ و ۲ هستند.</p>
+
+  <!-- Exercise 1 (q5) -->
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تمرین 1 — رسم مثلث با کلیک ماوس</h3></div>
+  <p>یک برنامه‌ی ساده بنویسید که با کلیک کاربر روی صفحه، در نقطه‌ی کلیک‌شده یک مثلث رسم کند. رنگ این مثلث‌ها باید با دکمه‌های روی کیبورد قابل‌تغییر باشد.</p>
+  <div class="code-head"><span class="ch-label">q5.ipynb</span><span class="ch-path">رسم مثلث با کلیک ماوس</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;import numpy as np&#10;import matplotlib.pyplot as plt&#10;&#10;color = (0, 255, 0)&#10;&#10;def draw_triangle(event, x, y, flags, param):&#10;    global color&#10;    if event == cv2.EVENT_LBUTTONDOWN:&#10;        cx, cy = x, y&#10;        r = 40&#10;        pts = np.array([&#10;            [cx, cy - r],&#10;            [cx - r, cy + r],&#10;            [cx + r, cy + r]&#10;        ], np.int32)&#10;        cv2.fillPoly(image, [pts], color)&#10;&#10;image = np.ones((600, 800, 3), dtype=np.uint8) * 255&#10;cv2.namedWindow('image')&#10;cv2.setMouseCallback('image', draw_triangle)&#10;&#10;while True:&#10;    cv2.imshow('image', image)&#10;    key = cv2.waitKey(1) & 0xFF&#10;    if key == ord('r'):&#10;        color = (0, 0, 255)&#10;    elif key == ord('g'):&#10;        color = (0, 255, 0)&#10;    elif key == ord('b'):&#10;        color = (255, 0, 0)&#10;    elif key == 27:&#10;        break&#10;&#10;cv2.destroyAllWindows()&#10;plt.imshow(image[...,::-1])" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+color = (<span class="num">0</span>, <span class="num">255</span>, <span class="num">0</span>)   <span class="cm"># رنگ پیش‌فرض: سبز</span>
+
+<span class="kw">def</span> <span class="fn">draw_triangle</span>(event, x, y, flags, param):
+    <span class="kw">global</span> color
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        cx, cy = x, y   <span class="cm"># نقطه‌ی کلیک = مرکز مثلث</span>
+        r = <span class="num">40</span>       <span class="cm"># اندازه‌ی مثلث</span>
+        <span class="cm"># سه رأس مثلث حول مرکز کلیک</span>
+        pts = np.array([
+            [cx, cy - r],
+            [cx - r, cy + r],
+            [cx + r, cy + r]
+        ], np.int32)
+        cv2.<span class="fn">fillPoly</span>(image, [pts], color)
+
+image = np.<span class="fn">ones</span>((<span class="num">600</span>, <span class="num">800</span>, <span class="num">3</span>), dtype=np.uint8) * <span class="num">255</span>
+cv2.<span class="fn">namedWindow</span>(<span class="str">"image"</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">"image"</span>, draw_triangle)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, image)
+    key = cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> key == <span class="fn">ord</span>(<span class="str">"r"</span>):
+        color = (<span class="num">0</span>, <span class="num">0</span>, <span class="num">255</span>)
+    <span class="kw">elif</span> key == <span class="fn">ord</span>(<span class="str">"g"</span>):
+        color = (<span class="num">0</span>, <span class="num">255</span>, <span class="num">0</span>)
+    <span class="kw">elif</span> key == <span class="fn">ord</span>(<span class="str">"b"</span>):
+        color = (<span class="num">255</span>, <span class="num">0</span>, <span class="num">0</span>)
+    <span class="kw">elif</span> key == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])</div>
+
+  <!-- Exercise 2 (q6) -->
+  <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">تمرین 2 — یک برنامه‌ی نقاشی ساده (Mini Paint)</h3></div>
+  <p>یک برنامه‌ی ساده شبیه Paint بنویسید که بتوان رنگ قلم و اندازه‌ی قلم را تغییر داد. برای تغییر اندازه و رنگ قلم از Trackbar استفاده کنید — ۴ تا Trackbar داشته باشید که به‌ترتیب سه رنگ R، G، B و اندازه‌ی قلم را مشخص کنند.</p>
+  <div class="code-head"><span class="ch-label">q6.ipynb</span><span class="ch-path">نقاشی با Trackbar</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import matplotlib.pyplot as plt&#10;import numpy as np&#10;import cv2&#10;&#10;img = np.zeros((512, 512, 3), dtype=np.uint8)&#10;drawing = False&#10;ix = 0&#10;iy = 0&#10;&#10;def draw(event, x, y, flags, params):&#10;    global ix, iy, drawing&#10;    if event == cv2.EVENT_LBUTTONDOWN:&#10;        drawing = True&#10;        ix = x&#10;        iy = y&#10;    elif event == cv2.EVENT_MOUSEMOVE:&#10;        if drawing == True:&#10;            r = cv2.getTrackbarPos('R', 'Window')&#10;            g = cv2.getTrackbarPos('G', 'Window')&#10;            b = cv2.getTrackbarPos('B', 'Window')&#10;            size = cv2.getTrackbarPos('Size', 'Window')&#10;            if size == 0:&#10;                size = 1&#10;            color = (b, g, r)&#10;            cv2.line(img, pt1=(ix, iy), pt2=(x, y), color=color, thickness=size)&#10;            ix = x&#10;            iy = y&#10;    elif event == cv2.EVENT_LBUTTONUP:&#10;        drawing = False&#10;&#10;cv2.namedWindow('Window')&#10;cv2.createTrackbar('R', 'Window', 255, 255, lambda x: None)&#10;cv2.createTrackbar('G', 'Window', 255, 255, lambda x: None)&#10;cv2.createTrackbar('B', 'Window', 255, 255, lambda x: None)&#10;cv2.createTrackbar('Size', 'Window', 3, 50, lambda x: None)&#10;cv2.setMouseCallback('Window', draw)&#10;&#10;while True:&#10;    cv2.imshow('Window', img)&#10;    key = cv2.waitKey(1) & 0xFF&#10;    if key == ord('c'):&#10;        img[:] = 0&#10;    elif key == 27:&#10;        break&#10;&#10;cv2.destroyAllWindows()&#10;plt.imshow(img[..., ::-1])&#10;plt.axis('off')&#10;plt.show()" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+img = np.<span class="fn">zeros</span>((<span class="num">512</span>, <span class="num">512</span>, <span class="num">3</span>), dtype=np.uint8)
+drawing = <span class="kw">False</span>
+ix = <span class="num">0</span>
+iy = <span class="num">0</span>
+
+<span class="kw">def</span> <span class="fn">draw</span>(event, x, y, flags, params):
+    <span class="kw">global</span> ix, iy, drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        drawing = <span class="kw">True</span>
+        ix = x
+        iy = y
+    <span class="kw">elif</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing == <span class="kw">True</span>:
+            <span class="cm"># رنگ و اندازه‌ی قلم هر بار از Trackbarها خونده می‌شن</span>
+            r = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">"R"</span>, <span class="str">"Window"</span>)
+            g = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">"G"</span>, <span class="str">"Window"</span>)
+            b = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">"B"</span>, <span class="str">"Window"</span>)
+            size = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">"Size"</span>, <span class="str">"Window"</span>)
+            <span class="kw">if</span> size == <span class="num">0</span>:
+                size = <span class="num">1</span>   <span class="cm"># جلوگیری از خط با ضخامت صفر</span>
+            color = (b, g, r)
+            cv2.<span class="fn">line</span>(
+                img,
+                pt1=(ix, iy),
+                pt2=(x, y),
+                color=color,
+                thickness=size
+            )
+            ix = x
+            iy = y
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        drawing = <span class="kw">False</span>
+
+cv2.<span class="fn">namedWindow</span>(<span class="str">"Window"</span>)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">"R"</span>, <span class="str">"Window"</span>, <span class="num">255</span>, <span class="num">255</span>, <span class="kw">lambda</span> x: <span class="kw">None</span>)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">"G"</span>, <span class="str">"Window"</span>, <span class="num">255</span>, <span class="num">255</span>, <span class="kw">lambda</span> x: <span class="kw">None</span>)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">"B"</span>, <span class="str">"Window"</span>, <span class="num">255</span>, <span class="num">255</span>, <span class="kw">lambda</span> x: <span class="kw">None</span>)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">"Size"</span>, <span class="str">"Window"</span>, <span class="num">3</span>, <span class="num">50</span>, <span class="kw">lambda</span> x: <span class="kw">None</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">"Window"</span>, draw)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">"Window"</span>, img)
+    key = cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> key == <span class="fn">ord</span>(<span class="str">"c"</span>):   <span class="cm"># پاک‌کردن کل بوم</span>
+        img[:] = <span class="num">0</span>
+    <span class="kw">elif</span> key == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(img[..., ::-<span class="num">1</span>])
+plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">show</span>()</div>
+
+  <!-- Exercise 3 (q7) -->
+  <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">تمرین 3 — تصحیح گاما زنده روی تصویر وب‌کم</h3></div>
+  <p>یک برنامه بنویسید که تصویر اصلی وب‌کم و همچنین تصویر وب‌کم بعد از اعمال تصحیح روشنایی و کنتراست (به روش تصحیح گاما) را هم‌زمان نمایش دهد. این برنامه با فشردن <code class="code">q</code> روی کیبورد باید بسته شود.</p>
+  <div class="code-head"><span class="ch-label">q7.ipynb</span><span class="ch-path">تصحیح گاما زنده روی وب‌کم</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;import numpy as np&#10;&#10;cap = cv2.VideoCapture(0)&#10;&#10;if not cap.isOpened():&#10;    print(&quot;can't open webcam&quot;)&#10;    exit()&#10;&#10;gamma = 0.5&#10;table = np.array([&#10;    ((i / 255.0) ** gamma) * 255&#10;    for i in np.arange(256)&#10;]).astype('uint8')&#10;&#10;while True:&#10;    ret, frame = cap.read()&#10;    if not ret:&#10;        print(&quot;Can't receive frame (stream end?). Exiting ...&quot;)&#10;        break&#10;    original = frame&#10;    corrected = cv2.LUT(original, table)&#10;    cv2.imshow('Original Webcam', original)&#10;    cv2.imshow('Gamma Corrected', corrected)&#10;    if cv2.waitKey(1) & 0xFF == ord('q'):&#10;        break&#10;&#10;cap.release()&#10;cv2.destroyAllWindows()" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> cap.<span class="fn">isOpened</span>():
+    print(<span class="str">"can't open webcam"</span>)
+    exit()
+
+gamma = <span class="num">0.5</span>
+<span class="cm"># فرمول درست: O = 255 * (I/255)^gamma — گاما مستقیم تو توان می‌ره، نه معکوسش</span>
+<span class="cm"># (اگه به‌جای gamma از 1.0/gamma استفاده کنی، برای gamma=0.5 عملاً</span>
+<span class="cm">#  معادل گامای 2 اجرا می‌شه و تصویر به‌جای روشن‌تر، تیره‌تر می‌شه)</span>
+table = np.array([
+    ((i / <span class="num">255.0</span>) ** gamma) * <span class="num">255</span>
+    <span class="kw">for</span> i <span class="kw">in</span> np.<span class="fn">arange</span>(<span class="num">256</span>)
+]).astype(<span class="str">"uint8"</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        print(<span class="str">"Can't receive frame (stream end?). Exiting ..."</span>)
+        <span class="kw">break</span>
+    original = frame
+    corrected = cv2.<span class="fn">LUT</span>(original, table)
+    cv2.<span class="fn">imshow</span>(<span class="str">"Original Webcam"</span>, original)
+    cv2.<span class="fn">imshow</span>(<span class="str">"Gamma Corrected"</span>, corrected)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="fn">ord</span>(<span class="str">"q"</span>):
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+</div>

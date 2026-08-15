@@ -1,0 +1,775 @@
+
+
+  <div class="section-c chapter-intro" data-section-id="module-2-intro">
+    <div class="ci-question">highgui در OpenCV یعنی چی؟</div>
+    <p class="ci-intro">این ماژول درباره‌ی رابط تعاملی OpenCV است: چطور به رویدادهای ماوس (کلیک، حرکت، رهاکردن) گوش بدیم، چطور یک Trackbar (اسلایدر) به پنجره اضافه کنیم، چطور از وب‌کم، فایل ویدیویی، دوربین مداربسته (RTSP)، صفحه‌نمایش، و حتی یوتیوب فریم بخوانیم، و چطور یک ویدیوی جدید ذخیره کنیم. همه‌ی این‌ها زیرمجموعه‌ی ماژول <code class="code">highgui</code> در OpenCV هستند.</p>
+  </div>
+
+  <div class="section-c" data-section-id="module-2-checklist">
+    <div class="metrics">
+      <span class="metric accent">8 نوت‌بوک</span>
+      <span class="metric success">8 تکمیل‌شده</span>
+    </div>
+    <div class="section-h"><h2>فهرست نوت‌بوک‌های این ماژول</h2></div>
+    <p style="margin-bottom:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://github.com/Alireza-Akhavan/class.vision" class="ref-link">github.com/Alireza-Akhavan/class.vision</a></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:8%">#</th><th style="width:44%">فایل</th><th style="width:34%">موضوع</th><th style="width:14%">وضعیت</th></tr></thead>
+        <tbody>
+          <tr><td class="code">11</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/11-Mouse-event-with-highgui.ipynb" class="ref-link">Mouse-event-with-highgui.ipynb</a></td><td>رویدادهای ماوس</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">12</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/12-Trackbar-in-OpenCV-with-highgui.ipynb" class="ref-link">Trackbar-in-OpenCV-with-highgui.ipynb</a></td><td>Trackbar / اسلایدر</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">13</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/13-Using-webcam.ipynb" class="ref-link">Using-webcam.ipynb</a></td><td>استفاده از وب‌کم</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">14</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/14-Playing-video-from-file.ipynb" class="ref-link">Playing-video-from-file.ipynb</a></td><td>پخش ویدیو از فایل</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">15</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/15-Saving-a-video.ipynb" class="ref-link">Saving-a-video.ipynb</a></td><td>ذخیره‌ی ویدیو</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">16</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/16-CCTV-and-RTSP-video-stream.ipynb" class="ref-link">CCTV-and-RTSP-video-stream.ipynb</a></td><td>دوربین مداربسته و RTSP</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">17</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/17-ScreenRecord-and-screenshot.ipynb" class="ref-link">ScreenRecord-and-screenshot.ipynb</a></td><td>ضبط صفحه و اسکرین‌شات</td><td><span class="badge success">تکمیل</span></td></tr>
+          <tr><td class="code">18</td><td class="code"><a href="https://nbviewer.org/github/Alireza-Akhavan/class.vision/blob/master/18-import-video-from-youtube.ipynb" class="ref-link">import-video-from-youtube.ipynb</a></td><td>لود ویدیوی یوتیوب</td><td><span class="badge success">تکمیل</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== 1. Mouse events ===== -->
+  <div class="section-c" data-section-id="module-2-mouse">
+    <div class="section-h"><h2>1. رویدادهای ماوس (11)</h2></div>
+    <p>اول ببینیم OpenCV چه رویدادهایی برای ماوس تعریف کرده:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+events = [i <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">dir</span>(cv2) <span class="kw">if</span> <span class="str">'EVENT'</span> <span class="kw">in</span> i]
+print(events)</div>
+
+    <p style="margin-top:var(--sp-4-5)">یک برنامه‌ی خیلی ساده که با کلیک، یک دایره رسم می‌کند:</p>
+    <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="cm"># mouse callback function</span>
+<span class="kw">def</span> <span class="fn">draw_circle</span>(event, x, y, flags, param):
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        cv2.<span class="fn">circle</span>(img, (x,y), <span class="num">20</span>, (<span class="num">150</span>,<span class="num">0</span>,<span class="num">200</span>), -<span class="num">1</span>)
+
+<span class="cm"># یک تصویر سیاه، یک پنجره، و اتصال تابع به پنجره</span>
+img = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+
+cv2.<span class="fn">namedWindow</span>(<span class="str">'image'</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">'image'</span>, draw_circle)
+
+<span class="kw">while</span>(<span class="num">1</span>):
+    cv2.<span class="fn">imshow</span>(<span class="str">'image'</span>, img)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">الگوی کلی callback ماوس</div>
+        <p>تابع callback همیشه ۵ پارامتر می‌گیرد: <code>event</code> (نوع رویداد)، <code>x, y</code> (مختصات لحظه‌ی رویداد)، <code>flags</code> و <code>param</code> (کمتر استفاده می‌شوند). این تابع با <code>cv2.setMouseCallback('نام‌پنجره', تابع)</code> به یک پنجره‌ی مشخص وصل می‌شود.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">برنامه‌ای شبیه قلم Paint — با نگه‌داشتن دکمه و حرکت ماوس نقاشی می‌کند:</p>
+    <div class="code-block">drawing = <span class="kw">False</span>  <span class="cm"># true if mouse is pressed</span>
+
+<span class="kw">def</span> <span class="fn">brush</span>(event, x, y, flags, param):
+    <span class="kw">global</span> drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        drawing = <span class="kw">True</span>
+    <span class="kw">elif</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing == <span class="kw">True</span>:
+            cv2.<span class="fn">circle</span>(img, (x,y), <span class="num">5</span>, (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), -<span class="num">1</span>)
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        drawing = <span class="kw">False</span>
+
+img = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">namedWindow</span>(<span class="str">'image'</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">'image'</span>, brush)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">'image'</span>, img)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">تعویض رنگ قلم با صفحه‌کلید (کلیدهای <code class="code">r</code>, <code class="code">g</code>, <code class="code">b</code>):</p>
+    <div class="code-block">drawing = <span class="kw">False</span>
+color = (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>)
+
+<span class="kw">def</span> <span class="fn">brush</span>(event, x, y, flags, param):
+    <span class="kw">global</span> drawing, color
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        drawing = <span class="kw">True</span>
+    <span class="kw">elif</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing == <span class="kw">True</span>:
+            cv2.<span class="fn">circle</span>(img, (x,y), <span class="num">5</span>, color, -<span class="num">1</span>)
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        drawing = <span class="kw">False</span>
+
+img = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">namedWindow</span>(<span class="str">'image'</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">'image'</span>, brush)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">'image'</span>, img)
+    k = cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> k == <span class="fn">ord</span>(<span class="str">'b'</span>):
+        color = (<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>)
+    <span class="kw">elif</span> k == <span class="fn">ord</span>(<span class="str">'g'</span>):
+        color = (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>)
+    <span class="kw">elif</span> k == <span class="fn">ord</span>(<span class="str">'r'</span>):
+        color = (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>)
+    <span class="kw">elif</span> k == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">مشکل نسخه‌های بالا: اگر ماوس سریع حرکت کند، بین نقاط فاصله می‌افتد (چون فقط دایره‌ی نقطه‌ای رسم می‌شود، نه خط بین دو موقعیت متوالی). راه‌حل: رسم <strong>خط</strong> بین موقعیت قبلی و فعلی ماوس در هر حرکت:</p>
+    <div class="code-block">img = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>))
+drawing = <span class="kw">False</span>
+ix, iy = <span class="num">0</span>, <span class="num">0</span>
+
+<span class="kw">def</span> <span class="fn">draw</span>(event, x, y, flags, params):
+    <span class="kw">global</span> ix, iy, drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        drawing = <span class="kw">True</span>
+        ix, iy = x, y
+    <span class="kw">if</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing == <span class="kw">True</span>:
+            <span class="cm"># به‌جای دایره، یک خط از نقطه‌ی قبلی به نقطه‌ی فعلی می‌کشد</span>
+            cv2.<span class="fn">line</span>(img, pt1=(ix,iy), pt2=(x,y), color=(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>), thickness=<span class="num">3</span>)
+            ix, iy = x, y
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONUP:
+        drawing = <span class="kw">False</span>
+
+cv2.<span class="fn">namedWindow</span>(<span class="str">"Window"</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">"Window"</span>, draw)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">"Window"</span>, img)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">رسم مستطیل <strong>توپر</strong> با درگ‌کردن ماوس:</p>
+    <div class="code-block">drawing = <span class="kw">False</span>
+start_point = (<span class="num">0</span>, <span class="num">0</span>)
+
+<span class="kw">def</span> <span class="fn">draw_rectangle</span>(event, x, y, flags, param):
+    <span class="kw">global</span> start_point, drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        drawing = <span class="kw">True</span>
+        start_point = x, y
+    <span class="kw">elif</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing == <span class="kw">True</span>:
+            cv2.<span class="fn">rectangle</span>(img, start_point, (x,y), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), -<span class="num">1</span>)
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        drawing = <span class="kw">False</span>
+
+img = np.<span class="fn">zeros</span>((<span class="num">512</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">namedWindow</span>(<span class="str">'image'</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">'image'</span>, draw_rectangle)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">'image'</span>, img)
+    k = cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> k == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(img[...,::-<span class="num">1</span>])</div>
+
+    <p style="margin-top:var(--sp-4-5)">حالا یک ابزار واقعی‌تر: رسم مستطیل <strong>توخالی</strong> روی یک عکس واقعی (نه بوم سیاه)، با قابلیت reset (کلید <code class="code">r</code>) و ثبت مختصات هر مستطیل در یک لیست:</p>
+    <div class="code-block">start_point = (<span class="num">0</span>, <span class="num">0</span>)
+points = []
+drawing = <span class="kw">False</span>
+
+<span class="kw">def</span> <span class="fn">draw_empty_rectangle</span>(event, x, y, flags, param):
+    <span class="kw">global</span> start_point, points, drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        start_point = (x, y)
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        points.<span class="fn">append</span>([start_point, (x, y)])
+        cv2.<span class="fn">rectangle</span>(image, start_point, (x, y), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)
+        cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, image)
+
+image = cv2.<span class="fn">imread</span>(<span class="str">'images/input.jpg'</span>)
+clone = image.<span class="fn">copy</span>()   <span class="cm"># کپی اصلی برای reset</span>
+cv2.<span class="fn">namedWindow</span>(<span class="str">"image"</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">"image"</span>, draw_empty_rectangle)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, image)
+    key = cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> key == <span class="fn">ord</span>(<span class="str">"r"</span>):        <span class="cm"># ریست کردن</span>
+        image = clone.<span class="fn">copy</span>()
+        points = []
+    <span class="kw">elif</span> key == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])
+print(points)</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">مشکل: مستطیل تا رهاکردن کلیک نمایش داده نمی‌شود</div>
+        <p>در نسخه‌ی بالا، در طول درگ‌کردن هیچ پیش‌نمایشی دیده نمی‌شود — مستطیل فقط لحظه‌ی رهاکردن دکمه ظاهر می‌شود. راه‌حل: در رویداد <code>EVENT_MOUSEMOVE</code>، روی یک <strong>کپی موقت</strong> از تصویر رسم کن و نمایشش بده (نه روی تصویر اصلی) — این‌طوری تصویر اصلی دست‌نخورده می‌ماند تا واقعاً کلیک تمام شود.</p>
+      </div>
+    </div>
+
+    <div class="code-block">start_point = (<span class="num">0</span>, <span class="num">0</span>)
+points = []
+drawing = <span class="kw">False</span>
+
+<span class="kw">def</span> <span class="fn">annotate_image</span>(event, x, y, flags, param):
+    <span class="kw">global</span> start_point, points, drawing
+    <span class="kw">if</span> event == cv2.EVENT_LBUTTONDOWN:
+        start_point = (x, y)
+        drawing = <span class="kw">True</span>
+    <span class="kw">elif</span> event == cv2.EVENT_MOUSEMOVE:
+        <span class="kw">if</span> drawing:
+            <span class="cm"># پیش‌نمایش روی یک کپی موقت، نه روی تصویر اصلی</span>
+            temp_image = image.<span class="fn">copy</span>()
+            cv2.<span class="fn">rectangle</span>(temp_image, start_point, (x, y), (<span class="num">120</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">2</span>)
+            cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, temp_image)
+    <span class="kw">elif</span> event == cv2.EVENT_LBUTTONUP:
+        points.<span class="fn">append</span>([start_point, (x, y)])
+        cv2.<span class="fn">rectangle</span>(image, start_point, (x, y), (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)
+        cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, image)
+        drawing = <span class="kw">False</span>
+
+image = cv2.<span class="fn">imread</span>(<span class="str">'images/input.jpg'</span>)
+clone = image.<span class="fn">copy</span>()
+cv2.<span class="fn">namedWindow</span>(<span class="str">"image"</span>)
+cv2.<span class="fn">setMouseCallback</span>(<span class="str">"image"</span>, annotate_image)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="kw">if</span> drawing == <span class="kw">False</span>:
+        cv2.<span class="fn">imshow</span>(<span class="str">"image"</span>, image)
+    key = cv2.<span class="fn">waitKey</span>(<span class="num">5</span>) & <span class="num">0xFF</span>
+    <span class="kw">if</span> key == <span class="fn">ord</span>(<span class="str">"r"</span>):
+        image = clone.<span class="fn">copy</span>()
+        points = []
+    <span class="kw">elif</span> key == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()
+plt.<span class="fn">imshow</span>(image[...,::-<span class="num">1</span>])
+print(points)</div>
+
+    <p style="margin-top:var(--sp-4-5)">و در نهایت، افزودن قابلیت <strong>Undo</strong> (کلید <code class="code">z</code>) — با پاک‌کردن آخرین نقطه‌ی ثبت‌شده از لیست و رسم دوباره‌ی همه‌ی مستطیل‌های باقی‌مانده روی یک کپی تازه:</p>
+    <div class="code-block"><span class="kw">elif</span> key == <span class="fn">ord</span>(<span class="str">"z"</span>):  <span class="cm"># شبیه ctrl+z</span>
+    image = clone.<span class="fn">copy</span>()
+    points.<span class="fn">pop</span>()
+    <span class="kw">for</span> p <span class="kw">in</span> points:
+        cv2.<span class="fn">rectangle</span>(image, p[<span class="num">0</span>], p[<span class="num">1</span>], (<span class="num">0</span>,<span class="num">255</span>,<span class="num">0</span>), <span class="num">3</span>)</div>
+    <p style="margin-top:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://docs.opencv.org/4.6.0/db/d5b/tutorial_py_mouse_handling.html" class="ref-link">docs.opencv.org – Mouse Handling Tutorial</a></p>
+  </div>
+
+  <!-- ===== 2. Trackbar ===== -->
+  <div class="section-c" data-section-id="module-2-trackbar">
+    <div class="section-h"><h2>2. افزودن Trackbar (12)</h2></div>
+    <p>Trackbar یعنی یک اسلایدر روی پنجره‌ی OpenCV که با تکان‌دادنش یک تابع callback صدا زده می‌شود. مثال کلاسیک: کنترل نسبت ترکیب دو تصویر (blend) با یک اسلایدر:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+
+alpha_slider_max = <span class="num">100</span>
+title_window = <span class="str">'Linear Blend'</span>
+
+<span class="kw">def</span> <span class="fn">on_trackbar</span>(val):
+    alpha = val / alpha_slider_max
+    beta = (<span class="num">1.0</span> - alpha)
+    dst = cv2.<span class="fn">addWeighted</span>(src1, alpha, src2, beta, <span class="num">0.0</span>)
+    cv2.<span class="fn">imshow</span>(title_window, dst)
+
+src1 = cv2.<span class="fn">imread</span>(<span class="str">'images/class.vision.jpg'</span>)
+src2 = cv2.<span class="fn">imread</span>(<span class="str">'images/opencv.jpg'</span>)
+
+cv2.<span class="fn">namedWindow</span>(title_window)
+trackbar_name = <span class="str">'Alpha x %d'</span> % alpha_slider_max
+cv2.<span class="fn">createTrackbar</span>(trackbar_name, title_window, <span class="num">0</span>, alpha_slider_max, on_trackbar)
+
+on_trackbar(<span class="num">0</span>)   <span class="cm"># مقدار اولیه رو نمایش بده</span>
+cv2.<span class="fn">waitKey</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">برای اینکه نتیجه‌ی نهایی (آخرین مقدار اسلایدر) بعد از بستن پنجره هم در خود نوت‌بوک قابل مشاهده باشد، کافیست متغیرها را <code class="code">global</code> کنیم:</p>
+    <div class="code-block"><span class="kw">def</span> <span class="fn">on_trackbar</span>(val):
+    <span class="kw">global</span> dst, alpha   <span class="cm"># برای دسترسی matplotlib بعد از بسته‌شدن پنجره</span>
+    alpha = val / alpha_slider_max
+    beta = (<span class="num">1.0</span> - alpha)
+    dst = cv2.<span class="fn">addWeighted</span>(src1, alpha, src2, beta, <span class="num">0.0</span>)
+    cv2.<span class="fn">imshow</span>(title_window, dst)
+
+<span class="cm"># ... (بقیه مثل قبل) ...</span>
+
+plt.<span class="fn">imshow</span>(dst[...,::-<span class="num">1</span>])
+print(<span class="str">"alpha:{}"</span>.<span class="fn">format</span>(alpha))</div>
+
+    <p style="margin-top:var(--sp-4-5)">مثال دیگر: تغییر رنگ یک صفحه با سه Trackbar جدا (R, G, B) به‌همراه یک سوییچ روشن/خاموش:</p>
+    <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+
+<span class="kw">def</span> <span class="fn">nothing</span>(x):   <span class="cm"># وقتی callback واقعی لازم نیست، یک تابع خالی کافیه</span>
+    <span class="kw">pass</span>
+
+img = np.<span class="fn">zeros</span>((<span class="num">300</span>,<span class="num">512</span>,<span class="num">3</span>), np.uint8)
+cv2.<span class="fn">namedWindow</span>(<span class="str">'image'</span>)
+
+cv2.<span class="fn">createTrackbar</span>(<span class="str">'R'</span>, <span class="str">'image'</span>, <span class="num">0</span>, <span class="num">255</span>, nothing)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">'G'</span>, <span class="str">'image'</span>, <span class="num">0</span>, <span class="num">255</span>, nothing)
+cv2.<span class="fn">createTrackbar</span>(<span class="str">'B'</span>, <span class="str">'image'</span>, <span class="num">0</span>, <span class="num">255</span>, nothing)
+
+switch = <span class="str">'OFF:ON'</span>
+cv2.<span class="fn">createTrackbar</span>(switch, <span class="str">'image'</span>, <span class="num">0</span>, <span class="num">1</span>, nothing)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    cv2.<span class="fn">imshow</span>(<span class="str">'image'</span>, img)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+    <span class="cm"># مقدار فعلی هر Trackbar را در هر فریم می‌خوانیم</span>
+    r = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'R'</span>, <span class="str">'image'</span>)
+    g = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'G'</span>, <span class="str">'image'</span>)
+    b = cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'B'</span>, <span class="str">'image'</span>)
+    s = cv2.<span class="fn">getTrackbarPos</span>(switch, <span class="str">'image'</span>)
+
+    <span class="kw">if</span> s == <span class="num">0</span>:
+        img[:] = <span class="num">0</span>
+    <span class="kw">else</span>:
+        img[:] = [b, g, r]
+
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">دو الگوی مختلف Trackbar</div>
+        <p>الگوی اول (blend) از یک <strong>callback واقعی</strong> استفاده می‌کند که با هر تغییر اسلایدر بلافاصله اجرا می‌شود. الگوی دوم به‌جای این، یک <code>nothing</code> خالی به‌عنوان callback می‌دهد و مقدار Trackbar را داخل حلقه‌ی اصلی با <code>getTrackbarPos</code> می‌خواند — برای وقتی مفید است که چند Trackbar با هم ترکیب می‌شوند و callback جداگانه برای هرکدام دردسرساز است.</p>
+      </div>
+    </div>
+    <p style="margin-top:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منابع: <a href="https://docs.opencv.org/3.4/da/d6a/tutorial_trackbar.html" class="ref-link">docs.opencv.org (v3.4)</a> · <a href="https://docs.opencv.org/4.x/d9/dc8/tutorial_py_trackbar.html" class="ref-link">docs.opencv.org (v4.x)</a></p>
+  </div>
+
+  <!-- ===== 3. Webcam ===== -->
+  <div class="section-c" data-section-id="module-2-webcam">
+    <div class="section-h"><h2>3. استفاده از وب‌کم (13)</h2></div>
+    <p>پایه‌ای‌ترین حالت: خواندن فریم‌به‌فریم از وب‌کم و نمایش زنده:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+
+<span class="cm"># cap شیء VideoCapture است</span>
+<span class="cm"># ret: بولی که نشون میده خوندن فریم موفق بوده یا نه</span>
+<span class="cm"># frame: خود تصویر خونده‌شده از وب‌کم</span>
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    cv2.<span class="fn">imshow</span>(<span class="str">'Webcam'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">این کد فقط با وب‌کم واقعی و دسترسی GUI اجرا می‌شود</div>
+        <p>اگر این کد را در محیطی بدون وب‌کم یا بدون نمایشگر (مثل یک سرور یا Colab) اجرا کنید، <code>cap.read()</code> فریم خالی برمی‌گرداند و <code>cv2.imshow</code> با خطای <code>Assertion failed: size.width&gt;0 && size.height&gt;0</code> متوقف می‌شود. این کد را فقط روی سیستم شخصی با وب‌کم متصل اجرا کنید.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">آینه‌کردن تصویر وب‌کم (flip افقی) — مفید چون تصویر خام وب‌کم برعکس چیزیه که جلوی آینه می‌بینیم:</p>
+    <div class="code-block">cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    flipped = cv2.<span class="fn">flip</span>(frame, <span class="num">1</span>)   <span class="cm"># 1 = flip افقی (آینه‌ای)</span>
+    cv2.<span class="fn">imshow</span>(<span class="str">'Webcam'</span>, flipped)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">نمایش هم‌زمان دو پنجره با کانال‌های ایزوله‌شده‌ی سبز و قرمز (یادآوری از ماژول ۱):</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    height, width, _ = frame.shape
+    zeros = np.<span class="fn">zeros</span>([height,width], dtype=<span class="str">"uint8"</span>)
+    B, G, R = cv2.<span class="fn">split</span>(frame)
+    image_green = cv2.<span class="fn">merge</span>([zeros, G, zeros])
+    image_red = cv2.<span class="fn">merge</span>([zeros, zeros, R])
+
+    cv2.<span class="fn">imshow</span>(<span class="str">'Webcam Green'</span>, image_green)
+    cv2.<span class="fn">imshow</span>(<span class="str">'Webcam Red'</span>, image_red)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+  </div>
+
+  <!-- ===== 4. Playing video from file ===== -->
+  <div class="section-c" data-section-id="module-2-videofile">
+    <div class="section-h"><h2>4. پخش ویدیو از فایل (14)</h2></div>
+    <p><code class="code">cv2.VideoCapture</code> برای فایل ویدیویی هم دقیقاً مثل وب‌کم کار می‌کند — فقط به‌جای عدد ۰ (دوربین پیش‌فرض)، مسیر فایل داده می‌شود:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="str">"videos/race_car.mp4"</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+
+    <span class="cm"># وقتی فریم درست خونده بشه ret برابر True هست</span>
+    <span class="cm"># وقتی ویدیو تموم بشه (یا فایل اشتباه باشه)، ret برابر False میشه</span>
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        print(<span class="str">"Exiting ..."</span>)
+        <span class="kw">break</span>
+    cv2.<span class="fn">imshow</span>(<span class="str">'video'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">چرا چک‌کردن <code>ret</code> این‌جا حیاتیه</div>
+        <p>برخلاف وب‌کم (که معمولاً همیشه فریم می‌ده)، خواندن از فایل یه پایان مشخص داره. اگه <code>if not ret: break</code> رو نذارید، وقتی ویدیو تموم بشه، <code>frame</code> مقدار <code>None</code> می‌گیره و اولین دستوری که بخواد روش کار کنه (مثل <code>cv2.imshow</code> یا <code>cvtColor</code>) خطا میده.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--sp-5)">گری‌اسکیل‌کردن ویدیو، فریم‌به‌فریم (دقیقاً همون منطق ماژول ۱، فقط تو یک حلقه):</p>
+    <div class="code-block">cap = cv2.<span class="fn">VideoCapture</span>(<span class="str">"videos/race_car.mp4"</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        print(<span class="str">"Exiting ..."</span>)
+        <span class="kw">break</span>
+    gray = cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2GRAY)
+    cv2.<span class="fn">imshow</span>(<span class="str">'Gray video'</span>, gray)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-5)"><code class="code">cap.get(id)</code> یک متد است که با یک شناسه‌ی عددی، خاصیتی از ویدیو (عرض، ارتفاع، FPS، و...) را برمی‌گرداند (برای بعضی ویدیوها بعضی شناسه‌ها معنا ندارند و ۰ برمی‌گردانند):</p>
+    <div class="code-block">cap = cv2.<span class="fn">VideoCapture</span>(<span class="str">'./videos/race_car.mp4'</span>)
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>,<span class="num">18</span>):
+    print(cap.<span class="fn">get</span>(i))</div>
+    <p style="margin-top:var(--sp-4-5)">به‌جای عدد خام، بهتره از ثابت‌های خواناتر OpenCV استفاده کنید:</p>
+    <div class="code-block">print(<span class="str">"width:"</span>, cap.<span class="fn">get</span>(cv2.CAP_PROP_FRAME_WIDTH))
+print(<span class="str">"height:"</span>, cap.<span class="fn">get</span>(cv2.CAP_PROP_FRAME_HEIGHT))
+print(<span class="str">"FPS:"</span>, cap.<span class="fn">get</span>(cv2.CAP_PROP_FPS))</div>
+
+    <p style="margin-top:var(--sp-4-5)">فهرست کامل شناسه‌های عددی (برای مرجع سریع) — منبع: <a href="https://docs.opencv.org/4.x/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d" class="ref-link">docs.opencv.org – videoio flags</a></p>
+    <div class="code-block">cv2.CAP_PROP_POS_MSEC = <span class="num">0</span>
+cv2.CAP_PROP_POS_FRAMES = <span class="num">1</span>
+cv2.CAP_PROP_POS_AVI_RATIO = <span class="num">2</span>
+cv2.CAP_PROP_FRAME_WIDTH = <span class="num">3</span>
+cv2.CAP_PROP_FRAME_HEIGHT = <span class="num">4</span>
+cv2.CAP_PROP_FPS = <span class="num">5</span>
+cv2.CAP_PROP_FOURCC = <span class="num">6</span>
+cv2.CAP_PROP_FRAME_COUNT = <span class="num">7</span>
+cv2.CAP_PROP_FORMAT = <span class="num">8</span>
+cv2.CAP_PROP_MODE = <span class="num">9</span>
+cv2.CAP_PROP_BRIGHTNESS = <span class="num">10</span>
+cv2.CAP_PROP_CONTRAST = <span class="num">11</span>
+cv2.CAP_PROP_SATURATION = <span class="num">12</span>
+cv2.CAP_PROP_HUE = <span class="num">13</span>
+cv2.CAP_PROP_GAIN = <span class="num">14</span>
+cv2.CAP_PROP_EXPOSURE = <span class="num">15</span>
+cv2.CAP_PROP_CONVERT_RGB = <span class="num">16</span>
+cv2.CAP_PROP_WHITE_BALANCE_BLUE_U = <span class="num">17</span>
+cv2.CAP_PROP_RECTIFICATION = <span class="num">18</span>
+cv2.CAP_PROP_MONOCHROME = <span class="num">19</span>
+cv2.CAP_PROP_SHARPNESS = <span class="num">20</span>
+cv2.CAP_PROP_AUTO_EXPOSURE = <span class="num">21</span>
+cv2.CAP_PROP_GAMMA = <span class="num">22</span>
+cv2.CAP_PROP_TEMPERATURE = <span class="num">23</span>
+cv2.CAP_PROP_TRIGGER = <span class="num">24</span>
+cv2.CAP_PROP_TRIGGER_DELAY = <span class="num">25</span>
+cv2.CAP_PROP_WHITE_BALANCE_RED_V = <span class="num">26</span>
+cv2.CAP_PROP_ZOOM = <span class="num">27</span>
+cv2.CAP_PROP_FOCUS = <span class="num">28</span>
+cv2.CAP_PROP_GUID = <span class="num">29</span>
+cv2.CAP_PROP_ISO_SPEED = <span class="num">30</span>
+cv2.CAP_PROP_BACKLIGHT = <span class="num">32</span>
+cv2.CAP_PROP_PAN = <span class="num">33</span>
+cv2.CAP_PROP_TILT = <span class="num">34</span>
+cv2.CAP_PROP_ROLL = <span class="num">35</span>
+cv2.CAP_PROP_IRIS = <span class="num">36</span>
+cv2.CAP_PROP_SETTINGS = <span class="num">37</span>
+cv2.CAP_PROP_BUFFERSIZE = <span class="num">38</span>
+cv2.CAP_PROP_AUTOFOCUS = <span class="num">39</span>
+cv2.CAP_PROP_SAR_NUM = <span class="num">40</span>
+cv2.CAP_PROP_SAR_DEN = <span class="num">41</span>
+cv2.CAP_PROP_BACKEND = <span class="num">42</span>
+cv2.CAP_PROP_CHANNEL = <span class="num">43</span>
+cv2.CAP_PROP_AUTO_WB = <span class="num">44</span>
+cv2.CAP_PROP_WB_TEMPERATURE = <span class="num">45</span>
+cv2.CAP_PROP_CODEC_PIXEL_FORMAT = <span class="num">46</span>
+cv2.CAP_PROP_BITRATE = <span class="num">47</span>
+cv2.CAP_PROP_ORIENTATION_META = <span class="num">48</span>
+cv2.CAP_PROP_ORIENTATION_AUTO = <span class="num">49</span></div>
+  </div>
+
+  <!-- ===== 5. Saving a video ===== -->
+  <div class="section-c" data-section-id="module-2-savevideo">
+    <div class="section-h"><h2>5. ذخیره‌ی ویدیو (15)</h2></div>
+    <p><strong>FourCC</strong> یک کد ۴ بایتی است که کدک فشرده‌سازی ویدیو را مشخص می‌کند (لیست کامل در <a href="https://en.wikipedia.org/wiki/FourCC" class="ref-link">fourcc.org / ویکی‌پدیا</a>). چند نمونه‌ی رایج بسته به سیستم‌عامل:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:20%">سیستم‌عامل</th><th>کدک‌های رایج</th></tr></thead>
+        <tbody>
+          <tr><td class="code">Fedora / Linux</td><td class="code">DIVX, XVID, MJPG, X264, WMV1, WMV2</td></tr>
+          <tr><td class="code">Windows</td><td class="code">DIVX</td></tr>
+          <tr><td class="code">macOS</td><td class="code">MJPG (.mp4), DIVX (.avi), X264 (.mkv)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>نکته: XVID معمولاً ترجیح داده می‌شود؛ MJPG حجم فایل خروجی را زیاد می‌کند؛ X264 حجم بسیار کمی تولید می‌کند.</p>
+
+    <p style="margin-top:var(--sp-4-5)">برای ساخت یک <code class="code">VideoWriter</code> باید مشخص کنید: نام فایل خروجی، کد FourCC، تعداد فریم بر ثانیه (fps)، ابعاد فریم، و اینکه ویدیو رنگی است یا نه (<code class="code">isColor</code>):</p>
+    <div class="code-block">fourcc = cv2.<span class="fn">VideoWriter_fourcc</span>(*<span class="str">'MJPG'</span>)
+<span class="cm"># یا معادلش: cv2.VideoWriter_fourcc('M','J','P','G')</span></div>
+
+    <p style="margin-top:var(--sp-4-5)">ذخیره‌ی ویدیوی وب‌کم (آینه‌شده) در یک فایل:</p>
+    <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="cm"># تعریف کدک و ساخت شیء VideoWriter</span>
+fourcc = cv2.<span class="fn">VideoWriter_fourcc</span>(*<span class="str">'XVID'</span>)
+out = cv2.<span class="fn">VideoWriter</span>(<span class="str">'output.avi'</span>, fourcc, <span class="num">20.0</span>, (<span class="num">640</span>, <span class="num">480</span>))
+
+<span class="kw">while</span> cap.<span class="fn">isOpened</span>():
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        print(<span class="str">"Can't receive frame (stream end?). Exiting ..."</span>)
+        <span class="kw">break</span>
+    frame = cv2.<span class="fn">flip</span>(frame, <span class="num">1</span>)
+    out.<span class="fn">write</span>(frame)      <span class="cm"># نوشتن فریم آینه‌شده در فایل خروجی</span>
+    cv2.<span class="fn">imshow</span>(<span class="str">'frame'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) == <span class="fn">ord</span>(<span class="str">'q'</span>):
+        <span class="kw">break</span>
+
+<span class="cm"># در پایان، هم دوربین و هم فایل خروجی باید release بشن</span>
+cap.<span class="fn">release</span>()
+out.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">خواندن یک ویدیوی موجود، تبدیل به گری‌اسکیل، و ذخیره‌ی دوباره در یک فایل جدید:</p>
+    <div class="code-block">cap = cv2.<span class="fn">VideoCapture</span>(<span class="str">'./videos/race_car.mp4'</span>)
+
+<span class="cm"># عرض و ارتفاع باید عدد صحیح باشن</span>
+w = <span class="fn">int</span>(cap.<span class="fn">get</span>(<span class="num">3</span>))
+h = <span class="fn">int</span>(cap.<span class="fn">get</span>(<span class="num">4</span>))
+
+<span class="cm"># آرگومان آخر (False) یعنی ویدیوی خروجی گری‌اسکیله (تک‌کاناله)</span>
+out = cv2.<span class="fn">VideoWriter</span>(<span class="str">'race_car_gray.avi'</span>, cv2.VideoWriter_fourcc(<span class="str">'M'</span>,<span class="str">'J'</span>,<span class="str">'P'</span>,<span class="str">'G'</span>), cap.<span class="fn">get</span>(cv2.CAP_PROP_FPS), (w, h), <span class="kw">False</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> ret == <span class="kw">True</span>:
+        gray = cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2GRAY)
+        out.<span class="fn">write</span>(gray)
+    <span class="kw">else</span>:
+        print(<span class="str">"Done"</span>)
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+out.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-warning">
+      <div class="callout-icon">!</div>
+      <div class="callout-body">
+        <div class="callout-title">isColor باید با نوع فریم هم‌خوانی داشته باشد</div>
+        <p>چون فریم‌های نوشته‌شده گری‌اسکیل (تک‌کاناله) هستند، پارامتر <code>isColor</code> باید <code>False</code> باشد؛ در غیر این صورت <code>VideoWriter</code> انتظار فریم سه‌کاناله دارد و خروجی خراب یا خطا می‌دهد.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6. CCTV / RTSP ===== -->
+  <div class="section-c" data-section-id="module-2-rtsp">
+    <div class="section-h"><h2>6. دوربین مداربسته و RTSP (16)</h2></div>
+    <p>دوربین‌های مداربسته (CCTV/IP Camera) معمولاً یک آدرس استریم <strong>RTSP</strong> می‌دهند. برای OpenCV، این آدرس دقیقاً مثل مسیر یک فایل ویدیویی به <code class="code">VideoCapture</code> داده می‌شود:</p>
+    <div class="code-block"><span class="kw">import</span> cv2
+
+<span class="cm"># یک لینک تست رایگان RTSP (Our Free Test RTSP Link)</span>
+<span class="cm"># می‌تونید دوربین CCTV/IP خودتون رو هم طوری تنظیم کنید که یک استریم RTSP بده</span>
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="str">"rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    cv2.<span class="fn">imshow</span>(<span class="str">'CCTV'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+    <p style="margin-top:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">لینک تست RTSP: <a href="https://www.wowza.com/developer/rtsp-stream-test" class="ref-link">wowza.com – RTSP Stream Test</a></p>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">کنترل هم‌زمان چند دوربین</div>
+        <p>اگر بخواهید هم‌زمان چند دوربین مداربسته را در پایتون کنترل کنید، کتابخانه‌ی <a href="https://github.com/jeffbass/imagezmq#introduction" class="ref-link">imagezmq</a> جایگزین خوبی است — هر دستگاه (مثلاً چند Raspberry Pi) فریم‌هایش را از طریق ZMQ برای یک هاب مرکزی می‌فرستد:</p>
+      </div>
+    </div>
+    <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> imagezmq
+
+image_hub = imagezmq.<span class="fn">ImageHub</span>()
+
+<span class="kw">while</span> <span class="kw">True</span>:  <span class="cm"># show streamed images until Ctrl-C</span>
+    rpi_name, image = image_hub.<span class="fn">recv_image</span>()
+    cv2.<span class="fn">imshow</span>(rpi_name, image)   <span class="cm"># یک پنجره برای هر دستگاه</span>
+    cv2.<span class="fn">waitKey</span>(<span class="num">1</span>)
+    image_hub.<span class="fn">send_reply</span>(<span class="str">b'OK'</span>)</div>
+  </div>
+
+  <!-- ===== 7. Screen record & screenshot ===== -->
+  <div class="section-c" data-section-id="module-2-screen">
+    <div class="section-h"><h2>7. ضبط صفحه و اسکرین‌شات (17)</h2></div>
+    <p>نصب پیش‌نیازها:</p>
+    <div class="code-block"><span class="cm"># macOS / Linux:</span>
+pip install Pillow
+sudo -H pip install pyscreenshot
+
+<span class="cm"># Windows:</span>
+pip install Pillow
+pip install pyscreenshot</div>
+
+    <p style="margin-top:var(--sp-4-5)">ضبط زنده‌ی کل صفحه‌نمایش با <code class="code">PIL.ImageGrab</code>:</p>
+    <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> PIL <span class="kw">import</span> ImageGrab
+<span class="kw">import</span> cv2
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    frame = np.array(ImageGrab.<span class="fn">grab</span>())
+
+    <span class="cm"># نمایش صفحه (چون ImageGrab بر خلاف OpenCV به‌صورت RGB می‌ده)</span>
+    cv2.<span class="fn">imshow</span>(<span class="str">'Screen'</span>, cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2RGB))
+
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">فقط یک اسکرین‌شات ساده (بدون حلقه):</p>
+    <div class="code-block">screen_img = ImageGrab.<span class="fn">grab</span>()
+screen_img.<span class="fn">save</span>(<span class="str">'screen.jpg'</span>)</div>
+
+    <p style="margin-top:var(--sp-4-5)">رکورد فقط از یک <strong>ناحیه‌ی خاص</strong> صفحه با پارامتر <code class="code">bbox</code>:</p>
+    <div class="code-block"><span class="kw">while</span> <span class="kw">True</span>:
+    frame = np.array(ImageGrab.<span class="fn">grab</span>(bbox=(<span class="num">500</span>,<span class="num">500</span>,<span class="num">1000</span>,<span class="num">1000</span>)))
+    cv2.<span class="fn">imshow</span>(<span class="str">'Screen area'</span>, cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2RGB))
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">یک متد <strong>سریع‌تر</strong> با کتابخانه‌ی <code class="code">mss</code> (برای ضبط زنده‌ی صفحه با FPS بالاتر مناسب‌تره):</p>
+    <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> cv2
+<span class="kw">from</span> mss <span class="kw">import</span> mss
+
+bounding_box = {<span class="str">'top'</span>: <span class="num">100</span>, <span class="str">'left'</span>: <span class="num">50</span>, <span class="str">'width'</span>: <span class="num">400</span>, <span class="str">'height'</span>: <span class="num">300</span>}
+sct = <span class="fn">mss</span>()
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    sct_img = sct.<span class="fn">grab</span>(bounding_box)
+    cv2.<span class="fn">imshow</span>(<span class="str">'screen'</span>, np.array(sct_img))
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <div class="callout callout-note">
+      <div class="callout-icon">i</div>
+      <div class="callout-body">
+        <div class="callout-title">چرا mss سریع‌تره</div>
+        <p><code>PIL.ImageGrab</code> برای هر فریم یک اسکرین‌شات کامل با overhead بیشتر می‌گیرد؛ <code>mss</code> مستقیم با API سطح پایین سیستم‌عامل کار می‌کند و برای ضبط زنده و پیوسته (به‌خصوص فقط یک ناحیه‌ی کوچک) قابل توجه سریع‌تر است.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8. YouTube video ===== -->
+  <div class="section-c" data-section-id="module-2-youtube">
+    <div class="section-h"><h2>8. لود ویدیوی یوتیوب در OpenCV (18)</h2></div>
+    <p>نصب پیش‌نیازها:</p>
+    <div class="code-block">pip install youtube-dl==2020.12.2
+pip install pafy</div>
+
+    <p style="margin-top:var(--sp-4-5)">گرفتن آدرس استریم مستقیم ویدیوی یوتیوب با <code class="code">pafy</code> و دادنش به <code class="code">VideoCapture</code> — دقیقاً مثل یک فایل یا RTSP:</p>
+    <div class="code-block"><span class="kw">import</span> pafy
+<span class="kw">import</span> cv2
+
+url = <span class="str">'https://www.youtube.com/watch?v=-VtXTkvDRW8'</span>
+video = pafy.<span class="fn">new</span>(url)
+
+best = video.<span class="fn">getbest</span>(preftype=<span class="str">"mp4"</span>)
+
+capture = cv2.<span class="fn">VideoCapture</span>()
+capture.<span class="fn">open</span>(best.url)
+
+<span class="kw">while</span> (<span class="kw">True</span>):
+    ret, frame = capture.<span class="fn">read</span>()
+    <span class="kw">if</span> ret == <span class="kw">True</span>:
+        cv2.<span class="fn">imshow</span>(<span class="str">'src'</span>, frame)
+
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) == <span class="num">13</span>:   <span class="cm"># 13 یعنی کلید Enter</span>
+        <span class="kw">break</span>
+
+capture.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+
+    <p style="margin-top:var(--sp-4-5)">شیء <code class="code">video</code> علاوه بر پخش، اطلاعات ویدیو را هم می‌دهد:</p>
+    <div class="code-block">print(<span class="str">"Title: {}"</span>.<span class="fn">format</span>(video.title))
+print(<span class="str">"Rating: {}"</span>.<span class="fn">format</span>(video.rating))
+print(<span class="str">"Viewcount: {}"</span>.<span class="fn">format</span>(video.viewcount))
+print(<span class="str">"Author: {}"</span>.<span class="fn">format</span>(video.author))
+print(<span class="str">"Length: {}"</span>.<span class="fn">format</span>(video.length))
+print(<span class="str">"Duration: {}"</span>.<span class="fn">format</span>(video.duration))</div>
+
+    <p style="margin-top:var(--sp-4-5)">لیست همه‌ی کیفیت‌های موجود ویدیو:</p>
+    <div class="code-block">streams = video.streams
+
+<span class="kw">for</span> s <span class="kw">in</span> streams:
+    print(s.resolution)
+    print(s.extension)
+    print(s.<span class="fn">get_filesize</span>())
+    print(s.url)</div>
+
+    <p style="margin-top:var(--sp-4-5)">دریافت جداگانه‌ی فایل صوتی (بدون تصویر):</p>
+    <div class="code-block">audiostreams = video.audiostreams
+<span class="kw">for</span> a <span class="kw">in</span> audiostreams:
+    print(a.bitrate, a.extension, a.<span class="fn">get_filesize</span>())</div>
+    <div class="code-block">audiostreams[<span class="num">1</span>].<span class="fn">download</span>()</div>
+
+    <p style="margin-top:var(--sp-3);font-size:var(--fs-sm);color:var(--text-secondary)">منبع: <a href="https://pythonhosted.org/pafy/" class="ref-link">pythonhosted.org/pafy</a></p>
+  </div>
+
+  <div class="section-c" data-section-id="module-2-summary">
+    <div class="section-h"><h2>جمع‌بندی ماژول 2</h2></div>
+    <ul>
+      <li><code class="code">cv2.setMouseCallback</code> رویدادهای ماوس (کلیک، حرکت، رهاکردن) را به یک تابع callback با امضای ثابت <code class="code">(event, x, y, flags, param)</code> وصل می‌کند.</li>
+      <li>برای preview زنده‌ی یک ترسیم در حال کشیدن‌شدن (قبل از پایان کلیک)، همیشه روی یک <strong>کپی موقت</strong> از تصویر رسم کنید، نه روی تصویر اصلی.</li>
+      <li>Trackbar یا یک callback واقعی می‌گیرد (اجرا با هر تغییر مقدار)، یا با یک callback خالی (<code class="code">nothing</code>) ساخته می‌شود و مقدارش با <code class="code">getTrackbarPos</code> در حلقه خوانده می‌شود.</li>
+      <li><code class="code">cv2.VideoCapture</code> منبع ورودی می‌تواند وب‌کم (<code class="code">0</code>)، مسیر فایل، آدرس RTSP، یا حتی آدرس مستقیم استریم یوتیوب (از طریق <code class="code">pafy</code>) باشد — رابط خواندنش همیشه یکسان است: <code class="code">ret, frame = cap.read()</code>.</li>
+      <li>برای فایل (برخلاف وب‌کم)، چک‌کردن <code class="code">if not ret: break</code> ضروری است چون ویدیو پایان دارد.</li>
+      <li><code class="code">cv2.VideoWriter</code> برای ذخیره‌سازی نیاز به کدک FourCC، fps، ابعاد فریم، و پرچم رنگی/گری‌اسکیل (<code class="code">isColor</code>) دارد که باید با نوع واقعی فریم‌های نوشته‌شده هم‌خوانی داشته باشد.</li>
+      <li>ضبط صفحه‌نمایش (<code class="code">ImageGrab</code> یا سریع‌تر: <code class="code">mss</code>) هم دقیقاً با همان الگوی حلقه‌ی <code class="code">imshow</code> قابل زنده‌نمایی یا ذخیره‌سازی است.</li>
+    </ul>
+  </div>
+

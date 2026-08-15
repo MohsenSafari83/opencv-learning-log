@@ -1,0 +1,83 @@
+<div class="section-c" data-section-id="module-3-applications">
+  <div class="section-h">
+    <div class="label">Applications</div>
+    <h2 id="applications-intro">جایگاه آستانه‌گذاری، مورفولوژی و Contour در دنیای واقعی</h2>
+    <p>این ماژول قلب خیلی از سیستم‌های بینایی ماشین کلاسیک (قبل از یادگیری عمیق) است — جایی که باید یک شیء را از پس‌زمینه جدا کنی و درباره‌اش عدد دربیاوری.</p>
+  </div>
+
+  <div class="rich-card accent">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">اسکن و پردازش اسناد (Document Scanning)</div>
+        <div class="path">OCR preprocessing / Document AI</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>اپلیکیشن‌های اسکن موبایل (مثل CamScanner) از آستانه‌گذاری تطبیقی برای جداکردن متن از پس‌زمینه‌ی کاغذ (با نور نامتوازن)، و از مورفولوژی برای حذف خطوط جدول یا نویز قبل از OCR استفاده می‌کنند — دقیقاً تکنیک تمرین حذف خط این ماژول.</p>
+      <ul>
+        <li>حذف خطوط جدول قبل از استخراج متن سلول‌ها</li>
+        <li>پیداکردن ناحیه‌ی سند در عکس با گوشی</li>
+      </ul>
+    </div>
+    <div class="foot"><span class="tag">مثال: CamScanner, Adobe Scan, Google Lens</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">بازرسی و کنترل کیفیت صنعتی</div>
+        <div class="path">Industrial quality control</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>در خط تولید، دوربین صنعتی قطعه را باینری می‌کند و با Contour، مساحت و شکل هر عیب/برجستگی را اندازه می‌گیرد — اگر مساحت یا شکل یک ناحیه خارج از بازه‌ی مجاز باشد، قطعه رد می‌شود. همان الگوی «فیلتر بر اساس مساحت کانتور» که در تمرین شمارش سکه دیدیم.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: بازرسی خودکار قطعات، PCB</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">شمارش و اندازه‌گیری خودکار (Counting)</div>
+        <div class="path">Automated counting / Metrology</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>شمارش سلول‌ها زیر میکروسکوپ، شمارش محصولات روی نوار نقاله، شمارش دانه در کشاورزی — همه از همان زنجیره‌ی این ماژول استفاده می‌کنند: باینری‌کردن → Connected Components یا Contour → فیلتر بر اساس مساحت → شمارش.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: شمارش سلول در تصاویر میکروسکوپی، کنترل انبار</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">تشخیص و ردیابی اشیاء ساده (قبل از یادگیری عمیق)</div>
+        <div class="path">Classic object detection</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>در بسیاری از پروژه‌های رباتیک یا دوربین‌های صنعتی که سرعت و منابع محاسباتی محدودی دارند (مثلاً روی یک میکروکنترلر)، تشخیص یک شیء ساده و رنگی با ترکیب HSV masking (ماژول ۱) + Contour + <code>approxPolyDP</code> برای تشخیص نوع شکل، سریع‌تر و سبک‌تر از اجرای یک مدل یادگیری عمیق است.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: خط‌تولید سبک، رباتیک آموزشی</span></div>
+  </div>
+
+  <div class="rich-card">
+    <div class="head">
+      <div class="icon">◆</div>
+      <div class="info">
+        <div class="title">پردازش تصاویر پزشکی</div>
+        <div class="path">Medical image segmentation</div>
+      </div>
+    </div>
+    <div class="body">
+      <p>جداکردن یک ناحیه (مثلاً یک سلول یا تومور) از پس‌زمینه‌ی تصویر MRI/میکروسکوپی با آستانه‌گذاری، و اندازه‌گیری مساحت/محیط آن با Contour، هنوز هم قدم اول بسیاری از ابزارهای تحلیل تصویر پزشکی است — حتی وقتی مراحل بعدی از یادگیری عمیق استفاده می‌کنند.</p>
+    </div>
+    <div class="foot"><span class="tag">مثال: تحلیل تصاویر بافت‌شناسی</span></div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">نکته: همین ماژول به‌روشنی نشان داد این تکنیک‌ها <strong>محدودیت تعمیم</strong> دارند (پارامترها بین تصاویر مختلف فرق می‌کنند) — دقیقاً همان مشکلی که یادگیری عمیق در ماژول‌های بعدی با یادگرفتن از داده به‌جای تنظیم دستی پارامتر، سعی در حلش دارد.</p>
+</div>

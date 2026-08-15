@@ -1,0 +1,258 @@
+[
+  {
+    "id": "module-1",
+    "label": "Module 1",
+    "status": "complete",
+    "desc": "این ماژول پایه‌ی همه‌چیز است: تصویر چطور خوانده، نمایش داده و ذخیره می‌شود، چطور به سطح خاکستری تبدیل می‌شود، چطور برش می‌خوریم، فضاهای رنگی چه فرقی دارند، کانال آلفا و عملیات بیتی چیست، چطور روی تصویر شکل و متن رسم می‌کنیم، عملیات ریاضی روی پیکسل‌ها چطور کار می‌کند، و در نهایت روشنایی و کنتراست چطور با روش خطی و گاما تنظیم می‌شوند. این نسخه، نسخه‌ی کامل‌شده است — هر نکته، هشدار، تمرین و مثالی که در خود نوت‌بوک‌ها بوده، اینجا هم آمده.",
+    "sections": [
+      {
+        "type": "notes",
+        "file": "module-1/notes.html"
+      },
+      {
+        "type": "cheatsheet",
+        "file": "module-1/cheatsheet.html"
+      },
+      {
+        "type": "practical",
+        "file": "module-1/practical.html"
+      },
+      {
+        "type": "applications",
+        "file": "module-1/applications.html"
+      }
+    ],
+    "exercises": {
+      "file": "module-1/exercises.html",
+      "count": 4,
+      "titles": [
+        "برش تصویر (چهره)",
+        "نسخه‌ی سخت‌تر تمرین برش: ترنسپرنت‌کردن با کانال آلفا",
+        "رسم یک خانه‌ی ساده",
+        "روشن‌کردن یک تصویر تاریک (خطی در برابر گاما)"
+      ]
+    },
+    "project": {
+      "file": "module-1/project.html",
+      "summary": "یک ابزار خط‌فرمانی/اسکریپت پایتون بساز که یک تصویر تاریک بگیرد، آن را با دو روش مختلف روشن‌تر کند، و نتیجه را برای مقایسه کنار هم نشان بدهد و ذخیره کند."
+    }
+  },
+  {
+    "id": "module-2",
+    "label": "Module 2",
+    "status": "complete",
+    "desc": "این ماژول درباره‌ی رابط تعاملی OpenCV است: چطور به رویدادهای ماوس (کلیک، حرکت، رهاکردن) گوش بدیم، چطور یک Trackbar (اسلایدر) به پنجره اضافه کنیم، چطور از وب‌کم، فایل ویدیویی، دوربین مداربسته (RTSP)، صفحه‌نمایش، و حتی یوتیوب فریم بخوانیم، و چطور یک ویدیوی جدید ذخیره کنیم. همه‌ی این‌ها زیرمجموعه‌ی ماژول highgui در OpenCV هستند.",
+    "sections": [
+      {
+        "type": "notes",
+        "file": "module-2/notes.html"
+      },
+      {
+        "type": "cheatsheet",
+        "file": "module-2/cheatsheet.html"
+      },
+      {
+        "type": "practical",
+        "file": "module-2/practical.html"
+      },
+      {
+        "type": "applications",
+        "file": "module-2/applications.html"
+      }
+    ],
+    "exercises": {
+      "file": "module-2/exercises.html",
+      "count": 3,
+      "titles": [
+        "رسم مثلث با کلیک ماوس",
+        "یک برنامه‌ی نقاشی ساده (Mini Paint)",
+        "تصحیح گاما زنده روی تصویر وب‌کم"
+      ]
+    },
+    "project": {
+      "file": "module-2/project.html",
+      "summary": "یک ابزار کوچک بساز که با کلیک و درگ ماوس روی یک تصویر، Bounding Box بکشد، یک برچسب کلاس بهش بدهد (با Trackbar یا صفحه‌کلید)، و همه‌ی برچسب‌ها را در یک فایل ذخیره کند — نسخه‌ی کوچکی از ابزارهایی مثل LabelImg."
+    }
+  },
+  {
+    "id": "module-3",
+    "label": "Module 3",
+    "status": "complete",
+    "desc": "این ماژول درباره‌ی تبدیل یک تصویر خاکستری/رنگی به یک نقشه‌ی باینری (سیاه/سفید) مفید، و بعد استخراج «اشکال» از آن نقشه است. اول با آستانه‌گذاری (ساده، Otsu، تطبیقی) تصویر را باینری می‌کنیم، بعد با عملیات مورفولوژی (Erosion، Dilation، Opening، Closing، Hit-or-Miss) نویز آن را تمیز می‌کنیم و اشکال را شکل می‌دهیم، بعد با Connected Components و Contours اشیاء مجزا را پیدا می‌کنیم، با ویژگی‌های کانتور (مساحت، مرکز جرم، bounding box) آن‌ها را اندازه‌گیری می‌کنیم، و در نهایت با Blob Detection یک راه جایگزین برای پیداکردن نواحی قابل‌توجه بر اساس ویژگی‌هایشان می‌بینیم. این زنجیره دقیقاً پایه‌ی بسیاری از سیستم‌های واقعی تشخیص شیء کلاسیک (قبل از یادگیری عمیق) است.",
+    "sections": [
+      {
+        "type": "notes",
+        "file": "module-3/notes.html"
+      },
+      {
+        "type": "cheatsheet",
+        "file": "module-3/cheatsheet.html"
+      },
+      {
+        "type": "practical",
+        "file": "module-3/practical.html"
+      },
+      {
+        "type": "applications",
+        "file": "module-3/applications.html"
+      }
+    ],
+    "exercises": {
+      "file": "module-3/exercises.html",
+      "count": 3,
+      "titles": [
+        "باینری‌کردن تصویر تا فقط سه رقم بماند",
+        "شمردن ارقام با Connected Components",
+        "مرکز هر رقم و مستطیل دور رقم بالا-راست"
+      ]
+    },
+    "project": {
+      "file": "module-3/project.html",
+      "summary": "یک ابزار بساز که با وب‌کم به اشیاء روی یک میز (مثلاً چند سکه، دکمه، یا مهره) نگاه کند، با فشردن یک کلید فریم را «قفل» کند، تعداد اشیاء را بشمارد، دور هرکدام کادر و شماره بکشد، و نتیجه را ذخیره کند."
+    }
+  },
+  {
+    "id": "module-4",
+    "label": "Module 4",
+    "status": "complete",
+    "desc": "در این ماژول از پردازش رنگ در فضاهای مختلف (HSV، LAB، YCrCb) شروع می‌کنیم، با فیلتر کردن رنگ کاربردهایی مثل دنبال کردن یک شیء رنگی، حذف پرده‌ی سبز و ایجاد افکت Color Pop می‌سازیم، سپس با خوشه‌بندی و هیستوگرام به رنگ‌های غالب یک تصویر می‌رسیم. در ادامه هیستوگرام را برای تحلیل و بهبود کنتراست تصویر (Equalization و CLAHE) و مقایسه‌ی دو تصویر به‌کار می‌بریم. در پایان با فیلترهای denoising/blurring/sharpening و چند روش تشخیص لبه (گرادیان تصویر، Sobel، Laplacian و Canny) آشنا می‌شویم.",
+    "sections": [
+      {
+        "type": "notes",
+        "file": "module-4/notes.html"
+      },
+      {
+        "type": "cheatsheet",
+        "file": "module-4/cheatsheet.html"
+      },
+      {
+        "type": "practical",
+        "file": "module-4/practical.html"
+      },
+      {
+        "type": "applications",
+        "file": "module-4/applications.html"
+      }
+    ]
+  },
+  {
+    "id": "module-5",
+    "label": "Module 5",
+    "status": "placeholder",
+    "desc": "",
+    "sections": [
+      {
+        "type": "notes",
+        "placeholder": true
+      },
+      {
+        "type": "cheatsheet",
+        "placeholder": true
+      },
+      {
+        "type": "practical",
+        "placeholder": true
+      },
+      {
+        "type": "applications",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "id": "module-6",
+    "label": "Module 6",
+    "status": "placeholder",
+    "desc": "",
+    "sections": [
+      {
+        "type": "notes",
+        "placeholder": true
+      },
+      {
+        "type": "cheatsheet",
+        "placeholder": true
+      },
+      {
+        "type": "practical",
+        "placeholder": true
+      },
+      {
+        "type": "applications",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "id": "module-7",
+    "label": "Module 7",
+    "status": "placeholder",
+    "desc": "",
+    "sections": [
+      {
+        "type": "notes",
+        "placeholder": true
+      },
+      {
+        "type": "cheatsheet",
+        "placeholder": true
+      },
+      {
+        "type": "practical",
+        "placeholder": true
+      },
+      {
+        "type": "applications",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "id": "module-8",
+    "label": "Module 8",
+    "status": "placeholder",
+    "desc": "",
+    "sections": [
+      {
+        "type": "notes",
+        "placeholder": true
+      },
+      {
+        "type": "cheatsheet",
+        "placeholder": true
+      },
+      {
+        "type": "practical",
+        "placeholder": true
+      },
+      {
+        "type": "applications",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "id": "module-9",
+    "label": "Module 9",
+    "status": "placeholder",
+    "desc": "",
+    "sections": [
+      {
+        "type": "notes",
+        "placeholder": true
+      },
+      {
+        "type": "cheatsheet",
+        "placeholder": true
+      },
+      {
+        "type": "practical",
+        "placeholder": true
+      },
+      {
+        "type": "applications",
+        "placeholder": true
+      }
+    ]
+  }
+]

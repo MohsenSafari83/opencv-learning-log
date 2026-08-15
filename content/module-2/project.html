@@ -1,0 +1,55 @@
+<div class="section-c" data-section-id="module-2-project">
+  <div class="section-h">
+    <div class="label">Project</div>
+    <h2 id="project-goals">پروژه‌ی ماژول ۲ — ابزار برچسب‌گذاری تصویر با ماوس (Mini Bounding-Box Labeler)</h2>
+    <p>یک ابزار کوچک بساز که با کلیک و درگ ماوس روی یک تصویر، Bounding Box بکشد، یک برچسب کلاس بهش بدهد (با Trackbar یا صفحه‌کلید)، و همه‌ی برچسب‌ها را در یک فایل ذخیره کند — نسخه‌ی کوچکی از ابزارهایی مثل LabelImg.</p>
+  </div>
+
+  <div class="metrics">
+    <span class="metric accent">هدف: ترکیب مهارت ماژول ۱ (رسم) و ماژول ۲ (ماوس/Trackbar) در یک ابزار واقعی</span>
+    <span class="metric success">خروجی: یک اسکریپت/نوت‌بوک + یک فایل annotations (txt/json)</span>
+  </div>
+
+  <div class="section-h"><h2 id="project-problem">صورت‌مسئله</h2></div>
+  <p>یک تصویر دلخواه (یا یک فریم از وب‌کم) باز کن. کاربر باید بتواند با کلیک-درگ ماوس، یک یا چند مستطیل (bounding box) دور اشیاء مختلف بکشد؛ هر باکس باید یک شماره‌ی کلاس داشته باشد (۰، ۱، ۲، ...) که با یک Trackbar یا کلید عددی صفحه‌کلید انتخاب می‌شود. در پایان (با فشردن یک کلید مثل <code class="code">s</code>) همه‌ی باکس‌ها با مختصات و شماره‌ی کلاسشان در یک فایل متنی ذخیره شوند.</p>
+
+  <div class="section-h"><h2 id="project-requirements">الزامات (Requirements)</h2></div>
+  <ul>
+    <li>✓ رسم زنده‌ی پیش‌نمایش باکس حین درگ‌کردن ماوس (نه فقط بعد از رهاکردن) — روی یک کپی موقت از تصویر.</li>
+    <li>✓ بعد از رهاکردن ماوس، باکس نهایی با رنگ متفاوت بر اساس شماره‌ی کلاس رسم و روی تصویر اصلی ثابت شود.</li>
+    <li>✓ یک Trackbar (یا کلیدهای عددی صفحه‌کلید) برای انتخاب «کلاس فعلی» قبل از کشیدن باکس بعدی.</li>
+    <li>✓ نمایش شماره‌ی کلاس کنار هر باکس رسم‌شده (با <code class="code">cv2.putText</code>).</li>
+    <li>✓ قابلیت Undo (حذف آخرین باکس) با یک کلید مشخص.</li>
+    <li>✓ ذخیره‌ی نهایی: هر خط از فایل خروجی شامل <code class="code">class_id x1 y1 x2 y2</code> باشد.</li>
+  </ul>
+
+  <div class="section-h"><h2 id="project-constraints">قیدها (Constraints)</h2></div>
+  <ul>
+    <li>✗ از هیچ کتابخانه‌ی آماده‌ی annotation (مثل labelimg، cvat-sdk) استفاده نکن — فقط OpenCV خام.</li>
+    <li>✗ رنگ هر کلاس باید ثابت و قابل‌تشخیص از کلاس‌های دیگر باشد (مثلاً یک دیکشنری از پیش‌تعریف‌شده‌ی <code class="code">class_id → color</code>).</li>
+  </ul>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">راهنمایی (بدون جواب کامل)</div>
+      <ul>
+        <li>الگوی پایه‌ی «رسم زنده روی کپی موقت» را دقیقاً از نوت‌بوک ۱۱ (بخش «مشکل: مستطیل تا رهاکردن کلیک نمایش داده نمی‌شود») بردار.</li>
+        <li>برای انتخاب کلاس با صفحه‌کلید، از همان الگوی <code class="code">cv2.waitKey(1) & 0xFF</code> که در نوت‌بوک‌های ماژول ۲ دیدی استفاده کن — کلیدهای <code class="code">0</code> تا <code class="code">9</code> را به شماره‌ی کلاس map کن.</li>
+        <li>یک لیست پایتونی از دیکشنری‌ها (<code class="code">{'class': 0, 'box': (x1,y1,x2,y2)}</code>) برای نگه‌داشتن باکس‌ها، دقیقاً مثل لیست <code class="code">points</code> در نوت‌بوک ۱۱، کافی است.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">معیار قبولی (Definition of Done)</div>
+      <p>پروژه وقتی تمام است که: (۱) بتوانی حداقل ۳ باکس با کلاس‌های مختلف روی یک تصویر بکشی، (۲) Undo واقعاً آخرین باکس را پاک کند نه همه را، (۳) فایل خروجی را باز کنی و مختصات/کلاس هرکدام درست و منطبق با چیزی باشد که روی تصویر دیدی.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">
+    وقتی حلش کردی: نوت‌بوک/اسکریپت را در <code class="code">projects/module-2-mini-labeler/</code> در همین ریپو push کن (همان الگوی <code class="code">solution.ipynb</code> + <code class="code">solution.py</code>).
+  </p>
+</div>

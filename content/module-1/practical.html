@@ -1,0 +1,70 @@
+<div class="section-c" data-section-id="module-1-practical">
+  <div class="section-h">
+    <div class="label">Practical Notes</div>
+    <h2 id="practical-intro">یادداشت‌های عملی — مبانی OpenCV</h2>
+    <p>نکاتی که در آموزش معمولی پیدا نمی‌شوند: به‌دردبخورها، تله‌ها و تجربه‌های میدانی همین ماژول.</p>
+  </div>
+
+  <div class="callout callout-takeaway">
+    <div class="callout-icon">★</div>
+    <div class="callout-body">
+      <div class="callout-title">مهم‌ترین یادگرفتنی</div>
+      <p>اگر فقط یک چیز از این ماژول یادت بماند: <strong>OpenCV بی‌صدا شکست می‌خورد</strong> — <code>imread</code> روی مسیر غلط <code>None</code> برمی‌گرداند نه Exception، جمع <code>uint8</code> overflow می‌کند بدون هشدار، و <code>imshow</code> روی فریم خالی گاهی فقط یک پنجره‌ی سیاه نشان می‌دهد. عادت کن همیشه ورودی‌ها را <code>assert</code> کنی.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۱ — رنگ‌های عجیب بعد از matplotlib</div>
+      <p>یکی از رایج‌ترین چیزهایی که تازه‌کارها روش وقت تلف می‌کنند: تصویر با <code>cv2.imread</code> می‌خوانند، مستقیم با <code>plt.imshow</code> نشان می‌دهند، و رنگ‌ها آبی/نارنجی برعکس در می‌آید. علتش این است که OpenCV با BGR کار می‌کند و matplotlib انتظار RGB دارد. راه‌حل یک‌خطی: <code>img[...,::-1]</code> یا <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code>.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۲ — دستکاری مستقیم یک کانال</div>
+      <p>جمع مستقیم روی یک کانال جدا‌شده (مثلاً <code>b + 20</code> بعد از <code>cv2.split</code>) چون <code>uint8</code> است، در پیکسل‌های روشن overflow می‌کند و لکه‌های رنگی عجیب ایجاد می‌شود — این باگ خیلی وقت‌ها دیر پیدا می‌شود چون فقط در قسمت‌های روشن تصویر خودش را نشان می‌دهد. همیشه از <code>cv2.add</code> یا تبدیل موقت به <code>int16</code> + <code>clip</code> استفاده کن.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ خیلی به‌دردبخور — همیشه assert کن قبل از پردازش</div>
+      <p>در پروژه‌های واقعی (نه نوت‌بوک تمرینی)، اولین خط بعد از هر <code>imread</code> باید این باشد:</p>
+    </div>
+  </div>
+  <div class="code-block">img = cv2.<span class="fn">imread</span>(path)
+<span class="kw">assert</span> img <span class="kw">is</span> <span class="kw">not</span> <span class="kw">None</span>, <span class="fn">f</span><span class="str">"تصویر پیدا نشد: {path}"</span></div>
+  <p>این یک خط، ساعت‌ها دیباگ بی‌دلیل (چرا <code>NoneType has no attribute shape</code>؟) را از بین می‌برد.</p>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — از cv2.add به‌جای + استفاده کن، همیشه</div>
+      <p>در پروژه‌های واقعی هرگز مستقیم دو آرایه‌ی تصویری را با <code>+</code> جمع نکن. حتی اگر الان overflow نبینی، با نور متفاوت یا دوربین دیگر ممکن است رخ بدهد. <code>cv2.add</code>/<code>cv2.subtract</code> این ریسک را کلاً حذف می‌کنند و هزینه‌ی اضافه‌ای هم ندارند.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا این‌قدر روی BGR/RGB و x/y تاکید می‌کنیم؟</div>
+      <p>چون این دو مورد تنها دلیل بیش از نیمی از باگ‌های عجیب و غیرقابل‌توضیح مبتدی‌های OpenCV هستند — نه پیچیدگی الگوریتمی، بلکه یک قرارداد ساده که برعکسِ انتظار است.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="cm"># قطعه‌ی آماده‌ی کپی‌پیست — اسکلت امن هر اسکریپت OpenCV</span>
+<span class="kw">import</span> cv2
+
+img = cv2.<span class="fn">imread</span>(path)
+<span class="kw">assert</span> img <span class="kw">is</span> <span class="kw">not</span> <span class="kw">None</span>, <span class="fn">f</span><span class="str">"تصویر پیدا نشد: {path}"</span>
+
+<span class="cm"># ... پردازش ...</span>
+
+cv2.<span class="fn">imshow</span>(<span class="str">'result'</span>, img)
+cv2.<span class="fn">waitKey</span>(<span class="num">0</span>)
+cv2.<span class="fn">destroyAllWindows</span>()</div>
+</div>

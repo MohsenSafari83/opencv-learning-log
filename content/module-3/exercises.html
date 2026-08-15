@@ -1,0 +1,184 @@
+<div class="section-c" data-section-id="module-3-exercises">
+  <div class="metrics">
+    <span class="metric success">3 تمرین</span>
+  </div>
+  <div class="section-h"><h2 id="exercises-intro">تمرین‌های ماژول 3</h2></div>
+  <p>این سه تمرین یک زنجیره‌ی کامل‌اند: از باینری‌کردن یک عکس واقعی (کاغذ با سه رقم دست‌نویس)، تا شمردن اجزای متصل، تا پیداکردن مرکز و بالاترین/راست‌ترین رقم با Contour.</p>
+
+  <!-- Exercise 1 (q8) -->
+  <div class="section-h" style="margin-top:var(--sp-6)"><h3 style="font-size:var(--fs-lg)">تمرین 1 — باینری‌کردن تصویر تا فقط سه رقم بماند</h3></div>
+  <p>این تصویر را باینری کنید طوری که فقط سه عددِ نوشته‌شده باقی بماند. (راهنمایی: استفاده از <code class="code">GaussianBlur</code> با فیلترسایز بزرگ برای حذف نویز ضروری است.)</p>
+  <div class="code-head"><span class="ch-label">q8.ipynb</span><span class="ch-path">مقایسه‌ی روش‌های باینری‌سازی</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;import matplotlib.pyplot as plt&#10;&#10;image = cv2.imread('adad.jpg', 0)&#10;median = cv2.medianBlur(image, 5)&#10;gaussian = cv2.GaussianBlur(image, (5, 5), 0)&#10;&#10;images = [&#10;    image,&#10;    median,&#10;    gaussian,&#10;    cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2),&#10;    cv2.adaptiveThreshold(median, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2),&#10;    cv2.adaptiveThreshold(gaussian, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2),&#10;    cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2),&#10;    cv2.adaptiveThreshold(median, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2),&#10;    cv2.adaptiveThreshold(gaussian, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)&#10;]&#10;&#10;titles = [&#10;    'Original', 'Median Blur', 'Gaussian Blur',&#10;    'Original + Adaptive Mean', 'Median + Adaptive Mean', 'Gaussian + Adaptive Mean',&#10;    'Original + Adaptive Gaussian', 'Median + Adaptive Gaussian', 'Gaussian + Adaptive Gaussian'&#10;]&#10;&#10;plt.figure(figsize=(15, 10))&#10;for i in range(9):&#10;    plt.subplot(3, 3, i + 1)&#10;    plt.imshow(images[i], cmap='gray')&#10;    plt.title(titles[i])&#10;    plt.axis('off')&#10;plt.tight_layout()&#10;plt.show()&#10;&#10;# مقایسه با Otsu روی همون سه ورودی (خام / مدین / گاوسی)&#10;otsu_original = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]&#10;otsu_median = cv2.threshold(median, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]&#10;otsu_gaussian = cv2.threshold(gaussian, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]&#10;otsu_images = [otsu_original, otsu_median, otsu_gaussian]&#10;otsu_titles = ['Original + Otsu', 'Median + Otsu', 'Gaussian + Otsu']&#10;&#10;plt.figure(figsize=(15, 5))&#10;for i in range(3):&#10;    plt.subplot(1, 3, i + 1)&#10;    plt.imshow(otsu_images[i], cmap='gray')&#10;    plt.title(otsu_titles[i])&#10;    plt.axis('off')&#10;plt.tight_layout()&#10;plt.show()" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = cv2.<span class="fn">imread</span>(<span class="str">"adad.jpg"</span>, <span class="num">0</span>)
+median = cv2.<span class="fn">medianBlur</span>(image, <span class="num">5</span>)
+gaussian = cv2.<span class="fn">GaussianBlur</span>(image, (<span class="num">5</span>, <span class="num">5</span>), <span class="num">0</span>)
+
+<span class="cm"># مقایسه‌ی نه حالت: (بدون بلور/مدین/گاوسی) × (آستانه‌ی تطبیقی Mean/Gaussian)</span>
+images = [
+    image,
+    median,
+    gaussian,
+    cv2.<span class="fn">adaptiveThreshold</span>(image, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>),
+    cv2.<span class="fn">adaptiveThreshold</span>(median, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>),
+    cv2.<span class="fn">adaptiveThreshold</span>(gaussian, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>),
+    cv2.<span class="fn">adaptiveThreshold</span>(image, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>),
+    cv2.<span class="fn">adaptiveThreshold</span>(median, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>),
+    cv2.<span class="fn">adaptiveThreshold</span>(gaussian, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>)
+]
+
+titles = [
+    <span class="str">"Original"</span>, <span class="str">"Median Blur"</span>, <span class="str">"Gaussian Blur"</span>,
+    <span class="str">"Original + Adaptive Mean"</span>, <span class="str">"Median + Adaptive Mean"</span>, <span class="str">"Gaussian + Adaptive Mean"</span>,
+    <span class="str">"Original + Adaptive Gaussian"</span>, <span class="str">"Median + Adaptive Gaussian"</span>, <span class="str">"Gaussian + Adaptive Gaussian"</span>
+]
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">15</span>, <span class="num">10</span>))
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">9</span>):
+    plt.<span class="fn">subplot</span>(<span class="num">3</span>, <span class="num">3</span>, i + <span class="num">1</span>)
+    plt.<span class="fn">imshow</span>(images[i], cmap=<span class="str">"gray"</span>)
+    plt.title(titles[i])
+    plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()
+
+<span class="cm"># مقایسه با Otsu روی همون سه ورودی (خام / مدین / گاوسی)</span>
+otsu_original = cv2.<span class="fn">threshold</span>(image, <span class="num">0</span>, <span class="num">255</span>, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[<span class="num">1</span>]
+otsu_median = cv2.<span class="fn">threshold</span>(median, <span class="num">0</span>, <span class="num">255</span>, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[<span class="num">1</span>]
+otsu_gaussian = cv2.<span class="fn">threshold</span>(gaussian, <span class="num">0</span>, <span class="num">255</span>, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[<span class="num">1</span>]
+otsu_images = [otsu_original, otsu_median, otsu_gaussian]
+otsu_titles = [<span class="str">"Original + Otsu"</span>, <span class="str">"Median + Otsu"</span>, <span class="str">"Gaussian + Otsu"</span>]
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">15</span>, <span class="num">5</span>))
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):
+    plt.<span class="fn">subplot</span>(<span class="num">1</span>, <span class="num">3</span>, i + <span class="num">1</span>)
+    plt.<span class="fn">imshow</span>(otsu_images[i], cmap=<span class="str">"gray"</span>)
+    plt.title(otsu_titles[i])
+    plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()</div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">نتیجه</div>
+      <p>بین روش‌های بررسی‌شده، ترکیب <strong>Median Blur + Adaptive Gaussian Thresholding</strong> بهترین نتیجه را داد — اعداد را واضح‌تر نگه داشت و نویز پس‌زمینه‌ی کمتری تولید کرد. علتش این است که Adaptive Thresholding برای نواحی مختلف تصویر آستانه‌های متفاوتی در نظر می‌گیرد، پس در قسمت‌هایی که روشنایی به‌خاطر سایه تغییر کرده هم خوب عمل می‌کند — برخلاف Otsu که یک آستانه‌ی <strong>سراسری</strong> برای کل تصویر پیدا می‌کند و روی این عکس (به‌خاطر سایه و نور نامتوازن) خوب کار نمی‌کند، چون هیستوگرام تصویر دیگر ساده و دوقله‌ای نیست.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 2 (q9) -->
+  <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">تمرین 2 — شمردن ارقام با Connected Components</h3></div>
+  <p>در ادامه‌ی تمرین قبل، با شمردن تعداد مؤلفه‌های متصل، تعداد ارقام روی کاغذ را بشمارید و چاپ کنید. (راهنمایی: بدیهی است که باید این ۳ عدد سفید و پس‌زمینه سیاه باشد تا بتوانید مؤلفه‌های متصل را حساب کنید.)</p>
+  <div class="code-head"><span class="ch-label">q9.ipynb</span><span class="ch-path">شمارش ارقام با Connected Components</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;import matplotlib.pyplot as plt&#10;&#10;image = cv2.imread('adad.jpg', 0)&#10;median = cv2.medianBlur(image, 5)&#10;binary = cv2.adaptiveThreshold(&#10;    median, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2&#10;)&#10;&#10;# باید اعداد سفید و پس‌زمینه سیاه باشد تا connectedComponents درست کار کند&#10;binary = cv2.bitwise_not(binary)&#10;num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary)&#10;&#10;result = cv2.cvtColor(binary, cv2.COLOR_GRAY2BGR)&#10;count = 0&#10;for i in range(1, num_labels):  # از 1 شروع می‌شود چون label صفر پس‌زمینه است&#10;    area = stats[i, cv2.CC_STAT_AREA]&#10;    x = stats[i, cv2.CC_STAT_LEFT]&#10;    y = stats[i, cv2.CC_STAT_TOP]&#10;    width = stats[i, cv2.CC_STAT_WIDTH]&#10;    height = stats[i, cv2.CC_STAT_HEIGHT]&#10;    if area > 100 and height > 20:  # فیلتر نویزهای کوچک&#10;        count += 1&#10;        cv2.rectangle(result, (x, y), (x + width, y + height), (0, 0, 255), 2)&#10;&#10;print('Number of digits:', count)&#10;&#10;plt.figure(figsize=(15, 5))&#10;plt.subplot(131); plt.imshow(image, cmap='gray'); plt.title('Original'); plt.axis('off')&#10;plt.subplot(132); plt.imshow(binary, cmap='gray'); plt.title('Clean'); plt.axis('off')&#10;plt.subplot(133); plt.imshow(cv2.cvtColor(result, cv2.COLOR_BGR2RGB)); plt.title('Detected Digits'); plt.axis('off')&#10;plt.tight_layout()&#10;plt.show()" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = cv2.<span class="fn">imread</span>(<span class="str">"adad.jpg"</span>, <span class="num">0</span>)
+median = cv2.<span class="fn">medianBlur</span>(image, <span class="num">5</span>)
+binary = cv2.<span class="fn">adaptiveThreshold</span>(
+    median, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>
+)
+
+<span class="cm"># باید اعداد سفید و پس‌زمینه سیاه باشد تا connectedComponents درست کار کند</span>
+binary = cv2.<span class="fn">bitwise_not</span>(binary)
+num_labels, labels, stats, centroids = cv2.<span class="fn">connectedComponentsWithStats</span>(binary)
+
+result = cv2.<span class="fn">cvtColor</span>(binary, cv2.COLOR_GRAY2BGR)
+count = <span class="num">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, num_labels):   <span class="cm"># از 1 شروع می‌شود چون label صفر پس‌زمینه است</span>
+    area = stats[i, cv2.CC_STAT_AREA]
+    x = stats[i, cv2.CC_STAT_LEFT]
+    y = stats[i, cv2.CC_STAT_TOP]
+    width = stats[i, cv2.CC_STAT_WIDTH]
+    height = stats[i, cv2.CC_STAT_HEIGHT]
+    <span class="kw">if</span> area > <span class="num">100</span> <span class="kw">and</span> height > <span class="num">20</span>:   <span class="cm"># فیلتر نویزهای کوچک</span>
+        count += <span class="num">1</span>
+        cv2.<span class="fn">rectangle</span>(result, (x, y), (x + width, y + height), (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">2</span>)
+
+print(<span class="str">"Number of digits:"</span>, count)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">15</span>, <span class="num">5</span>))
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(image, cmap=<span class="str">"gray"</span>); plt.title(<span class="str">"Original"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(binary, cmap=<span class="str">"gray"</span>); plt.title(<span class="str">"Clean"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(cv2.<span class="fn">cvtColor</span>(result, cv2.COLOR_BGR2RGB)); plt.title(<span class="str">"Detected Digits"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()</div>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">چرا connectivity اینجا مهمه</div>
+      <p><code>connectedComponentsWithStats</code> علاوه بر <code>labels</code>، آرایه‌ی <code>stats</code> را هم می‌دهد که مساحت و bounding box هر جزء را از قبل حساب کرده — دیگر لازم نیست جداگانه با Contour این‌ها را دوباره محاسبه کنی. فیلتر <code>area &gt; 100 and height &gt; 20</code> برای حذف نویزهای ریز باقی‌مانده از لبه‌ی دندانه‌دار آستانه‌گذاری لازم است، وگرنه چند «رقم» اضافه‌ی جعلی شمرده می‌شود.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 3 (q10) -->
+  <div class="section-h" style="margin-top:var(--sp-7)"><h3 style="font-size:var(--fs-lg)">تمرین 3 — مرکز هر رقم و مستطیل دور رقم بالا-راست</h3></div>
+  <p>۱. روی عکسی که در دو تمرین قبل استفاده کردیم، مرکز هر عدد را به‌دست آورید و با یک نقطه مشخص کنید.<br>۲. با عملیات مرتبط با کانتور و همچنین محاسبه‌ی مرکز کانتور، دور سمت‌راست‌ترین و بالاترین عدد (عدد سمت راستِ بالا) مستطیل دربرگیرنده بکشید.</p>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">نکته‌ی مهم درباره‌ی مختصات تصویر در OpenCV</div>
+      <p>مبدأ مختصات <code>(0,0)</code> در گوشه‌ی <strong>بالا-چپ</strong> تصویر است. پس هرچه به سمت بالا برویم، <code>cy</code> کمتر می‌شود؛ هرچه به سمت راست برویم، <code>cx</code> بیشتر می‌شود. برای پیداکردن «بالاترین» رقم باید دنبال <strong>کمترین <code>cy</code></strong> باشیم، نه بیشترین.</p>
+    </div>
+  </div>
+
+  <div class="code-head"><span class="ch-label">q10.ipynb</span><span class="ch-path">مرکز ارقام و رقم بالا-راست</span><span class="ch-lang">PY</span><button class="copy-btn" data-copy="import cv2&#10;import matplotlib.pyplot as plt&#10;&#10;image = cv2.imread('adad.jpg')&#10;gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)&#10;median = cv2.medianBlur(gray, 5)&#10;&#10;binary_image = cv2.adaptiveThreshold(&#10;    median, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2&#10;)&#10;binary_image = cv2.bitwise_not(binary_image)&#10;&#10;contours, hierarchy = cv2.findContours(&#10;    binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE&#10;)&#10;contours = [c for c in contours if cv2.contourArea(c) > 100]  # حذف نویزهای کوچک&#10;&#10;def x_cord_contour(contour):&#10;    M = cv2.moments(contour)&#10;    return int(M['m10'] / M['m00'])&#10;&#10;def y_cord_contour(contour):&#10;    M = cv2.moments(contour)&#10;    return int(M['m01'] / M['m00'])&#10;&#10;# رسم مرکز هر رقم&#10;for c in contours:&#10;    M = cv2.moments(c)&#10;    cx = int(M['m10'] / M['m00'])&#10;    cy = int(M['m01'] / M['m00'])&#10;    cv2.circle(image, (cx, cy), 5, (255, 0, 0), -1)&#10;&#10;# بالاترین رقم = کمترین cy (چون مبدأ گوشه‌ی بالا-چپ است)&#10;highest_contour = min(contours, key=y_cord_contour)&#10;highest_y = y_cord_contour(highest_contour)&#10;&#10;# همه‌ی ارقامی که تقریباً هم‌ارتفاع با بالاترین رقم هستند (ردیف بالا)&#10;top_contours = []&#10;for c in contours:&#10;    y = y_cord_contour(c)&#10;    if abs(y - highest_y) < 30:  # اگر مرکز این عدد حداکثر 30 پیکسل با مرکز بالاترین عدد اختلاف داشت، جزو ردیف بالاست&#10;        top_contours.append(c)&#10;&#10;# از بین ردیف بالا، راست‌ترین = بیشترین cx&#10;right_top_contour = max(top_contours, key=x_cord_contour)&#10;x, y, w, h = cv2.boundingRect(right_top_contour)&#10;cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 1)&#10;&#10;plt.figure(figsize=(15, 5))&#10;plt.subplot(131); plt.imshow(gray, cmap='gray'); plt.title('Original'); plt.axis('off')&#10;plt.subplot(132); plt.imshow(binary_image, cmap='gray'); plt.title('Binary'); plt.axis('off')&#10;plt.subplot(133); plt.imshow(image[..., ::-1]); plt.title('Centers + Top Right Digit'); plt.axis('off')&#10;plt.tight_layout()&#10;plt.show()" aria-label="Copy code">⌘</button></div>
+  <div class="code-block"><span class="kw">import</span> cv2
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+image = cv2.<span class="fn">imread</span>(<span class="str">"adad.jpg"</span>)
+gray = cv2.<span class="fn">cvtColor</span>(image, cv2.COLOR_BGR2GRAY)
+median = cv2.<span class="fn">medianBlur</span>(gray, <span class="num">5</span>)
+
+binary_image = cv2.<span class="fn">adaptiveThreshold</span>(
+    median, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>
+)
+binary_image = cv2.<span class="fn">bitwise_not</span>(binary_image)
+
+contours, hierarchy = cv2.<span class="fn">findContours</span>(
+    binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE
+)
+contours = [c <span class="kw">for</span> c <span class="kw">in</span> contours <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(c) > <span class="num">100</span>]   <span class="cm"># حذف نویزهای کوچک</span>
+
+<span class="kw">def</span> <span class="fn">x_cord_contour</span>(contour):
+    M = cv2.<span class="fn">moments</span>(contour)
+    <span class="kw">return</span> <span class="fn">int</span>(M[<span class="str">'m10'</span>] / M[<span class="str">'m00'</span>])
+
+<span class="kw">def</span> <span class="fn">y_cord_contour</span>(contour):
+    M = cv2.<span class="fn">moments</span>(contour)
+    <span class="kw">return</span> <span class="fn">int</span>(M[<span class="str">'m01'</span>] / M[<span class="str">'m00'</span>])
+
+<span class="cm"># رسم مرکز هر رقم</span>
+<span class="kw">for</span> c <span class="kw">in</span> contours:
+    M = cv2.<span class="fn">moments</span>(c)
+    cx = <span class="fn">int</span>(M[<span class="str">'m10'</span>] / M[<span class="str">'m00'</span>])
+    cy = <span class="fn">int</span>(M[<span class="str">'m01'</span>] / M[<span class="str">'m00'</span>])
+    cv2.<span class="fn">circle</span>(image, (cx, cy), <span class="num">5</span>, (<span class="num">255</span>,<span class="num">0</span>,<span class="num">0</span>), -<span class="num">1</span>)
+
+<span class="cm"># بالاترین رقم = کمترین cy (چون مبدأ گوشه‌ی بالا-چپ است)</span>
+highest_contour = <span class="fn">min</span>(contours, key=y_cord_contour)
+highest_y = <span class="fn">y_cord_contour</span>(highest_contour)
+
+<span class="cm"># همه‌ی ارقامی که تقریباً هم‌ارتفاع با بالاترین رقم هستند (ردیف بالا)</span>
+top_contours = []
+<span class="kw">for</span> c <span class="kw">in</span> contours:
+    y = <span class="fn">y_cord_contour</span>(c)
+    <span class="kw">if</span> <span class="fn">abs</span>(y - highest_y) < <span class="num">30</span>:   <span class="cm"># اگر مرکز این عدد حداکثر 30 پیکسل با مرکز بالاترین عدد اختلاف داشت، جزو ردیف بالاست</span>
+        top_contours.<span class="fn">append</span>(c)
+
+<span class="cm"># از بین ردیف بالا، راست‌ترین = بیشترین cx</span>
+right_top_contour = <span class="fn">max</span>(top_contours, key=x_cord_contour)
+x, y, w, h = cv2.<span class="fn">boundingRect</span>(right_top_contour)
+cv2.<span class="fn">rectangle</span>(image, (x, y), (x + w, y + h), (<span class="num">0</span>,<span class="num">0</span>,<span class="num">255</span>), <span class="num">1</span>)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">15</span>, <span class="num">5</span>))
+plt.<span class="fn">subplot</span>(<span class="num">131</span>); plt.<span class="fn">imshow</span>(gray, cmap=<span class="str">"gray"</span>); plt.title(<span class="str">"Original"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">132</span>); plt.<span class="fn">imshow</span>(binary_image, cmap=<span class="str">"gray"</span>); plt.title(<span class="str">"Binary"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">subplot</span>(<span class="num">133</span>); plt.<span class="fn">imshow</span>(image[..., ::-<span class="num">1</span>]); plt.title(<span class="str">"Centers + Top Right Digit"</span>); plt.<span class="fn">axis</span>(<span class="str">"off"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()</div>
+</div>

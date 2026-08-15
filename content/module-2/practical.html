@@ -1,0 +1,58 @@
+<div class="section-c" data-section-id="module-2-practical">
+  <div class="section-h">
+    <div class="label">Practical Notes</div>
+    <h2 id="practical-intro">یادداشت‌های عملی — highgui و ویدیو</h2>
+    <p>نکاتی که در آموزش معمولی پیدا نمی‌شوند: به‌دردبخورها، تله‌ها و تجربه‌های میدانی همین ماژول.</p>
+  </div>
+
+  <div class="callout callout-takeaway">
+    <div class="callout-icon">★</div>
+    <div class="callout-body">
+      <div class="callout-title">مهم‌ترین یادگرفتنی</div>
+      <p>اگر فقط یک چیز از این ماژول یادت بماند: <strong>هر منبعی که با <code>cap.read()</code> باز می‌کنی (وب‌کم، فایل، RTSP)، باید حتماً با <code>cap.release()</code> بسته شود</strong> — حتی وقتی برنامه با خطا crash می‌کند. فراموش‌کردنش روی وب‌کم یعنی دوربین برای بقیه‌ی برنامه‌ها (حتی بعد از بستن پنجره) قفل می‌ماند.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۱ — این کدها روی هر محیطی اجرا نمی‌شوند</div>
+      <p>کدهای وب‌کم/GUI این ماژول فقط روی سیستم شخصی با دوربین واقعی و دسترسی نمایشگر کار می‌کنند. اجرا در Colab، یک سرور بدون نمایشگر، یا CI/CD باعث می‌شود <code>cap.read()</code> فریم خالی برگرداند و <code>cv2.imshow</code> با <code>Assertion failed: size.width&gt;0</code> متوقف شود. قبل از گزارش «باگ»، اول مطمئن شو محیط اجرا اصلاً وب‌کم/نمایشگر دارد.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۲ — RTSP قطع می‌شود و کد ساده منتظر نمی‌ماند</div>
+      <p>استریم‌های RTSP واقعی (برخلاف لینک تست پایدار نوت‌بوک ۱۶) به‌خاطر افت شبکه گاهی قطع می‌شوند. کد ساده‌ی <code>while True: cap.read()</code> در این حالت یا حلقه‌ی بی‌نهایت با فریم خالی می‌زند یا کرش می‌کند. برای استفاده‌ی واقعی حتماً منطق reconnect (تلاش دوباره برای باز‌کردن <code>VideoCapture</code> بعد از چند بار <code>ret=False</code> پیاپی) لازم است.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — waitKey همیشه لازم است، حتی وقتی صبر نمی‌خواهی</div>
+      <p><code>cv2.waitKey(1)</code> فقط «منتظر کلید نمان» نیست؛ در عمل این تابع رویدادهای پنجره (رسم مجدد، حرکت ماوس) را هم پردازش می‌کند. بدون آن، پنجره ممکن است اصلاً به‌روزرسانی نشود یا هنگ به نظر برسد.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — cap.get(CAP_PROP_FPS) همیشه درست نیست</div>
+      <p>برای خیلی از وب‌کم‌ها و فایل‌ها، مقدار FPS گزارش‌شده توسط <code>cap.get(cv2.CAP_PROP_FPS)</code> نادرست یا صفر است. اگر می‌خواهی با <code>VideoWriter</code> ویدیویی با سرعت طبیعی بسازی، بهتر است FPS واقعی را خودت با اندازه‌گیری زمان بین فریم‌ها (یا یک مقدار ثابت منطقی مثل ۲۰-۳۰) تعیین کنی، نه صرفاً به مقدار گزارش‌شده اعتماد کنی.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="cm"># قطعه‌ی آماده‌ی کپی‌پیست — بازکردن مقاوم منبع ویدیویی با تلاش مجدد</span>
+<span class="kw">import</span> cv2, time
+
+<span class="kw">def</span> <span class="fn">open_capture</span>(source, retries=<span class="num">3</span>, delay=<span class="num">2</span>):
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(retries):
+        cap = cv2.<span class="fn">VideoCapture</span>(source)
+        <span class="kw">if</span> cap.<span class="fn">isOpened</span>():
+            <span class="kw">return</span> cap
+        time.<span class="fn">sleep</span>(delay)
+    <span class="kw">raise</span> <span class="fn">RuntimeError</span>(<span class="fn">f</span><span class="str">"نتوانستم منبع را باز کنم: {source}"</span>)</div>
+</div>

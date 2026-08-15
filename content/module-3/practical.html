@@ -1,0 +1,60 @@
+<div class="section-c" data-section-id="module-3-practical">
+  <div class="section-h">
+    <div class="label">Practical Notes</div>
+    <h2 id="practical-intro">یادداشت‌های عملی — آستانه‌گذاری، مورفولوژی و Contour</h2>
+    <p>نکاتی که در آموزش معمولی پیدا نمی‌شوند: به‌دردبخورها، تله‌ها و تجربه‌های میدانی همین ماژول.</p>
+  </div>
+
+  <div class="callout callout-takeaway">
+    <div class="callout-icon">★</div>
+    <div class="callout-body">
+      <div class="callout-title">مهم‌ترین یادگرفتنی</div>
+      <p>اگر فقط یک چیز از این ماژول یادت بماند: <strong>هیچ روش آستانه‌گذاری/Contour ثابتی روی همه‌ی تصاویر جواب نمی‌دهد.</strong> تمرین شمارش سکه‌ی همین ماژول دقیقاً همین را نشان داد — بازه‌ی مساحت که برای یک عکس درست بود، برای عکس دیگر (فاصله‌ی دوربین متفاوت) غلط از آب درآمد. همیشه پارامترها را روی چند نمونه‌ی متفاوت تست کن، نه فقط یک عکس.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۱ — پس‌زمینه‌ی اشتباه برای findContours</div>
+      <p>رایج‌ترین باگ این ماژول: بعد از <code>threshold</code>، شیء موردنظر <strong>سیاه</strong> شده ولی پس‌زمینه سفید است (بستگی به نوع <code>THRESH_BINARY</code> یا <code>_INV</code> و رنگ اصلی تصویر دارد). نتیجه: <code>findContours</code> به‌جای شیء، مرز کل تصویر یا نویز پس‌زمینه را پیدا می‌کند. همیشه بعد از باینری‌کردن یک <code>plt.imshow</code> بزن و چک کن شیء واقعاً سفید روی سیاه است — اگر نبود، <code>cv2.bitwise_not</code>.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۲ — فراموش‌کردن فیلتر نویز قبل از moments</div>
+      <p>بعد از <code>findContours</code>، همیشه چند کانتور خیلی کوچک (چند پیکسلی، از نویز لبه‌ی آستانه‌گذاری) هم پیدا می‌شوند. اگر مستقیم روی همه‌شان <code>cv2.moments</code> بزنی، برای کانتورهای تک‌پیکسلی <code>m00</code> ممکن است صفر شود و کد با <code>ZeroDivisionError</code> کرش کند. فیلتر <code>cv2.contourArea(c) &gt; N</code> را همیشه <strong>قبل</strong> از هر محاسبه‌ی دیگر بگذار.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — connectedComponentsWithStats را به findContours ترجیح بده وقتی فقط شمارش/bbox می‌خواهی</div>
+      <p>اگر فقط لازم است بشماری چند جزء وجود دارد یا bounding box هرکدام چیست (نه شکل دقیق مرز)، <code>connectedComponentsWithStats</code> سریع‌تر و ساده‌تر از ترکیب <code>findContours</code> + <code>boundingRect</code> است — مساحت و bbox را از قبل در آرایه‌ی <code>stats</code> آماده می‌دهد.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — شکل کرنل مورفولوژی را متناسب با هدف انتخاب کن</div>
+      <p>یک کرنل مربعی (<code>np.ones</code>) برای حذف نویز عمومی خوب است، ولی وقتی هدف خاص است (مثلاً فقط خطوط افقی)، یک کرنل کشیده در همان جهت (<code>getStructuringElement(MORPH_RECT, (width, 1))</code>) دقیق‌تر و قابل‌کنترل‌تر عمل می‌کند — این تکنیک را در تمرین حذف خطوط دیدیم.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="cm"># قطعه‌ی آماده‌ی کپی‌پیست — پیش‌پردازش امن قبل از هر تحلیل Contour</span>
+<span class="kw">import</span> cv2
+
+gray = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2GRAY)
+blur = cv2.<span class="fn">medianBlur</span>(gray, <span class="num">5</span>)
+binary = cv2.<span class="fn">adaptiveThreshold</span>(
+    blur, <span class="num">255</span>, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, <span class="num">11</span>, <span class="num">2</span>
+)
+binary = cv2.<span class="fn">bitwise_not</span>(binary)   <span class="cm"># همیشه چک کن شیء واقعاً سفیده</span>
+
+contours, _ = cv2.<span class="fn">findContours</span>(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+contours = [c <span class="kw">for</span> c <span class="kw">in</span> contours <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(c) > <span class="num">100</span>]   <span class="cm"># همیشه قبل از moments فیلتر کن</span></div>
+</div>

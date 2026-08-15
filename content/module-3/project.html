@@ -1,0 +1,57 @@
+<div class="section-c" data-section-id="module-3-project">
+  <div class="section-h">
+    <div class="label">Project</div>
+    <h2 id="project-goals">پروژه‌ی ماژول ۳ — شمارشگر زنده‌ی اشیاء با وب‌کم (Live Object Counter)</h2>
+    <p>یک ابزار بساز که با وب‌کم به اشیاء روی یک میز (مثلاً چند سکه، دکمه، یا مهره) نگاه کند، با فشردن یک کلید فریم را «قفل» کند، تعداد اشیاء را بشمارد، دور هرکدام کادر و شماره بکشد، و نتیجه را ذخیره کند.</p>
+  </div>
+
+  <div class="metrics">
+    <span class="metric accent">هدف: ترکیب مهارت ماژول ۲ (وب‌کم) و ماژول ۳ (Threshold+Contour) در یک ابزار زنده</span>
+    <span class="metric success">خروجی: یک اسکریپت/نوت‌بوک + یک عکس نهایی annotated</span>
+  </div>
+
+  <div class="section-h"><h2 id="project-problem">صورت‌مسئله</h2></div>
+  <p>چند شیء ساده و از هم مجزا (سکه، دکمه، مهره، گیره کاغذ — هرچی دم دستته) روی یک سطح یک‌رنگ و ساده (مثلاً یک میز چوبی یا یک کاغذ سفید) بچین. برنامه باید تصویر زنده‌ی وب‌کم را نشان دهد؛ با فشردن یک کلید (مثلاً <code class="code">c</code>) فریم فعلی «قفل» و پردازش شود: باینری‌سازی، پیداکردن Contour هر شیء، شمارش، و رسم کادر+شماره دور هرکدام روی همان فریم.</p>
+
+  <div class="section-h"><h2 id="project-requirements">الزامات (Requirements)</h2></div>
+  <ul>
+    <li>✓ نمایش زنده‌ی فریم وب‌کم (مثل نوت‌بوک‌های ماژول ۲).</li>
+    <li>✓ با فشردن <code class="code">c</code>، فریم فعلی گرفته و پردازش شود (بدون بستن پنجره‌ی زنده).</li>
+    <li>✓ پیش‌پردازش کامل: گری‌اسکیل → کاهش نویز → آستانه‌گذاری (تطبیقی یا Otsu، هرکدام برای نورِ محیط خودت بهتر جواب داد) → پاک‌سازی با Opening/Closing.</li>
+    <li>✓ پیداکردن Contour، فیلتر بر اساس مساحت (برای حذف نویز)، شمارش نهایی.</li>
+    <li>✓ رسم کادر (<code class="code">boundingRect</code> یا <code class="code">minEnclosingCircle</code>) و شماره‌ی هر شیء روی تصویر، به‌ترتیب از چپ به راست یا بزرگ به کوچک (خودت انتخاب کن، ولی ترتیب باید منطقی و توضیح‌داده‌شده باشد).</li>
+    <li>✓ نمایش عدد «تعداد اشیاء» روی خود تصویر (نه فقط در کنسول).</li>
+    <li>✓ ذخیره‌ی نسخه‌ی نهایی annotated با <code class="code">imwrite</code>.</li>
+    <li>✓ با فشردن کلید <code class="code">Esc</code> برنامه به‌طور تمیز بسته شود (<code class="code">cap.release()</code> فراموش نشود).</li>
+  </ul>
+
+  <div class="section-h"><h2 id="project-constraints">قیدها (Constraints)</h2></div>
+  <ul>
+    <li>✗ از هیچ مدل یادگیری عمیق/کتابخانه‌ی تشخیص شیء آماده استفاده نکن — فقط threshold + morphology + contour خام.</li>
+    <li>✗ پارامترهای آستانه‌گذاری/فیلتر مساحت را طوری انتخاب کن که با یک تغییر کوچک در چیدمان اشیاء (نه لزوماً کل تنظیمات دوربین) هنوز کار کند — یعنی بیش‌ازحد به یک عکس خاص «overfit» نباشد.</li>
+  </ul>
+
+  <div class="callout callout-note">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">راهنمایی (بدون جواب کامل)</div>
+      <ul>
+        <li>الگوی پایه‌ی پیش‌پردازش را از بخش «الگوی استاندارد پیش‌پردازش قبل از Contour» در چیت‌شیت همین ماژول بردار.</li>
+        <li>اگر نور محیطت یکنواخت است، Otsu ساده‌تر و سریع‌تر است؛ اگر سایه/نور نامتوازن داری، Adaptive Thresholding را امتحان کن — همان تصمیمی که در تمرین ۱ همین ماژول گرفتیم.</li>
+        <li>برای شماره‌گذاری، همان الگوی sort-بر-اساس-مرکز-جرم نوت‌بوک ۲۹ (moments + sorted) قابل استفاده مستقیم است.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">معیار قبولی (Definition of Done)</div>
+      <p>پروژه وقتی تمام است که: (۱) با یک چیدمان جدید از همان اشیاء (نه لزوماً همان عکس) دوباره اجرا کنی و عدد شمارش درست باشد، (۲) هیچ شیء واقعی از قلم نیفتد و هیچ نویزی به‌اشتباه شمرده نشود، (۳) عکس نهایی ذخیره‌شده واقعاً خوانا باشد (کادر و شماره‌ها روی هم نیفتاده باشند).</p>
+    </div>
+  </div>
+
+  <p style="margin-top:var(--sp-4-5);font-size:var(--fs-sm);color:var(--text-secondary)">
+    وقتی حلش کردی: نوت‌بوک/اسکریپت را در <code class="code">projects/module-3-object-counter/</code> در همین ریپو push کن (همان الگوی <code class="code">solution.ipynb</code> + <code class="code">solution.py</code>).
+  </p>
+</div>

@@ -1,0 +1,81 @@
+<div class="section-c" data-section-id="module-4-practical">
+  <div class="section-h">
+    <div class="label">Practical Notes</div>
+    <h2 id="practical-intro">یادداشت‌های عملی — رنگ، هیستوگرام، فیلتر و لبه‌یابی</h2>
+    <p>نکاتی که در آموزش معمولی پیدا نمی‌شوند: به‌دردبخورها، تله‌ها و تجربه‌های میدانی همین ماژول.</p>
+  </div>
+
+  <div class="callout callout-takeaway">
+    <div class="callout-icon">★</div>
+    <div class="callout-body">
+      <div class="callout-title">مهم‌ترین یادگرفتنی</div>
+      <p>اگر فقط یک چیز از این ماژول یادت بماند: <strong>بازه‌ی رنگی که زیر یک نور خاص با <code>inRange</code> پیدا کردی، زیر نور دیگری اصلاً کار نمی‌کند.</strong> HSV مستقل از روشنایی نیست — Saturation و Value با تغییر نور به‌شدت جابه‌جا می‌شوند، فقط Hue نسبتاً پایدار می‌ماند. هر فیلتر رنگی که برای دمو یا محیط ثابت تنظیم می‌کنی، در محیط واقعی و نور متغیر باید دوباره کالیبره شود.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۱ — contours[0] وقتی هیچ رنگی پیدا نشود</div>
+      <p>در ردیابی رنگی (نوت‌بوک ۳۵)، اگر در یک فریم هیچ پیکسلی داخل بازه‌ی رنگی نباشد، <code>cv2.findContours</code> یک لیست خالی برمی‌گرداند و خط بعدی (<code>contours[0]</code>) بلافاصله با <code>IndexError</code> متوقف می‌شود. این دقیقاً همان فریمی است که در استفاده‌ی واقعی (شیء از قاب خارج می‌شود، نور عوض می‌شود) بیشترین احتمال رخ‌دادن را دارد؛ همیشه قبل از دسترسی به <code>contours[0]</code> طول لیست را چک کن.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-icon">✕</div>
+    <div class="callout-body">
+      <div class="callout-title">تله‌ی زمان‌بر ۲ — K-Means روی تصویر بزرگ بسیار کند است</div>
+      <p>خوشه‌بندی برای رنگ غالب (نوت‌بوک ۴۰)، هر پیکسل تصویر را یک نمونه‌ی سه‌بعدی در نظر می‌گیرد. روی یک تصویر معمولی ۴K این یعنی میلیون‌ها نمونه و اجرای K-Means می‌تواند چند ثانیه تا چند دقیقه طول بکشد. قبل از خوشه‌بندی، تصویر را با <code>cv2.resize</code> به یک سایز کوچک (مثلاً ۱۵۰×۱۵۰) کاهش بده؛ نتیجه‌ی رنگ‌های غالب عملاً یکسان می‌ماند ولی سرعت چند برابر می‌شود.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — بازه‌ی HSV را با Trackbar زنده پیدا کن، نه با حدس</div>
+      <p>به‌جای امتحان‌کردن دستی چند عدد برای <code>lower</code>/<code>upper</code>، یک پنجره با شش Trackbar (H/S/V پایین و بالا) بساز که همزمان با تغییر مقدار، ماسک را روی خود فریم دوربین به‌روزرسانی کند. چند ثانیه تنظیم زنده معمولاً خیلی سریع‌تر از حدس‌زدن کورکورانه به بازه‌ی درست می‌رسد — همان الگوی Trackbar که در Canny (نوت‌بوک ۵۱) دیدیم را می‌توان عیناً برای <code>inRange</code> هم استفاده کرد.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">تیپ به‌دردبخور — قبل از هر مشتق‌گیری، ddepth را عمداً انتخاب کن</div>
+      <p>هر جا <code>filter2D</code>، <code>Sobel</code> یا <code>Laplacian</code> صدا می‌زنی، اول از خودت بپرس «آیا این خروجی می‌تواند منفی باشد؟». اگر بله (تقریباً همیشه در مشتق‌گیری)، ddepth را <code>cv2.CV_64F</code> یا <code>cv2.CV_16S</code> بگذار، بعد با <code>cv2.convertScaleAbs</code> به uint8 نمایش‌پذیر تبدیلش کن. گذاشتن <code>-1</code> برای ddepth روی گرادیان تقریباً همیشه یک باگ خاموش است، نه یک انتخاب درست.</p>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="cm"># قطعه‌ی آماده‌ی کپی‌پیست — پنجره‌ی تنظیم زنده‌ی بازه‌ی HSV با Trackbar</span>
+<span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">nothing</span>(x):
+    <span class="kw">pass</span>
+
+cv2.<span class="fn">namedWindow</span>(<span class="str">'HSV Tuner'</span>)
+<span class="kw">for</span> name, default, maxval <span class="kw">in</span> [(<span class="str">'H min'</span>,<span class="num">0</span>,<span class="num">179</span>), (<span class="str">'H max'</span>,<span class="num">179</span>,<span class="num">179</span>),
+                                (<span class="str">'S min'</span>,<span class="num">50</span>,<span class="num">255</span>), (<span class="str">'S max'</span>,<span class="num">255</span>,<span class="num">255</span>),
+                                (<span class="str">'V min'</span>,<span class="num">50</span>,<span class="num">255</span>), (<span class="str">'V max'</span>,<span class="num">255</span>,<span class="num">255</span>)]:
+    cv2.<span class="fn">createTrackbar</span>(name, <span class="str">'HSV Tuner'</span>, default, maxval, nothing)
+
+cap = cv2.<span class="fn">VideoCapture</span>(<span class="num">0</span>)
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+    <span class="kw">if</span> <span class="kw">not</span> ret:
+        <span class="kw">break</span>
+    hsv = cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+    lower = np.<span class="fn">array</span>([cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'H min'</span>,<span class="str">'HSV Tuner'</span>),
+                       cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'S min'</span>,<span class="str">'HSV Tuner'</span>),
+                       cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'V min'</span>,<span class="str">'HSV Tuner'</span>)])
+    upper = np.<span class="fn">array</span>([cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'H max'</span>,<span class="str">'HSV Tuner'</span>),
+                       cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'S max'</span>,<span class="str">'HSV Tuner'</span>),
+                       cv2.<span class="fn">getTrackbarPos</span>(<span class="str">'V max'</span>,<span class="str">'HSV Tuner'</span>)])
+    mask = cv2.<span class="fn">inRange</span>(hsv, lower, upper)
+    cv2.<span class="fn">imshow</span>(<span class="str">'mask'</span>, mask)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) & <span class="num">0xFF</span> == <span class="num">27</span>:
+        <span class="kw">break</span>
+
+cap.<span class="fn">release</span>()
+cv2.<span class="fn">destroyAllWindows</span>()
+<span class="cm"># مقادیر نهایی lower/upper را از خروجی همین حلقه بخوان و در کد اصلی هاردکد کن</span></div>
+</div>
