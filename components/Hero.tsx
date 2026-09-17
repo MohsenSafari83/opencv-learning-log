@@ -88,7 +88,7 @@ export default function Hero() {
         </div>
 
         {/* Right Visual */}
-        <div className="relative w-full lg:flex-1 lg:max-w-[880px]">
+        <div className="relative w-full lg:flex-1">
           <HeroScanVisual />
         </div>
       </div>

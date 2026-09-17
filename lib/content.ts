@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import type { QuizQuestion } from "./modules";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
@@ -15,6 +16,24 @@ export async function readSectionHtml(relativeFile: string): Promise<string | nu
     return await fs.readFile(fullPath, "utf-8");
   } catch {
     return null; // file missing — caller falls back to a "coming soon" state
+  }
+}
+
+/**
+ * Reads and parses a module's quiz.json (structured data, not HTML — see
+ * scripts/generate-modules.mjs for why). Returns null if missing or
+ * malformed, same "caller falls back to a coming-soon state" contract as
+ * readSectionHtml.
+ */
+export async function readQuizJson(relativeFile: string): Promise<QuizQuestion[] | null> {
+  try {
+    const fullPath = path.join(CONTENT_ROOT, relativeFile);
+    const raw = await fs.readFile(fullPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    return parsed as QuizQuestion[];
+  } catch {
+    return null;
   }
 }
 

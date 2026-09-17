@@ -1,14 +1,16 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import {
   getModule,
   getSection,
   sectionTypeMeta,
   MODULES,
 } from "@/lib/modules";
-import { readSectionHtml, placeholderSectionHtml } from "@/lib/content";
+import { readSectionHtml, readQuizJson, placeholderSectionHtml } from "@/lib/content";
 import ContentInteractions from "@/components/ContentInteractions";
 import ModuleReadingNav from "@/components/ModuleReadingNav";
+import QuizRunner from "@/components/QuizRunner";
 import "@/app/content-sections.css";
 
 export function generateStaticParams() {
@@ -26,6 +28,10 @@ export function generateStaticParams() {
       params.push({ slug: m.id, section: "project" });
     }
 
+    if (m.quiz) {
+      params.push({ slug: m.id, section: "quiz" });
+    }
+
     return params;
   });
 }
@@ -37,6 +43,34 @@ export default async function ModuleSectionPage({
 }) {
   const mod = getModule(params.slug);
   if (!mod) notFound();
+
+  // Quiz renders a completely different, interactive UI (radio buttons +
+  // submit + reveal), not an HTML fragment — so it's handled as its own
+  // early-return branch rather than being forced through the
+  // readSectionHtml/ContentInteractions path built for prose content.
+  if (params.section === "quiz") {
+    if (!mod.quiz) notFound();
+    const questions = await readQuizJson(mod.quiz.file);
+    if (!questions || questions.length === 0) notFound();
+
+    return (
+      <main className="mx-auto max-w-4xl px-6 pt-32 pb-24 lg:px-12">
+        <Link
+          href="/"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-[#8C9AAF] dark:hover:text-white"
+        >
+          <ArrowLeft size={16} />
+          بازگشت به صفحه اصلی
+        </Link>
+
+        <ModuleSectionStrip mod={mod} activeSection="quiz" />
+
+        <QuizRunner moduleLabel={mod.label} questions={questions} />
+
+        <ModuleReadingNav moduleId={mod.id} />
+      </main>
+    );
+  }
 
   // exercises/project are separate manifest fields (not in sections[]),
   // matching the old site where they live on standalone pages, not app.html.
@@ -70,24 +104,16 @@ export default async function ModuleSectionPage({
 
   return (
     <main className="mx-auto max-w-4xl px-6 pt-32 pb-24 lg:px-12">
-      {/* Module Section Strip — port of ensureModuleStrip() */}
-      <nav className="module-strip mb-8 flex flex-wrap gap-2" aria-label="Module sections">
-        {mod.sections.map((s) => {
-          const sMeta = sectionTypeMeta(s.type);
-          const ready = !!s.file;
-          const active = s.type === params.section;
-          return (
-            <Link
-              key={s.type}
-              href={`/modules/${mod.id}/${s.type}`}
-              className={`strip-item ${ready ? "ready" : "soon"} ${active ? "active" : ""}`}
-            >
-              <span>{sMeta?.labelFa ?? s.type}</span>
-              <span className="strip-status" aria-hidden="true">{ready ? "✓" : "⏳"}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Back to home */}
+      <Link
+        href="/"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-[#8C9AAF] dark:hover:text-white"
+      >
+        <ArrowLeft size={16} />
+        بازگشت به صفحه اصلی
+      </Link>
+
+      <ModuleSectionStrip mod={mod} activeSection={params.section} />
 
       {/* Section content — same HTML fragment as the old site, now with
           TOC/scroll-spy/copy-buttons/section-links ported into React */}
@@ -95,5 +121,58 @@ export default async function ModuleSectionPage({
 
       <ModuleReadingNav moduleId={mod.id} />
     </main>
+  );
+}
+
+/**
+ * Module section-strip nav — port of ensureModuleStrip(), extended to also
+ * list exercises/project/quiz (previously missing from the strip entirely,
+ * even though their pages existed and were reachable by direct URL).
+ */
+function ModuleSectionStrip({
+  mod,
+  activeSection,
+}: {
+  mod: NonNullable<ReturnType<typeof getModule>>;
+  activeSection: string;
+}) {
+  const extraItems: { type: string; ready: boolean }[] = [
+    ...(mod.exercises ? [{ type: "exercises", ready: true }] : []),
+    ...(mod.project ? [{ type: "project", ready: true }] : []),
+    ...(mod.quiz ? [{ type: "quiz", ready: true }] : []),
+  ];
+
+  return (
+    <nav className="module-strip mb-8 flex flex-wrap gap-2" aria-label="Module sections">
+      {mod.sections.map((s) => {
+        const sMeta = sectionTypeMeta(s.type);
+        const ready = !!s.file;
+        const active = s.type === activeSection;
+        return (
+          <Link
+            key={s.type}
+            href={`/modules/${mod.id}/${s.type}`}
+            className={`strip-item ${ready ? "ready" : "soon"} ${active ? "active" : ""}`}
+          >
+            <span>{sMeta?.labelFa ?? s.type}</span>
+            <span className="strip-status" aria-hidden="true">{ready ? "✓" : "⏳"}</span>
+          </Link>
+        );
+      })}
+      {extraItems.map((s) => {
+        const sMeta = sectionTypeMeta(s.type);
+        const active = s.type === activeSection;
+        return (
+          <Link
+            key={s.type}
+            href={`/modules/${mod.id}/${s.type}`}
+            className={`strip-item ready ${active ? "active" : ""}`}
+          >
+            <span>{sMeta?.labelFa ?? s.type}</span>
+            <span className="strip-status" aria-hidden="true">✓</span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }

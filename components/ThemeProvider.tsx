@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type Theme = "dark" | "light";
 
@@ -17,20 +18,29 @@ const ThemeContext = createContext<ThemeContextType>({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
+    // The blocking script in layout.tsx's <head> already set (or didn't
+    // set) the "dark" class on <html> before this ever ran — read that
+    // as the source of truth instead of re-deriving it, so the two never
+    // disagree.
+    const isDark = document.documentElement.classList.contains("dark");
     const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved) {
-      setTheme(saved);
-      document.documentElement.classList.toggle("dark", saved === "dark");
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initial = prefersDark ? "dark" : "light";
-      setTheme(initial);
-      document.documentElement.classList.toggle("dark", prefersDark);
-    }
+    setTheme(saved ?? (isDark ? "dark" : "light"));
   }, []);
+
+  // Belt-and-suspenders: re-assert the "dark" class on <html> every time
+  // the route changes. This site is a static export (output: "export")
+  // with nested dynamic routes ([slug]/[section]), where navigation
+  // between pages doesn't always behave like a normal in-app client
+  // transition — re-applying the class here means the page can never
+  // render with the wrong theme after a navigation, regardless of why.
+  useEffect(() => {
+    if (!mounted) return;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [pathname, theme, mounted]);
 
   const toggleTheme = () => {
     const newTheme: Theme = theme === "dark" ? "light" : "dark";

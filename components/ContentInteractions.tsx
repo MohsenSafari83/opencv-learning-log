@@ -29,6 +29,7 @@ function slugify(text: string) {
  */
 export default function ContentInteractions({ html }: { html: string }) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const headingsRef = useRef<HTMLHeadingElement[]>([]);
   const [toc, setToc] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
@@ -38,6 +39,7 @@ export default function ContentInteractions({ html }: { html: string }) {
     if (!root) return;
 
     const headings = Array.from(root.querySelectorAll<HTMLHeadingElement>(".section-c h2"));
+    headingsRef.current = headings;
     const items: TocItem[] = headings.map((h, i) => {
       if (!h.id) h.id = `${slugify(h.textContent || "section")}-${i}`;
       return { id: h.id, label: h.textContent?.trim() || "" };
@@ -155,6 +157,16 @@ export default function ContentInteractions({ html }: { html: string }) {
     };
   }, [html]);
 
+  function handleTocClick(e: React.MouseEvent<HTMLAnchorElement>, index: number, id: string) {
+    e.preventDefault();
+    const target = headingsRef.current[index];
+    if (!target) return;
+    const y = target.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    history.pushState(null, "", `#${id}`);
+    setActiveId(id);
+  }
+
   return (
     <div className="content-interactions">
       {toc.length >= 2 && (
@@ -163,7 +175,11 @@ export default function ContentInteractions({ html }: { html: string }) {
           {toc.map((item, i) => (
             <span key={item.id}>
               {i > 0 && <span className="toc-sep">|</span>}
-              <a href={`#${item.id}`} className={`toc-link ${activeId === item.id ? "active" : ""}`}>
+              <a
+                href={`#${item.id}`}
+                onClick={(e) => handleTocClick(e, i, item.id)}
+                className={`toc-link ${activeId === item.id ? "active" : ""}`}
+              >
                 {item.label}
               </a>
             </span>

@@ -16,6 +16,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
+      <head>
+        {/* Runs synchronously before <body> paints, on every full page
+            load (this site is a static export — every route is its own
+            HTML file, so this has to happen per-page, not just once on
+            first load). Sets the "dark" class immediately from
+            localStorage/prefers-color-scheme so there's no flash from
+            light to dark after React hydrates. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="antialiased">
         <ThemeProvider>
           {children}

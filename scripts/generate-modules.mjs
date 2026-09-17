@@ -69,6 +69,21 @@ function extractProjectSummary(projectHtml) {
   return m ? stripHtml(m[1]) : "";
 }
 
+// quiz.json is plain structured data (not HTML like everything else) —
+// interactive quizzes need real question/option/answer objects to render
+// a radio-button UI, not a free-form document. Just validate shape and
+// count; the actual questions are read on-demand by the quiz page itself
+// (lib/content.ts::readQuizJson), not embedded in this manifest.
+function extractQuizCount(quizJsonRaw) {
+  try {
+    const parsed = JSON.parse(quizJsonRaw);
+    if (!Array.isArray(parsed)) return 0;
+    return parsed.length;
+  } catch {
+    return 0; // malformed quiz.json — treat as if it doesn't exist yet
+  }
+}
+
 function buildModule(id) {
   const dir = path.join(CONTENT_DIR, id);
   const n = parseInt(id.replace("module-", ""), 10);
@@ -100,6 +115,15 @@ function buildModule(id) {
     project = { file: `${id}/project.html`, summary: extractProjectSummary(projectHtml) };
   }
 
+  let quiz;
+  const quizJsonRaw = readIfExists(path.join(dir, "quiz.json"));
+  if (quizJsonRaw) {
+    const count = extractQuizCount(quizJsonRaw);
+    if (count > 0) {
+      quiz = { file: `${id}/quiz.json`, count };
+    }
+  }
+
   return {
     id,
     label: `Module ${n}`,
@@ -108,6 +132,7 @@ function buildModule(id) {
     sections,
     ...(exercises ? { exercises } : {}),
     ...(project ? { project } : {}),
+    ...(quiz ? { quiz } : {}),
   };
 }
 
@@ -125,6 +150,7 @@ fs.writeFileSync(OUT_FILE, JSON.stringify(modules, null, 2) + "\n");
 
 const completeCount = modules.filter((m) => m.status === "complete").length;
 const exerciseTotal = modules.reduce((sum, m) => sum + (m.exercises?.count ?? 0), 0);
+const quizTotal = modules.reduce((sum, m) => sum + (m.quiz?.count ?? 0), 0);
 console.log(
-  `[generate-modules] ${modules.length} modules found, ${completeCount} complete, ${exerciseTotal} exercises total → lib/modules-data.generated.json`
+  `[generate-modules] ${modules.length} modules found, ${completeCount} complete, ${exerciseTotal} exercises total, ${quizTotal} quiz questions total → lib/modules-data.generated.json`
 );

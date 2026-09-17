@@ -3,34 +3,19 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Moon, Sun, Menu, X, ArrowRight, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "./ThemeProvider";
 
 const navLinks = [
   { label: "Knowledge", href: "#modules" },
-  { label: "Cheat Sheets", href: "#" },
+  { label: "Cheat Sheets", href: "/cheatsheets" },
   { label: "Projects", href: "/projects" },
   { label: "Exercises", href: "/exercises" },
   { label: "Modules", href: "#modules" },
   { label: "Home", href: "#" },
 ];
-
-function OpenCVLogo({ size = 36 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
-      <circle cx="50" cy="28" r="24" fill="#FF4444" />
-      <circle cx="28" cy="72" r="24" fill="#4ADE80" />
-      <circle cx="72" cy="72" r="24" fill="#3B82F6" />
-      <circle cx="50" cy="28" r="10" fill="white" />
-      <circle cx="28" cy="72" r="10" fill="white" />
-      <circle cx="72" cy="72" r="10" fill="white" />
-      <circle cx="50" cy="28" r="6" fill="#FF6B6B" />
-      <circle cx="28" cy="72" r="6" fill="#86EFAC" />
-      <circle cx="72" cy="72" r="6" fill="#60A5FA" />
-    </svg>
-  );
-}
 
 /**
  * Which nav label should show the active dot right now.
@@ -101,7 +86,14 @@ export default function Navbar() {
         <nav className="mt-5 flex items-center justify-between rounded-2xl border border-white/[0.06] bg-[rgba(3,8,18,0.7)] px-6 py-3.5 backdrop-blur-xl dark:bg-[rgba(3,8,18,0.7)] dark:border-white/[0.06] bg-white/80 border-slate-200/60">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3">
-            <OpenCVLogo size={36} />
+            <Image
+              src="/opencv-logo.png"
+              alt="OpenCV logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain"
+              priority
+            />
             <span className="text-lg font-bold tracking-tight dark:text-white text-slate-900">
               opencv-learning-log
             </span>

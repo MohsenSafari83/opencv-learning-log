@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,11 +9,9 @@ import FeatureDetectionCard from "./FeatureDetectionCard";
 import ImageProcessingCard from "./ImageProcessingCard";
 import { MODULES } from "@/lib/modules";
 
-// Soft radial fade so the artwork's edges blend into the dark page
-// background instead of showing as a visible rectangle — the photo's own
-// edge color is dark but not an exact match for the page background, so
-// without this a faint box outline is visible (that's the bug being fixed
-// here). This only fades opacity/visibility, it never crops the photo.
+// Soft radial fade so the artwork's edges blend into the page background
+// instead of showing as a visible rectangle. This only fades
+// opacity/visibility, it never crops the photo.
 const EYE_MASK: React.CSSProperties = {
   maskImage:
     "radial-gradient(ellipse 72% 68% at 50% 46%, black 55%, transparent 92%)",
@@ -20,14 +19,47 @@ const EYE_MASK: React.CSSProperties = {
     "radial-gradient(ellipse 72% 68% at 50% 46%, black 55%, transparent 92%)",
 };
 
-// Plain artwork, edges mask-faded (see EYE_MASK). The box uses the source
-// image's real aspect ratio (1672x941, ~16:9) so object-cover never has
-// to crop it.
+/**
+ * Reads the real 'dark' class off <html> directly (same source every
+ * dark: Tailwind utility in the app uses), kept in sync with a
+ * MutationObserver — NOT useTheme(), whose context value has been
+ * observed to drift out of sync with the actual class (see
+ * HeroBackground.tsx for the same fix, same reasoning).
+ * Defaults to true (dark) to match ThemeProvider's own default before
+ * mount, avoiding a flash of the wrong asset on first paint.
+ */
+function useIsDarkMode() {
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    const update = () =>
+      setIsDark(document.documentElement.classList.contains("dark"));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+}
+
+// Two purpose-made transparent PNGs — not one image with a CSS filter —
+// because a filter like invert() wrecks a photoreal image's lighting and
+// glow. See /public/images/eye-scan-hero.png (dark) and
+// eye-scan-hero-light.png (light, same composition, warmer/deeper tones,
+// still a transparent RGBA PNG).
+const DARK_SRC = "/images/eye-scan-hero.png";
+const LIGHT_SRC = "/images/eye-scan-hero-light.png";
+
 function EyeArtwork() {
+  const isDark = useIsDarkMode();
   return (
     <div className="pointer-events-none absolute inset-0" style={EYE_MASK}>
       <Image
-        src="/images/eye-scan-hero.png"
+        src={isDark ? DARK_SRC : LIGHT_SRC}
         alt="Eye-scan HUD illustration for the OpenCV Learning Log hero"
         fill
         priority
@@ -46,20 +78,20 @@ export default function HeroScanVisual() {
 
   return (
     <div className="relative">
-      {/* Desktop / tablet: eye artwork at its native ~16:9 aspect ratio,
-          sized by its own width, next to the code/feature/processing
-          column, which is free to run taller. */}
-      <div className="hidden gap-4 sm:flex sm:items-start">
+      {/* Desktop / tablet: eye artwork full-width at the top, at its
+          native ~16:9 aspect ratio, with the code/feature/processing
+          cards laid out in a row underneath it. */}
+      <div className="hidden gap-4 sm:flex sm:flex-col">
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9 }}
-          className="relative aspect-[1672/941] w-[70%] shrink-0"
+          className="relative aspect-[1672/941] w-full"
         >
           <EyeArtwork />
         </motion.div>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {m3 && (
             <Link
               href={`/modules/${m3.id}`}

@@ -28,13 +28,26 @@ export interface ModuleMeta {
   desc: string;
   exercises?: { file: string; count: number; titles: string[] };
   project?: { file: string; summary: string };
+  // Only file + count here — the actual questions/answers are read
+  // on-demand by the quiz page (lib/content.ts::readQuizJson), not
+  // embedded in this manifest.
+  quiz?: { file: string; count: number };
   sections: ModuleSection[];
 }
 
 export const MODULES: ModuleMeta[] = generated as ModuleMeta[];
 
+// Shape of a single question inside a module's quiz.json — used by
+// readQuizJson() and the QuizRunner component.
+export interface QuizQuestion {
+  question: string;
+  options: string[]; // always 4
+  correct: number; // index into options, 0-3
+  explanation?: string;
+}
+
 export interface SectionTypeMeta {
-  type: SectionType | "exercises" | "project";
+  type: SectionType | "exercises" | "project" | "quiz";
   label: string;
   labelFa: string;
   desc: string;
@@ -47,6 +60,7 @@ export const SECTION_TYPES: SectionTypeMeta[] = [
   { type: "practical", label: "Practical Notes", labelFa: "یادداشت‌های عملی", desc: "نکات عملی که در یادگیری معمولی گفته نمی‌شوند" },
   { type: "applications", label: "Applications", labelFa: "کاربردها", desc: "جایگاه مبحث این ماژول در دنیای واقعی" },
   { type: "project", label: "Project", labelFa: "پروژه", desc: "پروژه‌ی واقعی این ماژول" },
+  { type: "quiz", label: "Quiz", labelFa: "آزمون", desc: "تست ۴ گزینه‌ای برای سنجش یادگیری این ماژول" },
 ];
 
 export function sectionTypeMeta(type: string): SectionTypeMeta | undefined {
